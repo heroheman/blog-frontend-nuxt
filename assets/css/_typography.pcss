@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+
+$fontSerif: 'PT Serif', serif;
+$fontSans: 'Open Sans', sans-serif;
+
+/* @font-face { */
+/*   @apply font-body; */
+/*   font-weight: 400; */
+/* } */
+
+/* @font-face { */
+/*   @apply font-body; */
+/*   font-style: italic; */
+/*   font-weight: 400; */
+/* } */
+
+/* @font-face { */
+/*   @apply font-body; */
+/*   font-weight: 700; */
+/* } */
+
+body {
+  @apply font-body;
+  color: theme('colors.primary.800');
+  font-weight: 400;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-head;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+h3, h4, h5 {
+  @apply relative mt-8 mb-4;
+}
+
+strong {
+  font-weight: 700;
+}
+
+em {
+  font-style: italic;
+}
+
+a {
+  color: var(--text-secondary);
+  @apply font-bold transition-colors duration-200 ease-in-out;
+}
+
+p > a {
+  @apply font-normal border-b border-solid;
+  color: var(--text-secondary);
+}
+
+.title {
+  color: var(--color-primary);
+  @apply block font-bold text-2xl tracking-wide;
+  @apply transition-colors duration-200 ease-in-out;
+  @apply inline-block pb-2 mb-2;
+  @apply text-center;
+  font-size: 24px;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  word-spacing: 0.15em;
+  @apply inline-block;
+  @apply font-light text-3xl tracking-wide pb-4;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+.date {
+  color: var(--text-secondary);
+  word-spacing: 0.15em;
+  @apply border-t border-gray-400 border-solid pt-4;
+  @apply font-meta text-sm;
+  @apply text-center;
+  @apply inline-block font-light tracking-wide pb-2;
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+p {
+  @apply mb-4;
+  line-height: 1.7;
+  font-style: normal;
+  font-size: 1rem;
+}
+
+.footnote-ref a {
+  @apply text-xs italic relative;
+  font-size: 10px;
+  top: 0;
+  font-weight: 400;
+}
+
+.footnotes-sep {
+  @apply mb-4;
+}
+
+.footnotes {
+  @apply relative text-xs;
+
+  & ol {
+    list-style-type: decimal;
+
+    & li p {
+      font-size: 12px;
+    }
+  }
+}
+
+ul,
+ol {
+  @apply pl-6;
+  & li {
+    @apply mb-4;
+  }
+}
+
+ul {
+  list-style: square;
+}
+ol {
+  list-style-type: lower-greek;
+}
+
+blockquote {
+  @apply pl-4 my-8 relative italic;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 3px;
+    background: theme('colors.primary.500');
+  }
+}
+
+blockquote p {
+  @apply italic text-xl;
+}
+
+figure {
+  @apply mt-2 mb-8;
+}
+
+.light-mode {
+  .title {
+    color: var(--color-primary-600);
+    @apply block font-bold text-5xl tracking-wide transition-colors duration-200 ease-in-out;
+  }
+}
+

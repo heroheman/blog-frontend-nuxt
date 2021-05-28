@@ -1,86 +1,73 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">frontend</h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+  <main v-if="blogPosts" class="w-full sm:max-w-3xl">
+    <div
+      v-for="(blogPost, index) in blogPosts.posts"
+      :key="index"
+      class="pb-8 border-b border-gray-300 border-solid"
+    >
+      <!-- {{ blogPost }} -->
+      <article-view
+        v-if="blogPost.category !== 'Heavy Rotation'"
+        :blog-post="blogPost"
+      />
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
 export default {
-  methods: {
-    async test() {
-      const blub = await this.$strapi.graphql({
-        query: `
-          query {
-            posts {
-              title
-            }
-          }
-        `
-      });
-      console.log(blub)
-    },
+  head() {
+    return {
+      script: [],
+    }
   },
-  mounted() {
-    this.test()
+  data() {
+    return {
+      blogPosts: [],
+    }
+  },
+  async fetch() {
+    const tmp = await this.$strapi.graphql({
+      query: `
+        query {
+          posts {
+            id
+            slug
+            title
+            description
+            body
+            cover {
+              name
+              alternativeText
+              caption
+              width
+              height
+              previewUrl
+              url
+            }
+            category {
+              Title
+              slug
+            }
+            display_published_date
+            published_at
+          }
+        }
+      `,
+    })
+    const tmp2 = tmp.posts.sort(
+      (a, b) =>
+        new Date(a.display_published_date).getTime() >
+        new Date(b.display_published_date).getTime()
+    )
+
+    this.blogPosts = tmp2
   },
 }
 </script>
 
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+<style lang="postcss">
+.articleview-main {
+  @apply my-20;
 }
 </style>
