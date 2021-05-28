@@ -1,16 +1,11 @@
 <template>
   <main v-if="posts" class="w-full sm:max-w-3xl">
-    {{ posts }}
     <div
-      v-for="(post, index) in posts.posts"
+      v-for="(post, index) in posts"
       :key="index"
       class="pb-8 border-b border-gray-300 border-solid"
     >
-      {{ post }}
-      <!-- <article-view -->
-      <!--   v-if="post.category !== 'Heavy Rotation'" -->
-      <!--   :blog-post="post" -->
-      <!-- /> -->
+      <article-view v-if="post.category !== 'Heavy Rotation'" :post="post" />
     </div>
   </main>
 </template>

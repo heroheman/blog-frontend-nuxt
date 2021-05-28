@@ -97,6 +97,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/apollo',
     '@nuxtjs/axios',
+    '@nuxtjs/markdownit',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/strapi',
     '@nuxtjs/pwa',
@@ -159,6 +160,18 @@ export default {
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
     exposeConfig: false // enables `import { theme } from '~tailwind.config'`
+  },
+
+  markdownit: {
+    injected: true,
+    linkify: true,
+    breaks: true,
+    runtime: true,
+    use: [
+      'markdown-it-footnote',
+      'markdown-it-implicit-figures'
+      // ['@davegardner/markdown-it-responsive', markdownImgOptions]
+    ]
   },
   // pwa: {
   //   icon: {
