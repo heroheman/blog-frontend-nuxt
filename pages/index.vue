@@ -1,20 +1,23 @@
 <template>
-  <main v-if="blogPosts" class="w-full sm:max-w-3xl">
+  <main v-if="posts" class="w-full sm:max-w-3xl">
+    {{ posts }}
     <div
-      v-for="(blogPost, index) in blogPosts.posts"
+      v-for="(post, index) in posts.posts"
       :key="index"
       class="pb-8 border-b border-gray-300 border-solid"
     >
-      <!-- {{ blogPost }} -->
-      <article-view
-        v-if="blogPost.category !== 'Heavy Rotation'"
-        :blog-post="blogPost"
-      />
+      {{ post }}
+      <!-- <article-view -->
+      <!--   v-if="post.category !== 'Heavy Rotation'" -->
+      <!--   :blog-post="post" -->
+      <!-- /> -->
     </div>
   </main>
 </template>
 
 <script>
+import { postsQuery } from '@/graphql/postsQuery'
+
 export default {
   head() {
     return {
@@ -23,45 +26,14 @@ export default {
   },
   data() {
     return {
-      blogPosts: [],
+      posts: [],
     }
   },
-  async fetch() {
-    const tmp = await this.$strapi.graphql({
-      query: `
-        query {
-          posts {
-            id
-            slug
-            title
-            description
-            body
-            cover {
-              name
-              alternativeText
-              caption
-              width
-              height
-              previewUrl
-              url
-            }
-            category {
-              Title
-              slug
-            }
-            display_published_date
-            published_at
-          }
-        }
-      `,
-    })
-    const tmp2 = tmp.posts.sort(
-      (a, b) =>
-        new Date(a.display_published_date).getTime() >
-        new Date(b.display_published_date).getTime()
-    )
-
-    this.blogPosts = tmp2
+  apollo: {
+    posts: {
+      prefetch: true,
+      query: postsQuery,
+    },
   },
 }
 </script>

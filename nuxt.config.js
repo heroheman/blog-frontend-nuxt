@@ -95,6 +95,7 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
+    '@nuxtjs/apollo',
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/strapi',
@@ -107,6 +108,14 @@ export default {
   strapi: {
     // Options
     url: 'http://142.93.164.139'
+  },
+
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'http://142.93.164.139/graphql',
+      }
+    }
   },
 
   fontawesome: {
