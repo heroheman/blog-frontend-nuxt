@@ -114,7 +114,7 @@ export default {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://142.93.164.139/graphql',
+        httpEndpoint: 'https://api.flore.nz/graphql',
       }
     }
   },
