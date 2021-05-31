@@ -168,9 +168,7 @@ export default {
     breaks: true,
     runtime: true,
     use: [
-      'markdown-it-footnote',
-      'markdown-it-implicit-figures'
-      // ['@davegardner/markdown-it-responsive', markdownImgOptions]
+      'markdown-it-footnote'
     ]
   },
   // pwa: {

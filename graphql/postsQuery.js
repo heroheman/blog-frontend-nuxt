@@ -23,6 +23,18 @@ export const postsQuery = gql`
       }
       display_published_date
       published_at
+      additional {
+        ... on ComponentContentRating {
+          ratingnumber
+        }
+        ... on ComponentMediaTrack {
+          title
+          description
+          spotify_url
+          youtube_url
+        }
+      }
+      Tags
     }
   }
 `
@@ -50,6 +62,12 @@ export const postQuery = gql`
       }
       display_published_date
       published_at
+      Tags
+      additional {
+        ... on ComponentContentRating {
+          ratingnumber
+        }
+      }
     }
   }
 `

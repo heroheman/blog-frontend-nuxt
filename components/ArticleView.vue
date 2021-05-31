@@ -25,19 +25,9 @@
 
     <div class="relative" v-html="$md.render(post.body)" />
 
-    <!-- <rating -->
-    <!--   class="w-full" -->
-    <!--   v-if="post.isReview && post.rating && !post.customRating" -->
-    <!--   :rating="post.rating" -->
-    <!-- /> -->
-    <!-- <rating -->
-    <!--   v-else-if="post.customRating" -->
-    <!--   :rating="post.rating" -->
-    <!--   custom-rating -->
-    <!--   :custom-rating-unit="post.customRatingUnit" -->
-    <!-- /> -->
+    <rating class="w-full" :rating="rating.ratingnumber" />
 
-    <!-- <tags v-if="detail" class="mt-8" :tags="post.tags" /> -->
+    <tags v-if="detail" class="mt-8" :tags="post.Tags" />
 
     <!-- <nuxt-link -->
     <!--   v-if="!detail && bodyText.length > 1" -->
@@ -72,6 +62,15 @@ export default {
     },
   },
   computed: {
+    rating() {
+      if (this.post.additional.length) {
+        return this.post.additional.filter(
+          (addi) => addi.__typename === 'ComponentContentRating'
+        )[0]
+      } else {
+        return false
+      }
+    },
     bodyText() {
       const text = this.post.body.split('<!--more-->')
       return text
