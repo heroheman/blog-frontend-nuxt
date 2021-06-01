@@ -112,11 +112,15 @@ export default {
   },
 
   apollo: {
+    includeNodeModules: true,
     clientConfigs: {
-      default: {
-        httpEndpoint: 'https://api.flore.nz/graphql',
-      }
+      default: '@/apollo/client-configs/default.js'
     }
+    // clientConfigs: {
+    //   default: {
+    //     httpEndpoint: 'https://api.flore.nz/graphql',
+    //   }
+    // }
   },
 
   fontawesome: {
@@ -152,7 +156,11 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {
+      config.node = {
+        fs: 'empty'
+      }
+    }
   },
   /*
    ** Custom additions configuration

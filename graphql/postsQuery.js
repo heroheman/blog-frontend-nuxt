@@ -67,6 +67,12 @@ export const postQuery = gql`
         ... on ComponentContentRating {
           ratingnumber
         }
+        ... on ComponentMediaTrack {
+          title
+          description
+          spotify_url
+          youtube_url
+        }
       }
     }
   }
