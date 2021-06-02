@@ -1,9 +1,12 @@
 // import glob from 'glob'
 import path from 'path'
+import axios from 'axios'
 // import fs from 'fs'
 import postcssImport from 'postcss-import'
 import postcssNesting from 'postcss-nesting'
 import postcssPresetEnv from 'postcss-preset-env'
+
+const md = require('markdown-it')()
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -19,58 +22,58 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'description'
+        content: 'description',
       },
       {
         name: 'msapplication-TileColor',
-        content: '#00aba9'
+        content: '#00aba9',
       },
       {
         name: 'theme-color',
-        content: '#ffffff'
-      }
+        content: '#ffffff',
+      },
     ],
     link: [
       {
         rel: 'alternate',
         type: 'application/rss+xml',
         title: 'flore.nz RSS',
-        href: 'https://flore.nz/feed.xml'
+        href: 'https://flore.nz/feed.xml',
       },
       {
         rel: 'apple-touch-icon',
         sizes: '180x180',
-        href: '/apple-touch-icon.png'
+        href: '/apple-touch-icon.png',
       },
       {
         rel: 'icon',
         type: 'image/png',
         sizes: '32x32',
-        href: '/favicon-32x32.png'
+        href: '/favicon-32x32.png',
       },
       {
         rel: 'icon',
         type: 'image/png',
         sizes: '16x16',
-        href: '/favicon-16x16.png'
+        href: '/favicon-16x16.png',
       },
       {
         rel: 'manifest',
-        href: '/site.webmanifest'
+        href: '/site.webmanifest',
       },
       {
         rel: 'mask-icon',
         href: '/safari-pinned-tab.svg',
-        color: '#5bdad5'
-      }
+        color: '#5bdad5',
+      },
     ], // ? Imports the font 'Karla' and is optimized by the netlify plugin 'Subfont'
     script: [
       {
         src: '//gc.zgo.at/count.js',
         async: true,
-        'data-goatcounter': 'https://flrnz.goatcounter.com/count'
-      }
-    ]
+        'data-goatcounter': 'https://flrnz.goatcounter.com/count',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -90,7 +93,7 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
     '@nuxtjs/svg',
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -100,23 +103,19 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/markdownit',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/strapi',
+    // '@nuxtjs/strapi',
     '@nuxtjs/pwa',
+    '@nuxtjs/feed',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
-  strapi: {
-    // Options
-    url: 'http://142.93.164.139'
-  },
-
   apollo: {
     includeNodeModules: true,
     clientConfigs: {
-      default: '@/apollo/client-configs/default.js'
-    }
+      default: '@/apollo/client-configs/default.js',
+    },
     // clientConfigs: {
     //   default: {
     //     httpEndpoint: 'https://api.flore.nz/graphql',
@@ -126,9 +125,15 @@ export default {
 
   fontawesome: {
     icons: {
-      brands: ['faTwitter', 'faSpotify', 'faYoutube', 'faInstagram', 'faGoodreads'],
-      solid: ['faRss']
-    }
+      brands: [
+        'faTwitter',
+        'faSpotify',
+        'faYoutube',
+        'faInstagram',
+        'faGoodreads',
+      ],
+      solid: ['faRss'],
+    },
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -149,26 +154,27 @@ export default {
         'postcss-preset-env': postcssPresetEnv({
           stage: 1,
           features: {
-            'nesting-rules': false
-          }
-        })
-      }
+            'nesting-rules': false,
+          },
+        }),
+      },
     },
     /*
      ** You can extend webpack config here
      */
     extend(config, ctx) {
       config.node = {
-        fs: 'empty'
+        fs: 'empty',
       }
-    }
+    },
   },
+
   /*
    ** Custom additions configuration
    */
   tailwindcss: {
     cssPath: '~/assets/css/tailwind.css',
-    exposeConfig: false // enables `import { theme } from '~tailwind.config'`
+    exposeConfig: false, // enables `import { theme } from '~tailwind.config'`
   },
 
   markdownit: {
@@ -176,10 +182,55 @@ export default {
     linkify: true,
     breaks: true,
     runtime: true,
-    use: [
-      'markdown-it-footnote'
-    ]
+    use: ['markdown-it-footnote'],
   },
+
+  feed: [
+    {
+      path: '/feed.xml', // The route to your feed.
+      async create(feed) {
+        feed.options = {
+          title: 'flore.nz RSS',
+          link: 'http://flore.nz/feed.xml',
+          description: 'RSS Feeds are not dead',
+        }
+
+        const posts = await axios.get('https://api.flore.nz/posts')
+
+        // const sortedPosts = posts.data.sort(
+        //   (a, b) =>
+        //   new Date(a.display_published_date).getTime() / 1000 <
+        //     new Date(b.display_published_date).getTime() / 1000
+        // )
+
+        posts.data.forEach((post) => {
+          const mdcontent = md.render(post.body)
+          feed.addItem({
+            title: post.title,
+            date: new Date(post.display_published_date),
+            id: post.url,
+            link: 'https://flore.nz/blog/' + post.slug,
+            description: post.description,
+            content: post.body ? mdcontent : post.description,
+            // image: post.cover
+            //   ? 'https://flore.nz/' + cover.formats.small.url
+            //   : '',
+          })
+        })
+
+        feed.addContributor({
+          name: 'Florenz heldermann',
+          email: 'moin@flore.nz',
+          link: 'https://flore.nz/',
+        })
+
+        feed.items.sort((a, b) => b.date - a.date)
+      },
+      // cacheTime: 1000 * 60 * 15, // How long should the feed be cached
+      type: 'rss2', // Can be: rss2, atom1, json1
+      // data: ['Some additional data'] // Will be passed as 2nd argument to `create` function
+    },
+  ],
   // pwa: {
   //   icon: {
   //     source: 'static/icon.jpeg',
