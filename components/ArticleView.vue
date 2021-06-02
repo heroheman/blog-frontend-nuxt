@@ -25,43 +25,7 @@
 
     <div class="relative" v-html="$md.render(post.body)" />
 
-    <template v-if="!!songs">
-      <div v-for="(song, index) in songs" :key="index" class="my-4 mb-10">
-        <p>
-          <strong>
-            {{ song.title }}
-          </strong>
-        </p>
-        <p>
-          <em>
-            {{ song.description }}
-          </em>
-        </p>
-        <ui-button
-          v-if="song.spotify_url !== ''"
-          :href="song.spotify_url"
-          target="_blank"
-          class="mb-4 md:mr-2"
-        >
-          <font-awesome-icon
-            :icon="['fab', 'spotify']"
-            :style="{ color: '#1DB954' }"
-          />
-          Auf Spotify
-        </ui-button>
-        <ui-button
-          v-if="song.youtube_url !== ''"
-          :href="song.youtube_url"
-          target="_blank"
-        >
-          <font-awesome-icon
-            :icon="['fab', 'youtube']"
-            :style="{ color: '#FF0000' }"
-          />
-          Auf YouTube
-        </ui-button>
-      </div>
-    </template>
+    <song v-if="!!songs" :songs="songs" />
 
     <rating v-if="!!rating" class="w-full" :rating="rating.ratingnumber" />
 
@@ -72,7 +36,7 @@
     <!--   :to="`blog/${post.slug}`" -->
     <!--   class=" -->
     <!--     inline-block -->
-    <!--     px-6 -->
+    <!-- px-6 -1-> -->
     <!--     py-2 -->
     <!--     my-4 -->
     <!--     rounded-sm -->

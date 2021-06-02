@@ -1,8 +1,8 @@
 <template>
   <footer class="footer">
     &copy; 1983 - {{ new Date().getFullYear() }} - Florenz Heldermann -
-    <nuxt-link to="/page/impressum">Impressum</nuxt-link> -
-    <nuxt-link to="/page/datenschutz">Datenschutz</nuxt-link>
+    <nuxt-link to="/impressum">Impressum</nuxt-link> -
+    <nuxt-link to="/datenschutz">Datenschutz</nuxt-link>
   </footer>
 </template>
 
