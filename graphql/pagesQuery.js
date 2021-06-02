@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default */
+
 import gql from 'graphql-tag'
 
 export const pagesQuery = gql`

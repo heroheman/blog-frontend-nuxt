@@ -1,8 +1,9 @@
+/* eslint-disable import/no-named-as-default */
 import gql from 'graphql-tag'
 
 export const postsQuery = gql`
-  query Posts {
-    posts(sort: "display_published_date:DESC",first:3,offset:3) {
+  query Posts($start: Int, $limit: Int) {
+    posts(sort: "display_published_date:DESC", start: $start, limit: $limit) {
       id
       slug
       title
@@ -75,5 +76,11 @@ export const postQuery = gql`
         }
       }
     }
+  }
+`
+
+export const postsCount = gql`
+  {
+    postsCount
   }
 `
