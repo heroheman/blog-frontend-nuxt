@@ -3,7 +3,7 @@ import path from 'path'
 import axios from 'axios'
 // import fs from 'fs'
 import postcssImport from 'postcss-import'
-import postcssNesting from 'postcss-nesting'
+import postcssNested from 'postcss-nesting'
 import postcssPresetEnv from 'postcss-preset-env'
 
 const md = require('markdown-it')()
@@ -148,13 +148,14 @@ export default {
     extractCSS: true,
     postcss: {
       plugins: {
-        'postcss-import': postcssImport,
         tailwindcss: path.resolve(__dirname, './tailwind.config.js'),
-        'postcss-nesting': postcssNesting,
+        'postcss-import': postcssImport,
+        'postcss-nested': postcssNested,
         'postcss-preset-env': postcssPresetEnv({
-          stage: 1,
+          stage: 2,
+          autoprefixer: true,
           features: {
-            'nesting-rules': false,
+            'nesting-rules': true,
           },
         }),
       },
@@ -231,6 +232,8 @@ export default {
       // data: ['Some additional data'] // Will be passed as 2nd argument to `create` function
     },
   ],
+  loading: '~/components/LoadingAnimation.vue',
+
   // pwa: {
   //   icon: {
   //     source: 'static/icon.jpeg',

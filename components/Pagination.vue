@@ -1,0 +1,97 @@
+<template>
+  <ul class="pagination">
+    <li class="pagination__item pagination__item--symbol">
+      <nuxt-link :to="{ name: 'index', query: { page: 1 } }"> ◂◂ </nuxt-link>
+    </li>
+    <li
+      class="pagination__item pagination__item--symbol"
+      :class="{ 'pagination__item--disabled': currentPage === 0 }"
+    >
+      <nuxt-link :to="{ name: 'index', query: { page: currentPage - 1 } }">
+        ◂
+      </nuxt-link>
+    </li>
+    <li
+      v-for="index in parseInt(postsCount / perPage + 1)"
+      :key="index"
+      class="pagination__item"
+      :class="{ 'pagination__item--active': index - 1 === currentPage }"
+    >
+      <nuxt-link :to="{ name: 'index', query: { page: index } }">
+        {{ index }}
+      </nuxt-link>
+    </li>
+
+    <li
+      class="pagination__item pagination__item--symbol"
+      :class="{
+        'pagination__item--disabled': currentPage === lastPage,
+      }"
+    >
+      <nuxt-link :to="{ name: 'index', query: { page: currentPage + 2 } }">
+        ▸
+      </nuxt-link>
+    </li>
+    <li class="pagination__item pagination__item--symbol">
+      <nuxt-link
+        :to="{
+          name: 'index',
+          query: { page: Math.round(postsCount / perPage) },
+        }"
+      >
+        ▸▸
+      </nuxt-link>
+    </li>
+  </ul>
+</template>
+
+<script>
+export default {
+  props: {
+    postsCount: {
+      type: Number,
+      default: 0,
+    },
+    perPage: {
+      type: Number,
+      default: 0,
+    },
+    currentPage: {
+      type: Number,
+      default: 0,
+    },
+  },
+  computed: {
+    lastPage() {
+      return Math.round(this.postsCount / this.perPage) - 1
+    },
+  },
+}
+</script>
+
+<style lang="postcss" scoped>
+.pagination {
+  position: relative;
+
+  &__item {
+    @apply inline-block border border-monochrome-300 border-solid;
+    @apply px-2 py-1 mx-1;
+    @apply text-xs;
+
+    &--active {
+      @apply bg-monochrome-800;
+    }
+
+    &--disabled {
+      @apply border-monochrome-400 text-monochrome-400;
+      a {
+        pointer-events: none;
+      }
+    }
+
+    &--active {
+      @apply bg-monochrome-800;
+    }
+  }
+}
+</style>

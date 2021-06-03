@@ -1,25 +1,24 @@
 <template>
   <main v-if="posts" class="w-full sm:max-w-3xl">
-    <ul class="pagination">
-      <li
-        class="inline-block px-2"
-        v-for="index in parseInt(postsCount / per_page + 1)"
-        :key="index"
-      >
-        <nuxt-link :to="{ name: 'index', query: { page: index } }">
-          {{ index }}
-        </nuxt-link>
-      </li>
-    </ul>
-
     <div v-if="!loading">
-      <div
-        v-for="(post, index) in posts"
-        :key="index"
-        class="pb-8 border-b border-gray-300 border-solid"
-      >
-        <article-view v-if="post.category !== 'Heavy Rotation'" :post="post" />
+      <div>
+        <div
+          v-for="(post, index) in posts"
+          :key="index"
+          class="pb-8 border-b border-gray-300 border-solid last:border-0"
+        >
+          <article-view
+            v-if="post.category !== 'Heavy Rotation'"
+            :post="post"
+          />
+        </div>
       </div>
+      <pagination
+        class="pl-0 mt-0 mb-6 mr-0 text-left"
+        :posts-count="postsCount"
+        :per-page="per_page"
+        :current-page="page"
+      />
     </div>
     <div v-else>Fetching Data</div>
   </main>
@@ -29,11 +28,6 @@
 import { postsQuery, postsCount } from '@/graphql/postsQuery'
 
 export default {
-  head() {
-    return {
-      script: [],
-    }
-  },
   data() {
     return {
       posts: [],
@@ -43,6 +37,11 @@ export default {
       loading: true,
     }
   },
+  watch: {
+    '$route.query.page'() {
+      this.page = this.$route.query.page - 1
+    },
+  },
   created() {
     if (this.$route.query.page) {
       this.page = this.$route.query.page - 1
@@ -50,11 +49,6 @@ export default {
     } else {
       this.loading = false
     }
-  },
-  watch: {
-    '$route.query.page'() {
-      this.page = this.$route.query.page - 1
-    },
   },
   apollo: {
     posts: {

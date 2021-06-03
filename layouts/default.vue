@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="flex flex-wrap">
-      <Header class="w-full px-8 py-2 mx-auto sm:w-1/4 md:w-1/5" />
+      <Header class="w-full px-8 py-2 mx-auto sm:w-1/3 lg:w-1/5" />
       <div
         class="
           flex-auto
@@ -10,8 +10,8 @@
           px-8
           py-2
           mx-auto
-          sm:w-3/4
-          md:w-4/5
+          sm:w-2/3
+          lg:w-3/5
           main-wrapper
         "
       >
@@ -22,7 +22,18 @@
   </div>
 </template>
 
-<script></script>
+<script>
+/* eslint-disable */
+export default {
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start()
+
+      setTimeout(() => this.$nuxt.$loading.finish(), 500)
+    })
+  },
+}
+</script>
 
 <style scoped>
 .main-wrapper {

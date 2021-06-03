@@ -1,7 +1,8 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  purge: [],
+  mode: 'jit',
+  purge: ['./**/*.vue', './assets/css/*.*'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -9,7 +10,7 @@ module.exports = {
         head: ['PT Serif', ...defaultTheme.fontFamily.serif],
         body: ['PT Serif', ...defaultTheme.fontFamily.serif],
         meta: ['Open Sans', ...defaultTheme.fontFamily.sans],
-        mono: [...defaultTheme.fontFamily.mono]
+        mono: [...defaultTheme.fontFamily.mono],
       },
       colors: {
         monochrome: {
@@ -26,7 +27,7 @@ module.exports = {
           920: '#F0F0F0',
           930: '#F2F2F2',
           950: '#F4F4F4',
-          999: '#FFFFFF'
+          999: '#FFFFFF',
         },
         primary: {
           100: '#ECEFF5',
@@ -38,7 +39,7 @@ module.exports = {
           600: '#3E4F70',
           700: '#2C3A57',
           800: '#1C263B',
-          900: '#0D131E'
+          900: '#0D131E',
         },
         accent: {
           100: '#F9E9EA',
@@ -50,13 +51,13 @@ module.exports = {
           600: '#8D2D34',
           700: '#6E1D23',
           800: '#4D1015',
-          900: '#280709'
-        }
+          900: '#280709',
+        },
       },
       opacity: {
-        '10': '0.1',
-        '20': '0.2'
-      }
+        10: '0.1',
+        20: '0.2',
+      },
     },
   },
   variants: {

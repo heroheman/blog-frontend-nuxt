@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="relative" v-html="$md.render(post.body)" />
+    <div class="relative article-text" v-html="$md.render(post.body)" />
 
     <song v-if="!!songs" :songs="songs" />
 
@@ -92,3 +92,8 @@ export default {
   },
 }
 </script>
+
+<style lang="postcss">
+.article-text {
+}
+</style>
