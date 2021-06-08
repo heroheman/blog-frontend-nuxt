@@ -33,8 +33,9 @@
             </p>
           </div>
           <tags
+            v-if="blogPost.tags"
             class="w-full mb-2 md:self-end sm:w-full md:w-auto"
-            :tags="blogPost.Tags"
+            :tags="blogPost.tags"
           />
         </div>
       </li>
@@ -64,7 +65,7 @@ export default {
     },
     filteredArticles() {
       return this.articles.filter((post) => {
-        const tags = post.Tags.split(',')
+        const tags = post.tags.split(',')
         return tags.some((p) => {
           console.log(p, this.$route.query.tag)
           return p === this.$route.query.tag
