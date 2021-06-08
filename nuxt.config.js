@@ -183,10 +183,10 @@ export default {
   /*
    ** Custom additions configuration
    */
-  tailwindcss: {
-    cssPath: '~/assets/css/tailwind.css',
-    exposeConfig: false, // enables `import { theme } from '~tailwind.config'`
-  },
+  // tailwindcss: {
+  //   cssPath: '~/assets/css/tailwind.css',
+  //   exposeConfig: false, // enables `import { theme } from '~tailwind.config'`
+  // },
 
   markdownit: {
     injected: true,
