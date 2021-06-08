@@ -24,7 +24,7 @@
 
     <div class="relative article-text" v-html="$md.render(post.body)" />
 
-    <song v-if="!!songs" :songs="songs" />
+    <song v-if="!!songs" :songs="songs" class="mt-8" />
 
     <rating v-if="!!rating" class="w-full" :rating="rating.ratingnumber" />
 

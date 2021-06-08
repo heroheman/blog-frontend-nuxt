@@ -37,6 +37,7 @@ export const articlesQuery = gql`
           description
           spotify_url
           youtube_url
+          embed_youtube
         }
       }
       tags
@@ -77,6 +78,7 @@ export const articleQuery = gql`
           description
           spotify_url
           youtube_url
+          embed_youtube
         }
       }
     }
