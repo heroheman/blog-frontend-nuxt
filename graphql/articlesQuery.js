@@ -67,7 +67,7 @@ export const articleQuery = gql`
       }
       display_published_date
       published_at
-      Tags
+      tags
       additional {
         ... on ComponentContentRating {
           ratingnumber

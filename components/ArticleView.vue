@@ -6,13 +6,13 @@
   >
     <!-- {{ post }} -->
     <div class="flex flex-col mb-4">
-      <nuxt-link v-if="!detail" :to="`blog/${post.slug}`" class="text-center">
-        <h2 class="article-title title">
-          {{ post.title }}
-        </h2>
-      </nuxt-link>
+      <!-- <nuxt-link v-if="!detail" :to="`blog/${post.slug}`" class="text-center"> -->
+      <!--   <h2 class="article-title title"> -->
+      <!--     {{ post.title }} -->
+      <!--   </h2> -->
+      <!-- </nuxt-link> -->
 
-      <h2 v-else class="article-title title">
+      <h2 class="article-title title">
         {{ post.title }}
       </h2>
 
