@@ -23,12 +23,13 @@
 import { articlesQuery, articlesCount } from '@/graphql/articlesQuery'
 
 export default {
+  name: 'PageIndex',
   data() {
     return {
       articles: [],
       articlesCount: 0,
       page: 0,
-      per_page: 3,
+      per_page: 5,
       loading: true,
     }
   },

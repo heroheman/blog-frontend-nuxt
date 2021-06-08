@@ -1,5 +1,5 @@
 <template>
-  <ul class="pagination">
+  <ul class="mt-10 pagination">
     <li class="pagination__item pagination__item--symbol">
       <nuxt-link :to="{ name: 'index', query: { page: 1 } }"> ◂◂ </nuxt-link>
     </li>
@@ -12,7 +12,7 @@
       </nuxt-link>
     </li>
     <li
-      v-for="index in parseInt(postsCount / perPage + 1)"
+      v-for="index in parseInt(articlesCount / perPage + 1)"
       :key="index"
       class="pagination__item"
       :class="{ 'pagination__item--active': index - 1 === currentPage }"
@@ -36,7 +36,7 @@
       <nuxt-link
         :to="{
           name: 'index',
-          query: { page: Math.round(postsCount / perPage) },
+          query: { page: Math.round(articlesCount / perPage) },
         }"
       >
         ▸▸
@@ -47,8 +47,9 @@
 
 <script>
 export default {
+  name: 'Pagination',
   props: {
-    postsCount: {
+    articlesCount: {
       type: Number,
       default: 0,
     },
@@ -63,7 +64,7 @@ export default {
   },
   computed: {
     lastPage() {
-      return Math.round(this.postsCount / this.perPage) - 1
+      return Math.round(this.articlesCount / this.perPage) - 1
     },
   },
 }

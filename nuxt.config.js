@@ -111,6 +111,16 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
+  router: {
+    scrollBehavior(to, from, savedPosition) {
+      if (savedPosition) {
+        return savedPosition
+      }
+
+      return { x: 0, y: 0 }
+    },
+  },
+
   apollo: {
     includeNodeModules: true,
     clientConfigs: {
@@ -196,7 +206,9 @@ export default {
           description: 'RSS Feeds are not dead',
         }
 
-        const posts = await axios.get('https://flrnz-blog-backend.herokuapp.com/articles')
+        const posts = await axios.get(
+          'https://flrnz-blog-backend.herokuapp.com/articles'
+        )
 
         // const sortedPosts = posts.data.sort(
         //   (a, b) =>
