@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
 
-$fontSerif: 'PT Serif', serif;
-$fontSans: 'Open Sans', sans-serif;
-
 /* @font-face { */
 /*   @apply font-body; */
 /*   font-weight: 400; */
@@ -60,6 +57,7 @@ p > a {
 
 .title {
   color: var(--color-primary);
+  @apply font-head;
   @apply block font-bold text-2xl tracking-wide;
   @apply transition-colors duration-200 ease-in-out;
   @apply inline-block pb-2 mb-2;
@@ -70,6 +68,7 @@ p > a {
 .subtitle {
   color: var(--text-secondary);
   word-spacing: 0.15em;
+  @apply font-head;
   @apply inline-block;
   @apply font-light text-3xl tracking-wide pb-4;
   @apply transition-colors duration-200 ease-in-out;
