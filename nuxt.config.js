@@ -108,6 +108,28 @@ export default {
     '@nuxtjs/feed',
   ],
 
+  generate: {
+    routes() {
+      let articles = axios
+        .get('https://flrnz-blog-backend.herokuapp.com/articles')
+        .then((res) => {
+          return res.data.map((article) => {
+            return '/blog/' + article.slug
+          })
+        })
+      let pages = axios
+        .get('https://flrnz-blog-backend.herokuapp.com/pages')
+        .then((res) => {
+          return res.data.map((page) => {
+            return '/' + page.slug
+          })
+        })
+      return Promise.all([articles, pages]).then((values) => {
+        return values.join().split(',')
+      })
+    },
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
