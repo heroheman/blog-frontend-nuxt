@@ -3,7 +3,8 @@ import schema from './schema.json'
 
 export default ({ req, app }) => {
   return {
-    httpEndpoint: 'https://api.flore.nz/graphql',
+    // httpEndpoint: 'https://api.flore.nz/graphql',
+    httpEndpoint: process.env.BASE_URL || 'http://localhost:1337/graphql',
     cache: new InMemoryCache({ possibleTypes: schema.possibleTypes })
   }
 }

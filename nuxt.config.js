@@ -10,8 +10,7 @@ const md = require('markdown-it')()
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'server',
-  ssr: true,
+  target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
