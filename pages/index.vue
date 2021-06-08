@@ -1,9 +1,9 @@
 <template>
-  <main v-if="posts" class="w-full sm:max-w-3xl">
+  <main v-if="articles" class="w-full sm:max-w-3xl">
     <div v-if="!loading">
       <div>
         <div
-          v-for="(post, index) in posts"
+          v-for="(post, index) in articles"
           :key="index"
           class="pb-8 border-b border-gray-300 border-solid last:border-0"
         >
@@ -15,7 +15,7 @@
       </div>
       <pagination
         class="pl-0 mt-0 mb-6 mr-0 text-left"
-        :posts-count="postsCount"
+        :articles-count="articlesCount"
         :per-page="per_page"
         :current-page="page"
       />
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import { postsQuery, postsCount } from '@/graphql/postsQuery'
+import { articlesQuery, articlesCount } from '@/graphql/articlesQuery'
 
 export default {
   data() {
     return {
-      posts: [],
-      postsCount: 0,
+      articles: [],
+      articlesCount: 0,
       page: 0,
       per_page: 3,
       loading: true,
@@ -51,9 +51,9 @@ export default {
     }
   },
   apollo: {
-    posts: {
+    articles: {
       prefetch: true,
-      query: postsQuery,
+      query: articlesQuery,
       variables() {
         return {
           start: this.page * this.per_page,
@@ -61,9 +61,9 @@ export default {
         }
       },
     },
-    postsCount: {
+    articlesCount: {
       prefetch: true,
-      query: postsCount,
+      query: articlesCount,
     },
   },
 }

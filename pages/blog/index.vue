@@ -1,5 +1,5 @@
 <template>
-  <main v-if="posts" class="w-full main">
+  <main v-if="articles" class="w-full main">
     <div v-if="hasTag" class="mb-8 text-left">
       <nuxt-link class="items-start mb-8" to="/blog"
         >&larr; Zurück zu allen Beiträgen</nuxt-link
@@ -44,26 +44,26 @@
 
 <script>
 import { formatDate } from '@/utils/helper.js'
-import { postsQuery } from '@/graphql/postsQuery'
+import { articlesQuery } from '@/graphql/articlesQuery'
 
 export default {
   name: 'BlogIndex',
   data() {
     return {
-      posts: [],
+      articles: [],
       hasTag: false,
     }
   },
   computed: {
     items() {
       if (this.hasTag) {
-        return this.filteredPosts
+        return this.filteredArticles
       } else {
-        return this.posts
+        return this.articles
       }
     },
-    filteredPosts() {
-      return this.posts.filter((post) => {
+    filteredArticles() {
+      return this.articles.filter((post) => {
         const tags = post.Tags.split(',')
         return tags.some((p) => {
           console.log(p, this.$route.query.tag)
@@ -73,9 +73,9 @@ export default {
     },
   },
   apollo: {
-    posts: {
+    articles: {
       prefetch: true,
-      query: postsQuery,
+      query: articlesQuery,
     },
   },
   methods: {

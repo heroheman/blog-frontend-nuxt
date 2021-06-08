@@ -1,9 +1,13 @@
 /* eslint-disable import/no-named-as-default */
 import gql from 'graphql-tag'
 
-export const postsQuery = gql`
-  query Posts($start: Int, $limit: Int) {
-    posts(sort: "display_published_date:DESC", start: $start, limit: $limit) {
+export const articlesQuery = gql`
+  query Articles($start: Int, $limit: Int) {
+    articles(
+      sort: "display_published_date:DESC"
+      start: $start
+      limit: $limit
+    ) {
       id
       slug
       title
@@ -19,7 +23,7 @@ export const postsQuery = gql`
         url
       }
       category {
-        Title
+        title
         slug
       }
       display_published_date
@@ -28,21 +32,21 @@ export const postsQuery = gql`
         ... on ComponentContentRating {
           ratingnumber
         }
-        ... on ComponentMediaTrack {
+        ... on ComponentContentTrack {
           title
           description
           spotify_url
           youtube_url
         }
       }
-      Tags
+      tags
     }
   }
 `
 
-export const postQuery = gql`
-  query Posts($slug: String!) {
-    posts(where: { slug: $slug }) {
+export const articleQuery = gql`
+  query Articles($slug: String!) {
+    articles(where: { slug: $slug }) {
       id
       slug
       title
@@ -58,7 +62,7 @@ export const postQuery = gql`
         url
       }
       category {
-        Title
+        title
         slug
       }
       display_published_date
@@ -68,7 +72,7 @@ export const postQuery = gql`
         ... on ComponentContentRating {
           ratingnumber
         }
-        ... on ComponentMediaTrack {
+        ... on ComponentContentTrack {
           title
           description
           spotify_url
@@ -79,8 +83,8 @@ export const postQuery = gql`
   }
 `
 
-export const postsCount = gql`
+export const articlesCount = gql`
   {
-    postsCount
+    articlesCount
   }
 `
