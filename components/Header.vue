@@ -31,12 +31,12 @@
         <li class="my-0 mb-6 mr-4">
           <nuxt-link class="nav-link" to="/">Artikel</nuxt-link>
         </li>
-        <!-- <li class="my-0 mb-6 mr-4"> -->
-        <!--   <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link> -->
-        <!-- </li> -->
-        <!-- <li class="my-0 mb-12 mr-4"> -->
-        <!--   <nuxt-link class="nav-link" to="/about">Werwiewas?</nuxt-link> -->
-        <!-- </li> -->
+        <li class="my-0 mb-6 mr-4">
+          <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link>
+        </li>
+        <li class="my-0 mb-12 mr-4">
+          <nuxt-link class="nav-link" to="/about">Werwiewas?</nuxt-link>
+        </li>
       </ul>
       <div class="block my-0 mb-4">
         <a

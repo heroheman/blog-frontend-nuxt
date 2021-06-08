@@ -1,17 +1,12 @@
 <template>
   <main v-if="articles" class="w-full sm:max-w-3xl">
     <div v-if="!loading">
-      <div>
-        <div
-          v-for="(post, index) in articles"
-          :key="index"
-          class="pb-8 border-b border-gray-300 border-solid last:border-0"
-        >
-          <article-view
-            v-if="post.category !== 'Heavy Rotation'"
-            :post="post"
-          />
-        </div>
+      <div
+        v-for="(post, index) in articles"
+        :key="index"
+        class="pb-8 border-b border-gray-300 border-solid last:border-0"
+      >
+        <article-view v-if="post.category !== 'Heavy Rotation'" :post="post" />
       </div>
       <pagination
         class="pl-0 mt-0 mb-6 mr-0 text-left"

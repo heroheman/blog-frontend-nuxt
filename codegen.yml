@@ -1,4 +1,4 @@
-schema: "https://api.flore.nz/graphql"
+schema: "http://localhost:1337/graphql"
 generates:
   ./apollo/client-configs/schema.json:
     plugins:

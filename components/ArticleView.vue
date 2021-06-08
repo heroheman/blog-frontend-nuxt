@@ -4,15 +4,14 @@
     class="text-left articleview-main"
     v-if="post !== undefined"
   >
-    <!-- {{ post }} -->
     <div class="flex flex-col mb-4">
-      <!-- <nuxt-link v-if="!detail" :to="`blog/${post.slug}`" class="text-center"> -->
-      <!--   <h2 class="article-title title"> -->
-      <!--     {{ post.title }} -->
-      <!--   </h2> -->
-      <!-- </nuxt-link> -->
+      <nuxt-link v-if="!detail" :to="`blog/${post.slug}`" class="text-center">
+        <h2 class="article-title title">
+          {{ post.title }}
+        </h2>
+      </nuxt-link>
 
-      <h2 class="article-title title">
+      <h2 v-else class="article-title title">
         {{ post.title }}
       </h2>
 
@@ -29,7 +28,7 @@
 
     <rating v-if="!!rating" class="w-full" :rating="rating.ratingnumber" />
 
-    <tags v-if="detail" class="mt-8" :tags="post.Tags" />
+    <tags v-if="detail" class="mt-8" :tags="post.tags" />
 
     <!-- <nuxt-link -->
     <!--   v-if="!detail && bodyText.length > 1" -->
@@ -76,7 +75,7 @@ export default {
     songs() {
       if (this.post.additional.length) {
         return this.post.additional.filter(
-          (addi) => addi.__typename === 'ComponentMediaTrack'
+          (addi) => addi.__typename === 'ComponentContentTrack'
         )
       } else {
         return false
