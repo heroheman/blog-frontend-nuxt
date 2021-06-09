@@ -119,6 +119,9 @@ export default {
     }
   },
 }
+// grid-template-areas: 'nav social' 'brand brand';
+// grid-template-rows: 1fr 2fr;
+// grid-template-columns: 1fr 1fr;
 </script>
 
 <style lang="postcss" scoped>
@@ -126,13 +129,16 @@ export default {
   @apply pt-8;
   display: grid;
   grid-template-areas: 'nav' 'brand' 'social';
-  grid-template-rows: 60px minmax(150px, 320px) 60px;
+  grid-template-rows: 60px minmax(180px, auto) 60px;
   grid-template-columns: 1fr;
   @screen md {
-    grid-template-areas: 'nav social' 'brand brand';
-    grid-template-rows: 1fr 2fr;
-    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'nav' 'brand' 'social';
+    grid-template-rows: 80px minmax(150px, auto) 60px;
+    grid-template-columns: 1fr;
   }
+
+  @apply border-b border-solid border-monochrome-500;
+  @apply pb-4;
 
   &__brand {
     grid-area: brand;
@@ -142,7 +148,7 @@ export default {
   }
   &__social {
     grid-area: social;
-    @apply py-4 px-0 md:text-right;
+    @apply py-4 px-0;
   }
 
   &__nav,
