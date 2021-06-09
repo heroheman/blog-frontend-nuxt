@@ -5,8 +5,11 @@
     <!--   :description="mountain.description" -->
     <!--   :image="mountain.image" -->
     <!-- /> -->
-    <article-view detail :post="articles[0]" />
+    <article-view v-if="articles.length" detail :post="articles[0]" />
     <!-- <article-view-music detail v-else :blog-post="post" /> -->
+    <div v-else>
+      <loading />
+    </div>
   </main>
 </template>
 
