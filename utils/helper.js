@@ -17,9 +17,11 @@ export const songsAsMarkup = (songArray) => {
       (i) =>
         `<h4>${i.title}</h4><p>${
           i.description ? md.render(i.description) : ''
-        }</p><ul><li>${i.spotify_url ? i.spotify_url : ''}</li><li>${
+        }</p><ul><li><a href="${
+          i.spotify_url ? i.spotify_url : ''
+        }">Spotify</a></li><li><a href="${
           i.youtube_url ? i.youtube_url : ''
-        }</li></ul>`
+        }">YouTube</a></li></ul>`
     )
     .join('')
 }
