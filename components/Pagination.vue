@@ -76,8 +76,13 @@ export default {
 
   &__item {
     @apply inline-block border border-monochrome-300 border-solid;
-    @apply px-2 py-1 mx-1;
-    @apply text-xs;
+    @apply mx-1;
+
+    a {
+      @apply inline-block;
+      @apply px-3 py-2;
+      @apply text-sm;
+    }
 
     &--active {
       @apply bg-monochrome-800;

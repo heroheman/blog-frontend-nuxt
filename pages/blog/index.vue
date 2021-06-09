@@ -66,8 +66,7 @@ export default {
     filteredArticles() {
       return this.articles.filter((post) => {
         const tags = post.tags.split(',')
-        return tags.some((p) => {
-          console.log(p, this.$route.query.tag)
+        return tags.includes((p) => {
           return p === this.$route.query.tag
         })
       })
