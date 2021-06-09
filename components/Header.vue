@@ -40,11 +40,11 @@
       <li class="">
         <nuxt-link class="nav-link" to="/">Artikel</nuxt-link>
       </li>
+      <!-- <li class=""> -->
+      <!--   <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link> -->
+      <!-- </li> -->
       <li class="">
-        <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link>
-      </li>
-      <li class="">
-        <nuxt-link class="nav-link" to="/about">Werwiewas?</nuxt-link>
+        <nuxt-link class="nav-link" to="/about">Florenz</nuxt-link>
       </li>
     </ul>
 
@@ -117,7 +117,7 @@ export default {
 .header {
   @apply pt-8;
   display: grid;
-  grid-template-areas: 'social nav' 'brand brand';
+  grid-template-areas: 'nav social' 'brand brand';
   grid-template-rows: 1fr 2fr;
   grid-template-columns: 1fr 1fr;
 
@@ -126,10 +126,10 @@ export default {
   }
   &__nav {
     grid-area: nav;
-    text-align: right;
   }
   &__social {
     grid-area: social;
+    text-align: right;
     @apply py-4 px-0;
   }
 
@@ -142,7 +142,8 @@ export default {
       @apply mr-4;
 
       a {
-        @apply text-lg uppercase font-normal;
+        @apply text-lg font-normal;
+        @apply font-head;
         svg {
           @apply w-7 h-7;
         }

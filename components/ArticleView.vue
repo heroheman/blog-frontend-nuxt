@@ -5,7 +5,13 @@
     v-if="post !== undefined"
   >
     <div class="flex flex-col mb-4">
-      <nuxt-link v-if="!detail" :to="`blog/${post.slug}`" class="text-center">
+      <div>
+        <h6 v-if="post.display_published_date" class="date">
+          {{ formatDate(post.display_published_date) }}
+        </h6>
+      </div>
+
+      <nuxt-link v-if="!detail" :to="`blog/${post.slug}`">
         <h2 class="article-title title">
           {{ post.title }}
         </h2>
@@ -14,12 +20,6 @@
       <h2 v-else class="article-title title">
         {{ post.title }}
       </h2>
-
-      <div class="text-center">
-        <h6 v-if="post.display_published_date" class="date">
-          {{ formatDate(post.display_published_date) }}
-        </h6>
-      </div>
     </div>
 
     <div class="relative article-text" v-html="$md.render(post.body)" />
