@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto">
-    <div class="flex flex-wrap px-20 mx-auto">
+    <div class="flex flex-wrap px-10 mx-auto md:px-20">
       <Header class="w-full" />
       <div class="flex-auto w-full">
         <nuxt />

@@ -7,7 +7,7 @@
           <!--   <img src="/img/me.jpg" alt="me" class="w-10" /> -->
           <!-- </figure> -->
           <div class="brand__name">
-            <div class="mb-4 italic">Florenz Heldermann</div>
+            <div class="mb-4 italic leading-snug">Florenz Heldermann</div>
             <div class="brand__slogan">
               <span v-if="randomHeadNumber < 2">
                 "Ein Untertitel, der mich treffend beschreibt. Unbedingt vor
@@ -125,9 +125,14 @@ export default {
 .header {
   @apply pt-8;
   display: grid;
-  grid-template-areas: 'nav social' 'brand brand';
-  grid-template-rows: 1fr 2fr;
-  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 'nav' 'brand' 'social';
+  grid-template-rows: 60px minmax(150px, 320px) 60px;
+  grid-template-columns: 1fr;
+  @screen md {
+    grid-template-areas: 'nav social' 'brand brand';
+    grid-template-rows: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
+  }
 
   &__brand {
     grid-area: brand;
@@ -137,8 +142,7 @@ export default {
   }
   &__social {
     grid-area: social;
-    text-align: right;
-    @apply py-4 px-0;
+    @apply py-4 px-0 md:text-right;
   }
 
   &__nav,
@@ -153,7 +157,7 @@ export default {
         @apply text-lg font-normal;
         @apply font-head;
         svg {
-          @apply w-7 h-7;
+          @apply w-5 h-5 md:w-7 md:h-7;
         }
       }
     }
@@ -174,7 +178,7 @@ export default {
     color: var(--text-title);
   }
   &__slogan {
-    @apply text-2xl;
+    @apply text-xl md:text-2xl;
     color: var(--text-secondary);
   }
 }
