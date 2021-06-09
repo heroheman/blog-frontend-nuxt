@@ -79,10 +79,23 @@ p > a {
   color: var(--text-secondary);
   word-spacing: 0.15em;
   @apply border-b border-gray-400 border-solid pb-4 mb-2;
-  @apply font-meta text-sm;
+  @apply font-meta text-base;
   @apply inline-block font-light tracking-wide pb-2;
   @apply transition-colors duration-200 ease-in-out;
 }
+
+.article-text {
+  h3 {
+    @apply text-2xl;
+  }
+  h3 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+}
+
 
 p {
   @apply mb-4;
