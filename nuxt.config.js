@@ -7,6 +7,7 @@ import postcssNested from 'postcss-nesting'
 import postcssPresetEnv from 'postcss-preset-env'
 
 const md = require('markdown-it')()
+  .use(require('markdown-it-footnote'));
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
