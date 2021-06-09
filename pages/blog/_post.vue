@@ -40,41 +40,45 @@ export default {
       title: this.articles.length ? this.articles[0].title : '',
       meta: [
         {
-          hid: 'description',
+          hid: 'description_post',
           name: 'description',
           content: this.articles.length ? this.articles[0].description : '',
         },
-        // Open Graph
         {
-          hid: 'og:title',
-          property: 'og:title',
+          hid: 'og:title_post',
+          property: 'og:title_post',
           content: this.articles.length ? this.articles[0].title : '',
         },
         {
-          hid: 'og:description',
+          hid: 'og:description_post',
           property: 'og:description',
           content: this.articles.length ? this.articles[0].description : '',
         },
         {
-          hid: 'og:image',
+          hid: 'og:image_post',
           property: 'og:image',
-          content: this.articles.length ? this.articles[0].cover_image : '',
+          content:
+            this.articles.length && this.articles[0].cover !== null
+              ? this.articles[0].cover.url
+              : '',
         },
-        // Twitter Card
         {
-          hid: 'twitter:title',
+          hid: 'twitter:title_post',
           name: 'twitter:title',
           content: this.articles.length ? this.articles[0].title : '',
         },
         {
-          hid: 'twitter:description',
+          hid: 'twitter:description_post',
           name: 'twitter:description',
           content: this.articles.length ? this.articles[0].description : '',
         },
         {
-          hid: 'twitter:image',
+          hid: 'twitter:image_post',
           property: 'twitter:image',
-          content: this.articles.length ? this.articles[0].cover_image : '',
+          content:
+            this.articles.length && this.articles[0].cover !== null
+              ? this.articles[0].cover.url
+              : '',
         },
       ],
     }
