@@ -1,6 +1,6 @@
 <template>
-  <main v-if="articles" class="w-full sm:max-w-3xl">
-    <div v-if="!loading">
+  <main class="w-full sm:max-w-3xl">
+    <div v-if="articles.length">
       <div
         v-for="(post, index) in articles"
         :key="index"
@@ -15,7 +15,9 @@
         :current-page="page"
       />
     </div>
-    <div v-else>Fetching Data</div>
+    <div v-else>
+      <loading />
+    </div>
   </main>
 </template>
 
@@ -35,6 +37,7 @@ export default {
   },
   watch: {
     '$route.query.page'() {
+      this.articles = []
       this.page = this.$route.query.page - 1
     },
   },
