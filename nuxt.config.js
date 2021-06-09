@@ -6,8 +6,7 @@ import postcssImport from 'postcss-import'
 import postcssNested from 'postcss-nesting'
 import postcssPresetEnv from 'postcss-preset-env'
 
-const md = require('markdown-it')()
-  .use(require('markdown-it-footnote'));
+import { feedContentParsed } from './utils/helper'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -240,14 +239,14 @@ export default {
         // )
 
         posts.data.forEach((post) => {
-          const mdcontent = md.render(post.body)
           feed.addItem({
             title: post.title,
             date: new Date(post.display_published_date),
             id: post.url,
             link: 'https://flore.nz/blog/' + post.slug,
             description: post.description,
-            content: post.body ? mdcontent : post.description,
+            content: feedContentParsed(post),
+            // content: post.body ? mdcontent : post.description,
             // image: post.cover
             //   ? 'https://flore.nz/' + cover.formats.small.url
             //   : '',
