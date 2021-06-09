@@ -1,6 +1,39 @@
 /**
   * CSS Variables
   */
+/* :root { */
+/*   --color-primary-100: theme('colors.primary.100'); /1* #ECEFF5 *1/ */
+/*   --color-primary-200: theme('colors.primary.200'); /1* #CBD2E1 *1/ */
+/*   --color-primary-300: theme('colors.primary.300'); /1* #ABB6CD *1/ */
+/*   --color-primary-400: theme('colors.primary.400'); /1* #8C9AB7 *1/ */
+/*   --color-primary-500: theme('colors.primary.500'); /1* #6F7FA0 *1/ */
+/*   --color-primary: theme('colors.primary.default'); /1* #526488 *1/ */
+/*   --color-primary-600: theme('colors.primary.600'); /1* #3E4F70 *1/ */
+/*   --color-primary-700: theme('colors.primary.700'); /1* #2C3A57 *1/ */
+/*   --color-primary-800: theme('colors.primary.800'); /1* #1C263B *1/ */
+/*   --color-primary-900: theme('colors.primary.900'); /1* #0D131E *1/ */
+
+/*   --color-accent-100: theme('colors.accent.100'); /1* #F9E9EA *1/ */
+/*   --color-accent-200: theme('colors.accent.200'); /1* #EEC3C6 *1/ */
+/*   --color-accent-300: theme('colors.accent.300'); /1* #E09FA4 *1/ */
+/*   --color-accent-400: theme('colors.accent.400'); /1* #CF7D83 *1/ */
+/*   --color-accent-500: theme('colors.accent.500'); /1* #BD5D65 *1/ */
+/*   --color-accent: theme('colors.accent.default'); /1* #A84048 *1/ */
+/*   --color-accent-600: theme('colors.accent.600'); /1* #8D2D34 *1/ */
+/*   --color-accent-700: theme('colors.accent.700'); /1* #6E1D23 *1/ */
+/*   --color-accent-800: theme('colors.accent.800'); /1* #4D1015 *1/ */
+/*   --color-accent-900: theme('colors.accent.900'); /1* #280709 *1/ */
+
+/*   --text: var(--color-primary-200); */
+/*   --text-secondary: var(--color-primary-100); */
+
+/*   --bg: var(--color-primary-900); /1* used to be #091a28; *1/ */
+/*   --bg-secondary: var(--color-primary-800); /1* used to be #071521; *1/ */
+
+/*   --border-color: var(--color-primary-700); /1* used to be #0d2538; *1/ */
+/*   --border-color-secondary: var(--color-primary-600); /1* used to be #2d4253; *1/ */
+/* } */
+
 :root {
   --color-primary-100: theme('colors.primary.100'); /* #ECEFF5 */
   --color-primary-200: theme('colors.primary.200'); /* #CBD2E1 */
@@ -24,45 +57,16 @@
   --color-accent-800: theme('colors.accent.800'); /* #4D1015 */
   --color-accent-900: theme('colors.accent.900'); /* #280709 */
 
-  --text: var(--color-primary-200);
-  --text-secondary: var(--color-primary-100);
+  --color-monochrome-999: theme('colors.monochrome.999');
+  --color-monochrome-900: theme('colors.monochrome.900');
 
-  --bg: var(--color-primary-900); /* used to be #091a28; */
-  --bg-secondary: var(--color-primary-800); /* used to be #071521; */
+  --text: var(--color-primary-900);
+  --text-secondary: var(--color-primary);
+  --text-title: #000000;
 
-  --border-color: var(--color-primary-700); /* used to be #0d2538; */
-  --border-color-secondary: var(--color-primary-600); /* used to be #2d4253; */
-}
+  --bg: var(--color-monochrome-999);
+  --bg-secondary: var(--color-monochrome-900);
 
-.light-mode {
-  --color-primary-100: theme('colors.primary.100'); /* #ECEFF5 */
-  --color-primary-200: theme('colors.primary.200'); /* #CBD2E1 */
-  --color-primary-300: theme('colors.primary.300'); /* #ABB6CD */
-  --color-primary-400: theme('colors.primary.400'); /* #8C9AB7 */
-  --color-primary-500: theme('colors.primary.500'); /* #6F7FA0 */
-  --color-primary: theme('colors.primary.default'); /* #526488 */
-  --color-primary-600: theme('colors.primary.600'); /* #3E4F70 */
-  --color-primary-700: theme('colors.primary.700'); /* #2C3A57 */
-  --color-primary-800: theme('colors.primary.800'); /* #1C263B */
-  --color-primary-900: theme('colors.primary.900'); /* #0D131E */
-
-  --color-accent-100: theme('colors.accent.100'); /* #F9E9EA */
-  --color-accent-200: theme('colors.accent.200'); /* #EEC3C6 */
-  --color-accent-300: theme('colors.accent.300'); /* #E09FA4 */
-  --color-accent-400: theme('colors.accent.400'); /* #CF7D83 */
-  --color-accent-500: theme('colors.accent.500'); /* #BD5D65 */
-  --color-accent: theme('colors.accent.default'); /* #A84048 */
-  --color-accent-600: theme('colors.accent.600'); /* #8D2D34 */
-  --color-accent-700: theme('colors.accent.700'); /* #6E1D23 */
-  --color-accent-800: theme('colors.accent.800'); /* #4D1015 */
-  --color-accent-900: theme('colors.accent.900'); /* #280709 */
-
-  --text: var(--color-primary-900); /* used to be #158876; #35495e; #243746; */
-  --text-secondary: var(--color-primary-800); /* used to be #0e2233; #526488 */
-
-  --bg: var(--color-primary-100); /* used to be #f3f5f4; */
-  --bg-secondary: var(--color-primary-200); /* used to be #fff; */
-
-  --border-color: var(--color-primary-400); /* used to be #ddd; */
-  --border-color-secondary: var(--color-primary-500); /* used to be #c9ccd0; */
+  --border-color: var(--color-primary-400);
+  --border-color-secondary: var(--color-primary-500);
 }

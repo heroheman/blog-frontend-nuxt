@@ -1,76 +1,61 @@
 <template>
-  <header class="py-4 header lg:sticky sm:pt-16">
-    <nav class="relative flex flex-wrap justify-between w-full">
-      <nuxt-link class="w-1/6 sm:w-1/6 lg:w-full" to="/">
-        <h1 class="flex flex-wrap items-center pr-3 lg:block">
-          <figure class="lg:w-1/3 lg:mb-4">
-            <img src="/img/me.jpg" alt="me" class="w-10" />
-          </figure>
-          <div class="text-left w-full hidden lg:table">
-            <span class="block font-meta">Florenz Heldermann</span>
-            <span class="mb-4 text-xs italic text-gray-500">
+  <header class="header">
+    <h1 class="header__brand">
+      <nuxt-link class="" to="/">
+        <div class="brand">
+          <!-- <figure class="brand__img"> -->
+          <!--   <img src="/img/me.jpg" alt="me" class="w-10" /> -->
+          <!-- </figure> -->
+          <div class="brand__name">
+            <div class="mb-4 italic">Florenz Heldermann</div>
+            <div class="brand__slogan">
               <span v-if="randomHeadNumber < 2">
-                Ein Untertitel, der mich treffend beschreibt. Unbedingt vor
-                Livegang austauschen
+                "Ein Untertitel, der mich treffend beschreibt. Unbedingt vor
+                Livegang austauschen"
               </span>
               <span v-else-if="randomHeadNumber < 4">
-                Stadtinitalien Heroheman
+                "Vollgepackt mit tollen Sachen, die das Leben schöner machen,
+                hinein ins Weekend-Feeling"
               </span>
               <span v-else-if="randomHeadNumber < 6">
-                Triggerwarnung für dass/das
+                "I, I will be king. And you, you will be queen. Though nothing
+                will drive them away. We can beat them, just for one day. We can
+                be Heroes, just for one day."
               </span>
               <span v-else-if="randomHeadNumber < 8">
-                Jetzt mit 2% mehr Liebe pro Artikel
+                "Tanz immer so als würden dich alle sehen"
               </span>
               <span v-else-if="randomHeadNumber < 10">
-                Der Mensch verschluckt im Durchschnitt 12 Spinnen pro Minute
+                "Empty your mind, be formless, shapeless — like water. ... Now
+                water can flow or it can crash. Be water, my friend. Oder
+                Kaffee. Kaffee ist auch gut. — Bruce Lee"
               </span>
-            </span>
+            </div>
           </div>
-        </h1>
+        </div>
       </nuxt-link>
+    </h1>
 
-      <ul
-        class="
-          flex
-          w-full
-          sm:w-3/6
-          lg:w-full
-          pl-0
-          mt-8
-          sm:mt-2
-          lg:mt-8
-          text-sm
-          sm:text-base
-          text-left
-          list-none
-          lg:block
-          sm:justify-end
-          lg:justify-start
-        "
-      >
-        <li class="my-0 mb-6 mr-4">
-          <nuxt-link class="nav-link" to="/">Artikel</nuxt-link>
-        </li>
-        <li class="my-0 mb-6 mr-4">
-          <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link>
-        </li>
-        <li class="my-0 mb-12 mr-4">
-          <nuxt-link class="nav-link" to="/about">Werwiewas?</nuxt-link>
-        </li>
-      </ul>
+    <ul class="header__nav">
+      <li class="">
+        <nuxt-link class="nav-link" to="/">Artikel</nuxt-link>
+      </li>
+      <li class="">
+        <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link>
+      </li>
+      <li class="">
+        <nuxt-link class="nav-link" to="/about">Werwiewas?</nuxt-link>
+      </li>
+    </ul>
 
-      <div class="text-right lg:text-left block mt-3 mb-4 sm:w-2/6 lg:w-full">
-        <a
-          class="mr-4 nav-link"
-          href="/feed.xml"
-          target="_blank"
-          title="RSS Feed"
-        >
+    <ul class="header__social">
+      <li>
+        <a href="/feed.xml" target="_blank" title="RSS Feed">
           <font-awesome-icon icon="rss" :style="{ color: '#ee802f' }" />
         </a>
+      </li>
+      <li>
         <a
-          class="mr-4 nav-link"
           href="https://www.goodreads.com/user/show/64751703-florenz"
           target="_blank"
           title="Goodreads"
@@ -80,19 +65,17 @@
             :style="{ color: '#666666' }"
           />
         </a>
-        <a
-          class="mr-4 nav-link"
-          href="https://instagram.com/flrnz"
-          target="_blank"
-          title="Instagram"
-        >
+      </li>
+      <li>
+        <a href="https://instagram.com/flrnz" target="_blank" title="Instagram">
           <font-awesome-icon
             :icon="['fab', 'instagram']"
             :style="{ color: '#fd1d1d' }"
           />
         </a>
+      </li>
+      <li>
         <a
-          class="mr-4 nav-link"
           href="https://open.spotify.com/user/1121802350?si=96to6js2SQCDoiwpnMKLbw"
           target="_blank"
           title="Spotify"
@@ -102,8 +85,9 @@
             :style="{ color: '#1db954' }"
           />
         </a>
+      </li>
+      <li>
         <a
-          class="mr-4 nav-link"
           href="https://twitter.com/StadtInItalien"
           target="_blank"
           title="Twitter"
@@ -113,8 +97,8 @@
             :style="{ color: '#0084b4' }"
           />
         </a>
-      </div>
-    </nav>
+      </li>
+    </ul>
   </header>
 </template>
 
@@ -131,8 +115,59 @@ export default {
 
 <style lang="postcss" scoped>
 .header {
-  height: 100%;
-  top: 0;
+  @apply pt-8;
+  display: grid;
+  grid-template-areas: 'social nav' 'brand brand';
+  grid-template-rows: 1fr 2fr;
+  grid-template-columns: 1fr 1fr;
+
+  &__brand {
+    grid-area: brand;
+  }
+  &__nav {
+    grid-area: nav;
+    text-align: right;
+  }
+  &__social {
+    grid-area: social;
+    @apply py-4 px-0;
+  }
+
+  &__nav,
+  &__social {
+    @apply pt-4 pb-8 px-0;
+
+    li {
+      @apply inline-block;
+      @apply mr-4;
+
+      a {
+        @apply text-lg uppercase font-normal;
+        svg {
+          @apply w-7 h-7;
+        }
+      }
+    }
+  }
+}
+
+.brand {
+  display: grid;
+  grid-template-areas: 'bname';
+  grid-template-rows: 50px;
+  grid-template-columns: 1fr;
+  &__img {
+    grid-area: bimg;
+  }
+  &__name {
+    grid-area: bname;
+    @apply font-head text-4xl;
+    color: var(--text-title);
+  }
+  &__slogan {
+    @apply text-2xl;
+    color: var(--text-secondary);
+  }
 }
 
 .nav-link {

@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        head: ['PT Serif', ...defaultTheme.fontFamily.serif],
+        head: ['Playfair Display', ...defaultTheme.fontFamily.serif],
         body: ['PT Serif', ...defaultTheme.fontFamily.serif],
         meta: ['Open Sans', ...defaultTheme.fontFamily.sans],
         mono: [...defaultTheme.fontFamily.mono],

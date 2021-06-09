@@ -1,29 +1,35 @@
 <template>
-  <div class="container">
-    <div class="flex flex-wrap">
-      <Header class="w-full px-8 py-2 mx-auto lg:w-1/3 xl:w-1/5" />
-      <div
-        class="
-          flex-auto
-          w-full
-          min-h-full
-          px-8
-          py-2
-          mx-auto
-          lg:w-2/3
-          xl:w-3/5
-          main-wrapper
-        "
-      >
+  <div class="container mx-auto">
+    <div class="flex flex-wrap px-20 mx-auto">
+      <Header class="w-full" />
+      <div class="flex-auto w-full">
         <nuxt />
       </div>
-      <Footer class="w-full px-8 py-2 mx-auto mb-8" />
+      <Footer class="w-fullmx-auto" />
     </div>
   </div>
 </template>
 
 <style lang="postcss">
-.main-wrapper {
-  min-height: 80vh;
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  padding: env(safe-area-inset);
+}
+
+body {
+  background-color: var(--bg-secondary);
+  color: var(--text);
+  @apply transition-colors duration-200 ease-in-out;
+}
+
+.container {
+  background-color: var(--bg);
+  min-height: 100vh;
+  max-width: 1200px;
+  @apply my-0 mx-auto;
+  @apply flex justify-center flex-col;
 }
 </style>
