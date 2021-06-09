@@ -1,10 +1,12 @@
 <template>
-  <header class="py-4 header sm:sticky sm:pt-16">
+  <header class="py-4 header lg:sticky sm:pt-16">
     <nav class="relative flex flex-wrap justify-between w-full">
-      <nuxt-link to="/">
-        <h1 class="flex flex-wrap items-center pr-3 sm:block">
-          <img src="/img/me.jpg" alt="me" class="w-10 mb-4 mr-2" />
-          <div class="text-left">
+      <nuxt-link class="w-1/6 sm:w-1/6 lg:w-full" to="/">
+        <h1 class="flex flex-wrap items-center pr-3 lg:block">
+          <figure class="lg:w-1/3 lg:mb-4">
+            <img src="/img/me.jpg" alt="me" class="w-10" />
+          </figure>
+          <div class="text-left w-full hidden lg:table">
             <span class="block font-meta">Florenz Heldermann</span>
             <span class="mb-4 text-xs italic text-gray-500">
               <span v-if="randomHeadNumber < 2">
@@ -27,7 +29,26 @@
           </div>
         </h1>
       </nuxt-link>
-      <ul class="flex w-full pl-0 mt-8 text-left list-none sm:block">
+
+      <ul
+        class="
+          flex
+          w-full
+          sm:w-3/6
+          lg:w-full
+          pl-0
+          mt-8
+          sm:mt-2
+          lg:mt-8
+          text-sm
+          sm:text-base
+          text-left
+          list-none
+          lg:block
+          sm:justify-end
+          lg:justify-start
+        "
+      >
         <li class="my-0 mb-6 mr-4">
           <nuxt-link class="nav-link" to="/">Artikel</nuxt-link>
         </li>
@@ -38,7 +59,8 @@
           <nuxt-link class="nav-link" to="/about">Werwiewas?</nuxt-link>
         </li>
       </ul>
-      <div class="block my-0 mb-4">
+
+      <div class="text-right lg:text-left block mt-3 mb-4 sm:w-2/6 lg:w-full">
         <a
           class="mr-4 nav-link"
           href="/feed.xml"

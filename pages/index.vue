@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full sm:max-w-3xl">
+  <main class="w-full lg:max-w-3xl">
     <div v-if="articles.length">
       <div
         v-for="(post, index) in articles"
