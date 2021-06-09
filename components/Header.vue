@@ -56,6 +56,7 @@
       </li>
       <li>
         <a
+          rel="me"
           href="https://www.goodreads.com/user/show/64751703-florenz"
           target="_blank"
           title="Goodreads"
@@ -67,7 +68,12 @@
         </a>
       </li>
       <li>
-        <a href="https://instagram.com/flrnz" target="_blank" title="Instagram">
+        <a
+          rel="me"
+          href="https://instagram.com/flrnz"
+          target="_blank"
+          title="Instagram"
+        >
           <font-awesome-icon
             :icon="['fab', 'instagram']"
             :style="{ color: '#fd1d1d' }"
@@ -76,6 +82,7 @@
       </li>
       <li>
         <a
+          rel="me"
           href="https://open.spotify.com/user/1121802350?si=96to6js2SQCDoiwpnMKLbw"
           target="_blank"
           title="Spotify"
@@ -88,6 +95,7 @@
       </li>
       <li>
         <a
+          rel="me"
           href="https://twitter.com/StadtInItalien"
           target="_blank"
           title="Twitter"
