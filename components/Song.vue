@@ -44,6 +44,14 @@
         Auf YouTube
       </ui-button>
     </div>
+    <p>
+      Alle Songs finden sich auch in meiner
+      <a
+        href="https://open.spotify.com/playlist/6AL0K5kauc5GJRBnN1zZYi?si=8499ec9d18654a04"
+        target="_blank"
+        >Spotify Playlist</a
+      >.
+    </p>
   </div>
 </template>
 
