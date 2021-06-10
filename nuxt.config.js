@@ -104,7 +104,7 @@ export default {
     '@nuxtjs/markdownit',
     // https://go.nuxtjs.dev/pwa
     // '@nuxtjs/strapi',
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
     '@nuxtjs/feed',
   ],
 
@@ -267,18 +267,4 @@ export default {
     },
   ],
   loading: '~/components/LoadingAnimation.vue',
-
-  // pwa: {
-  //   icon: {
-  //     source: 'static/icon.jpeg',
-  //     filename: 'icon.jpeg'
-  //   },
-  //   manifest: { name: SITE_INFO.sitename || process.env.npm_package_name || '', lang: process.env.lang },
-  //   meta: {
-  //     name: SITE_INFO.sitename || process.env.npm_package_name || '',
-  //     lang: process.env.lang,
-  //     ogHost: process.env.URL,
-  //     ogImage: '/icon.jpeg'
-  //   }
-  // }
 }
