@@ -11,7 +11,6 @@ import { feedContentParsed } from './utils/helper'
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-  ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -99,9 +98,9 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/markdownit',
-    '@nuxtjs/strapi',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    '@nuxtjs/strapi',
+    // '@nuxtjs/pwa',
     '@nuxtjs/feed',
   ],
 
@@ -134,15 +133,15 @@ export default {
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      name: 'Flore.nz',
-      lang: 'de',
-    },
-    icon: {
-      fileName: 'icon.jpeg',
-    },
-  },
+  // pwa: {
+  //   manifest: {
+  //     name: 'Flore.nz',
+  //     lang: 'de',
+  //   },
+  //   icon: {
+  //     fileName: '/icon.jpeg',
+  //   },
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
