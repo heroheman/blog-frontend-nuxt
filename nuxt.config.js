@@ -11,6 +11,7 @@ import { feedContentParsed } from './utils/helper'
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+  ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -182,6 +183,8 @@ export default {
   },
 
   generate: {
+    fallback: true,
+    crawler: true,
     routes() {
       let articles = axios
         .get('https://flrnz-blog-backend.herokuapp.com/articles')
