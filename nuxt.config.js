@@ -100,7 +100,7 @@ export default {
     '@nuxtjs/markdownit',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/strapi',
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
     '@nuxtjs/feed',
   ],
 
@@ -133,15 +133,15 @@ export default {
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
-  pwa: {
-    manifest: {
-      name: 'Flore.nz',
-      lang: 'de'
-    },
-    icon: {
-      fileName: '/icon.jpeg'
-    }
-  },
+  // pwa: {
+  //   manifest: {
+  //     name: 'Flore.nz',
+  //     lang: 'de'
+  //   },
+  //   icon: {
+  //     fileName: '/icon.jpeg'
+  //   }
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
