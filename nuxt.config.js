@@ -100,12 +100,14 @@ export default {
     '@nuxtjs/markdownit',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/strapi',
-    // '@nuxtjs/pwa',
+    '@nuxtjs/pwa',
+    '@nuxtjs/axios',
     '@nuxtjs/feed',
   ],
 
   strapi: {
-    baseURL: process.env.NUXT_ENV_STRAPI_EP,
+    // baseURL: process.env.NUXT_ENV_STRAPI_EP,
+    url: 'https://flrnz-blog-backend.herokuapp.com',
     entities: ['articles', 'pages'],
   },
 
@@ -133,15 +135,15 @@ export default {
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
-  // pwa: {
-  //   manifest: {
-  //     name: 'Flore.nz',
-  //     lang: 'de',
-  //   },
-  //   icon: {
-  //     fileName: '/icon.jpeg',
-  //   },
-  // },
+  pwa: {
+    manifest: {
+      name: 'Flore.nz',
+      lang: 'de',
+    },
+    icon: {
+      fileName: '/icon.jpeg',
+    },
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
@@ -182,41 +184,40 @@ export default {
   },
 
   generate: {
-    fallback: true,
     crawler: true,
-    routes() {
-      let articles = axios
-        .get('https://flrnz-blog-backend.herokuapp.com/articles')
-        .then((res) => {
-          return res.data.map((article) => {
-            return '/blog/' + article.slug
-          })
-        })
+    // routes() {
+    //   let articles = axios
+    //     .get('https://flrnz-blog-backend.herokuapp.com/articles')
+    //     .then((res) => {
+    //       return res.data.map((article) => {
+    //         return '/blog/' + article.slug
+    //       })
+    //     })
 
-      let pagiIndex = axios
-        .get('https://flrnz-blog-backend.herokuapp.com/articles/count')
-        .then((res) => {
-          let pArray = []
-          let n = 0
-          let pp = res.data / 5
-          while (n < pp) {
-            n++
-            pArray.push('/page/' + n)
-          }
-          return pArray
-        })
+    //   let pagiIndex = axios
+    //     .get('https://flrnz-blog-backend.herokuapp.com/articles/count')
+    //     .then((res) => {
+    //       let pArray = []
+    //       let n = 0
+    //       let pp = res.data / 5
+    //       while (n < pp) {
+    //         n++
+    //         pArray.push('/page/' + n)
+    //       }
+    //       return pArray
+    //     })
 
-      let pages = axios
-        .get('https://flrnz-blog-backend.herokuapp.com/pages')
-        .then((res) => {
-          return res.data.map((page) => {
-            return '/' + page.slug
-          })
-        })
-      return Promise.all([articles, pages, pagiIndex]).then((values) => {
-        return values.join().split(',')
-      })
-    },
+    //   let pages = axios
+    //     .get('https://flrnz-blog-backend.herokuapp.com/pages')
+    //     .then((res) => {
+    //       return res.data.map((page) => {
+    //         return '/' + page.slug
+    //       })
+    //     })
+    //   return Promise.all([articles, pages, pagiIndex]).then((values) => {
+    //     return values.join().split(',')
+    //   })
+    // },
   },
 
   feed: [
@@ -265,9 +266,9 @@ export default {
   // },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  // axios: {
-  //   baseURL: process.env.NUXT_ENV_STRAPI_EP,
-  // },
+  axios: {
+    baseURL: 'https://flrnz-blog-backend.herokuapp.com',
+  },
 
   // apollo: {
   //   includeNodeModules: true,

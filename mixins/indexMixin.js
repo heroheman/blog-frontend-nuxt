@@ -17,9 +17,6 @@ export default {
   created() {
     if (this.$route.params.page) {
       this.page = this.$route.params.page - 1
-      this.loading = false
-    } else {
-      this.loading = false
     }
   },
   async fetch() {
@@ -31,20 +28,4 @@ export default {
     this.articlesCount = await this.$strapi.$articles.count()
   },
   fetchOnServer: true,
-  // apollo: {
-  // articles: {
-  // prefetch: true,
-  // query: articlesQuery,
-  // variables() {
-  // return {
-  // start: this.page * this.per_page,
-  // limit: this.per_page,
-  // }
-  // },
-  // },
-  // articlesCount: {
-  // prefetch: true,
-  // query: articlesCount,
-  // },
-  // },
 }
