@@ -136,11 +136,11 @@ export default {
   pwa: {
     manifest: {
       name: 'Flore.nz',
-      lang: 'de'
+      lang: 'de',
     },
     icon: {
-      fileName: '/icon.jpeg'
-    }
+      fileName: '/icon.jpeg',
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -181,6 +181,42 @@ export default {
     use: ['markdown-it-footnote'],
   },
 
+  generate: {
+    routes() {
+      let articles = axios
+        .get('https://flrnz-blog-backend.herokuapp.com/articles')
+        .then((res) => {
+          return res.data.map((article) => {
+            return '/blog/' + article.slug
+          })
+        })
+
+      let pagiIndex = axios
+        .get('https://flrnz-blog-backend.herokuapp.com/articles/count')
+        .then((res) => {
+          let pArray = []
+          let n = 0
+          let pp = res.data / 5
+          while (n < pp) {
+            n++
+            pArray.push('/page/' + n)
+          }
+          return pArray
+        })
+
+      let pages = axios
+        .get('https://flrnz-blog-backend.herokuapp.com/pages')
+        .then((res) => {
+          return res.data.map((page) => {
+            return '/' + page.slug
+          })
+        })
+      return Promise.all([articles, pages, pagiIndex]).then((values) => {
+        return values.join().split(',')
+      })
+    },
+  },
+
   feed: [
     {
       path: '/feed.xml', // The route to your feed.
@@ -195,12 +231,6 @@ export default {
           'https://flrnz-blog-backend.herokuapp.com/articles'
         )
 
-        // const sortedPosts = posts.data.sort(
-        //   (a, b) =>
-        //   new Date(a.display_published_date).getTime() / 1000 <
-        //     new Date(b.display_published_date).getTime() / 1000
-        // )
-
         posts.data.forEach((post) => {
           feed.addItem({
             title: post.title,
@@ -209,10 +239,6 @@ export default {
             link: 'https://flore.nz/blog/' + post.slug,
             description: post.description,
             content: feedContentParsed(post),
-            // content: post.body ? mdcontent : post.description,
-            // image: post.cover
-            //   ? 'https://flore.nz/' + cover.formats.small.url
-            //   : '',
           })
         })
 
@@ -231,55 +257,15 @@ export default {
   ],
   loading: '~/components/LoadingAnimation.vue',
 
-  // generate: {
-    // crawler: false,
-    // routes() {
-    //   let articles = axios
-    //     .get('https://flrnz-blog-backend.herokuapp.com/articles')
-    //     .then((res) => {
-    //       return res.data.map((article) => {
-    //         return '/blog/' + article.slug
-    //       })
-    //     })
-
-    //   let pagiIndex = axios
-    //     .get('https://flrnz-blog-backend.herokuapp.com/articles/count')
-    //     .then((res) => {
-    //       let pArray = []
-    //       let n = 0
-    //       let pp = res.data / 5
-    //       while (n < pp) {
-    //         n++
-    //         pArray.push('/page/' + n)
-    //       }
-    //       return pArray
-    //     })
-
-    //   let pages = axios
-    //     .get('https://flrnz-blog-backend.herokuapp.com/pages')
-    //     .then((res) => {
-    //       return res.data.map((page) => {
-    //         return '/' + page.slug
-    //       })
-    //     })
-    //   return Promise.all([articles, pages, pagiIndex]).then((values) => {
-    //     return values.join().split(',')
-    //   })
-    // },
-  // },
-
   // tailwindcss: {
   //   cssPath: '~/assets/css/tailwind.css',
   //   exposeConfig: false, // enables `import { theme } from '~tailwind.config'`
   // },
 
-
-
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   // axios: {
   //   baseURL: process.env.NUXT_ENV_STRAPI_EP,
   // },
-
 
   // apollo: {
   //   includeNodeModules: true,
