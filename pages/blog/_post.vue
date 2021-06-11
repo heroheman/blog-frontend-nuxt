@@ -1,11 +1,6 @@
 <template>
   <main class="w-full sm:max-w-3xl article-single">
-    <!-- <SocialHead -->
-    <!--   :title="this.article.title" -->
-    <!--   :description="mountain.description" -->
-    <!--   :image="mountain.image" -->
-    <!-- /> -->
-    <article-view v-if="articles.length" detail :post="articles[0]" />
+    <article-view v-if="article.length" detail :post="article[0]" />
     <!-- <article-view-music detail v-else :blog-post="post" /> -->
     <div v-else>
       <loading />
@@ -15,69 +10,63 @@
 
 <script>
 import { formatDate } from '@/utils/helper.js'
-import { articleQuery } from '@/graphql/articlesQuery'
 
 export default {
   name: 'Article',
   data() {
     return {
-      articles: [],
+      article: [],
     }
   },
-  apollo: {
-    articles: {
-      prefetch: true,
-      query: articleQuery,
-      variables() {
-        return {
-          slug: this.$route.params.post.toString(),
-        }
-      },
-    },
+  async fetch() {
+    this.article = await this.$strapi.$articles.find({
+      slug: this.$route.params.post,
+    })
   },
+  fetchOnServer: true,
   head() {
     return {
-      title: this.articles.length ? this.articles[0].title : '',
+      title: this.article.length ? this.article[0].title : '',
       meta: [
         {
           hid: 'description_post',
           name: 'description',
-          content: this.articles.length ? this.articles[0].description : '',
+          content: this.article.length ? this.article[0].description : '',
         },
         {
           hid: 'og:title_post',
           property: 'og:title_post',
-          content: this.articles.length ? this.articles[0].title : '',
+          content: this.article.length ? this.article[0].title : '',
         },
         {
           hid: 'og:description_post',
           property: 'og:description',
-          content: this.articles.length ? this.articles[0].description : '',
+          content: this.article.length ? this.article[0].description : '',
         },
         {
           hid: 'og:image_post',
           property: 'og:image',
           content:
-            this.articles.length && this.articles[0].cover !== null
-              ? this.articles[0].cover.url
+            this.article.length && this.article[0].cover !== undefined
+              ? this.article[0].cover.url
               : '',
         },
         {
           hid: 'twitter:title_post',
           name: 'twitter:title',
-          content: this.articles.length ? this.articles[0].title : '',
+          content: this.article.length ? this.article[0].title : '',
         },
         {
           hid: 'twitter:description_post',
           name: 'twitter:description',
-          content: this.articles.length ? this.articles[0].description : '',
+          content: this.article.length ? this.article[0].description : '',
         },
         {
           hid: 'twitter:image_post',
           property: 'twitter:image',
           content:
-            this.articles.length && this.articles[0].cover !== null
-              ? this.articles[0].cover.url
+            this.article.length && this.article[0].cover !== undefined
+              ? this.article[0].cover.url
               : '',
         },
       ],

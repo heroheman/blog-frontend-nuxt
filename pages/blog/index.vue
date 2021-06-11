@@ -45,7 +45,6 @@
 
 <script>
 import { formatDate } from '@/utils/helper.js'
-import { articlesQuery } from '@/graphql/articlesQuery'
 
 export default {
   name: 'BlogIndex',
@@ -72,12 +71,12 @@ export default {
       })
     },
   },
-  apollo: {
-    articles: {
-      prefetch: true,
-      query: articlesQuery,
-    },
+  async fetch() {
+    this.articles = await this.$strapi.$articles.find({
+      _sort: 'display_published_date:DESC',
+    })
   },
+  fetchOnServer: true,
   methods: {
     formatDate,
   },

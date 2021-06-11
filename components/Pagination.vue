@@ -1,13 +1,15 @@
 <template>
   <ul class="mt-10 pagination">
     <li class="pagination__item pagination__item--symbol">
-      <nuxt-link :to="{ name: 'index', query: { page: 1 } }"> ◂◂ </nuxt-link>
+      <nuxt-link :to="{ name: 'page-page', params: { page: 1 } }">
+        ◂◂
+      </nuxt-link>
     </li>
     <li
       class="pagination__item pagination__item--symbol"
       :class="{ 'pagination__item--disabled': currentPage === 0 }"
     >
-      <nuxt-link :to="{ name: 'index', query: { page: currentPage - 1 } }">
+      <nuxt-link :to="{ name: 'page-page', params: { page: currentPage - 1 } }">
         ◂
       </nuxt-link>
     </li>
@@ -17,7 +19,13 @@
       class="pagination__item"
       :class="{ 'pagination__item--active': index - 1 === currentPage }"
     >
-      <nuxt-link :to="{ name: 'index', query: { page: index } }">
+      <nuxt-link
+        v-if="index !== 1"
+        :to="{ name: 'page-page', params: { page: index } }"
+      >
+        {{ index }}
+      </nuxt-link>
+      <nuxt-link v-else :to="{ name: 'index' }">
         {{ index }}
       </nuxt-link>
     </li>
@@ -28,15 +36,15 @@
         'pagination__item--disabled': currentPage === lastPage,
       }"
     >
-      <nuxt-link :to="{ name: 'index', query: { page: currentPage + 2 } }">
+      <nuxt-link :to="{ name: 'page-page', params: { page: currentPage + 2 } }">
         ▸
       </nuxt-link>
     </li>
     <li class="pagination__item pagination__item--symbol">
       <nuxt-link
         :to="{
-          name: 'index',
-          query: { page: Math.round(articlesCount / perPage) },
+          name: 'page-page',
+          params: { page: Math.round(articlesCount / perPage) },
         }"
       >
         ▸▸

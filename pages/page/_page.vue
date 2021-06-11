@@ -22,10 +22,11 @@
 </template>
 
 <script>
+// import { articlesQuery, articlesCount } from '@/graphql/articlesQuery'
 import indexMixin from '@/mixins/indexMixin.js'
 
 export default {
-  name: 'Index',
+  name: 'Page',
   mixins: [indexMixin],
 }
 </script>

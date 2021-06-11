@@ -11,7 +11,6 @@ import { feedContentParsed } from './utils/helper'
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
-  ssr: false,
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -98,40 +97,17 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
-    '@nuxtjs/apollo',
-    '@nuxtjs/axios',
     '@nuxtjs/markdownit',
     // https://go.nuxtjs.dev/pwa
-    // '@nuxtjs/strapi',
+    '@nuxtjs/strapi',
     // '@nuxtjs/pwa',
     '@nuxtjs/feed',
   ],
 
-  generate: {
-    routes() {
-      let articles = axios
-        .get('https://flrnz-blog-backend.herokuapp.com/articles')
-        .then((res) => {
-          return res.data.map((article) => {
-            return '/blog/' + article.slug
-          })
-        })
-      let pages = axios
-        .get('https://flrnz-blog-backend.herokuapp.com/pages')
-        .then((res) => {
-          return res.data.map((page) => {
-            return '/' + page.slug
-          })
-        })
-      return Promise.all([articles, pages]).then((values) => {
-        return values.join().split(',')
-      })
-    },
+  strapi: {
+    baseURL: process.env.NUXT_ENV_STRAPI_EP,
+    entities: ['articles', 'pages'],
   },
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
 
   router: {
     scrollBehavior(to, from, savedPosition) {
@@ -141,18 +117,6 @@ export default {
 
       return { x: 0, y: 0 }
     },
-  },
-
-  apollo: {
-    includeNodeModules: true,
-    clientConfigs: {
-      default: '@/apollo/client-configs/default.js',
-    },
-    // clientConfigs: {
-    //   default: {
-    //     httpEndpoint: 'https://api.flore.nz/graphql',
-    //   }
-    // }
   },
 
   fontawesome: {
@@ -171,8 +135,12 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en',
+      name: 'Flore.nz',
+      lang: 'de'
     },
+    icon: {
+      fileName: '/icon.jpeg'
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -205,11 +173,6 @@ export default {
   /*
    ** Custom additions configuration
    */
-  // tailwindcss: {
-  //   cssPath: '~/assets/css/tailwind.css',
-  //   exposeConfig: false, // enables `import { theme } from '~tailwind.config'`
-  // },
-
   markdownit: {
     injected: true,
     linkify: true,
@@ -267,4 +230,61 @@ export default {
     },
   ],
   loading: '~/components/LoadingAnimation.vue',
+
+  // generate: {
+    // crawler: false,
+    // routes() {
+    //   let articles = axios
+    //     .get('https://flrnz-blog-backend.herokuapp.com/articles')
+    //     .then((res) => {
+    //       return res.data.map((article) => {
+    //         return '/blog/' + article.slug
+    //       })
+    //     })
+
+    //   let pagiIndex = axios
+    //     .get('https://flrnz-blog-backend.herokuapp.com/articles/count')
+    //     .then((res) => {
+    //       let pArray = []
+    //       let n = 0
+    //       let pp = res.data / 5
+    //       while (n < pp) {
+    //         n++
+    //         pArray.push('/page/' + n)
+    //       }
+    //       return pArray
+    //     })
+
+    //   let pages = axios
+    //     .get('https://flrnz-blog-backend.herokuapp.com/pages')
+    //     .then((res) => {
+    //       return res.data.map((page) => {
+    //         return '/' + page.slug
+    //       })
+    //     })
+    //   return Promise.all([articles, pages, pagiIndex]).then((values) => {
+    //     return values.join().split(',')
+    //   })
+    // },
+  // },
+
+  // tailwindcss: {
+  //   cssPath: '~/assets/css/tailwind.css',
+  //   exposeConfig: false, // enables `import { theme } from '~tailwind.config'`
+  // },
+
+
+
+  // Axios module configuration: https://go.nuxtjs.dev/config-axios
+  // axios: {
+  //   baseURL: process.env.NUXT_ENV_STRAPI_EP,
+  // },
+
+
+  // apollo: {
+  //   includeNodeModules: true,
+  //   clientConfigs: {
+  //     default: '@/apollo/client-configs/default.js',
+  //   },
+  // },
 }

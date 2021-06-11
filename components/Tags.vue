@@ -1,7 +1,8 @@
 <template>
   <ul v-if="tagsArray.length" class="tags">
     <li v-for="(tag, index) in tagsArray" :key="index">
-      <nuxt-link :to="`/blog?tag=${tag}`"> #{{ tag }} </nuxt-link>
+      <!-- <nuxt-link :to="`/blog?tag=${tag}`"> #{{ tag }} </nuxt-link> -->
+      #{{ tag }}
     </li>
   </ul>
 </template>

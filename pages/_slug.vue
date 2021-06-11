@@ -25,7 +25,6 @@
 
 <script>
 import { formatDate } from '@/utils/helper.js'
-import { pagesQuery } from '@/graphql/pagesQuery'
 
 export default {
   name: 'Page',
@@ -39,17 +38,12 @@ export default {
       return this.pages[0]
     },
   },
-  apollo: {
-    pages: {
-      prefetch: true,
-      query: pagesQuery,
-      variables() {
-        return {
-          slug: this.$route.params.slug.toString(),
-        }
-      },
-    },
+  async fetch() {
+    this.pages = await this.$strapi.$pages.find({
+      slug: this.$route.params.slug.toString(),
+    })
   },
+  fetchOnServer: true,
   methods: {
     formatDate,
   },

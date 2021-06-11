@@ -11,7 +11,7 @@
         </h6>
       </div>
 
-      <nuxt-link v-if="!detail" :to="`blog/${post.slug}`">
+      <nuxt-link v-if="!detail" :to="`/blog/${post.slug}`">
         <h2 class="article-title title">
           {{ post.title }}
         </h2>
@@ -29,22 +29,6 @@
     <rating v-if="!!rating" class="w-full" :rating="rating.ratingnumber" />
 
     <tags v-if="detail" class="mt-8" :tags="post.tags" />
-
-    <!-- <nuxt-link -->
-    <!--   v-if="!detail && bodyText.length > 1" -->
-    <!--   :to="`blog/${post.slug}`" -->
-    <!--   class=" -->
-    <!--     inline-block -->
-    <!-- px-6 -1-> -->
-    <!--     py-2 -->
-    <!--     my-4 -->
-    <!--     rounded-sm -->
-    <!--     bg-primary-500 -->
-    <!--     text-monochrome-999 -->
-    <!--   " -->
-    <!-- > -->
-    <!--   Weiterlesen -->
-    <!-- </nuxt-link> -->
   </article>
 </template>
 
@@ -66,7 +50,7 @@ export default {
     rating() {
       if (this.post.additional.length) {
         return this.post.additional.filter(
-          (addi) => addi.__typename === 'ComponentContentRating'
+          (addi) => addi.__component === 'content.rating'
         )[0]
       } else {
         return false
@@ -75,7 +59,7 @@ export default {
     songs() {
       if (this.post.additional.length) {
         return this.post.additional.filter(
-          (addi) => addi.__typename === 'ComponentContentTrack'
+          (addi) => addi.__component === 'content.track'
         )
       } else {
         return false
