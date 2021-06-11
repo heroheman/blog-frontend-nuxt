@@ -100,7 +100,7 @@ export default {
     '@nuxtjs/markdownit',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/strapi',
-    // '@nuxtjs/pwa',
+    '@nuxtjs/pwa',
     '@nuxtjs/feed',
   ],
 
