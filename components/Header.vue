@@ -129,7 +129,7 @@ export default {
   @apply pt-8;
   display: grid;
   grid-template-areas: 'nav' 'brand' 'social';
-  grid-template-rows: 60px minmax(220px, auto) 60px;
+  grid-template-rows: 60px minmax(260px, auto) 60px;
   grid-template-columns: 1fr;
   @screen md {
     grid-template-areas: 'nav' 'brand' 'social';
