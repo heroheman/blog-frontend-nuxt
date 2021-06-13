@@ -4,7 +4,6 @@
     class="text-left articleview-main"
     v-if="post !== undefined"
   >
-    {{ parsedBody }}
     <div class="flex flex-col mb-4">
       <div>
         <h6 v-if="post.display_published_date" class="date">
