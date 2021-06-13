@@ -4,6 +4,7 @@
     class="text-left articleview-main"
     v-if="post !== undefined"
   >
+    {{ parsedBody }}
     <div class="flex flex-col mb-4">
       <div>
         <h6 v-if="post.display_published_date" class="date">
@@ -22,7 +23,7 @@
       </h2>
     </div>
 
-    <div class="relative article-text" v-html="$md.render(post.body)" />
+    <div class="relative article-text" v-html="$md.render(parsedBody)" />
 
     <song v-if="!!songs" :songs="songs" class="mt-8" />
 
@@ -33,6 +34,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { formatDate } from '@/utils/helper.js'
 export default {
   name: 'ArticleView',
@@ -47,6 +49,18 @@ export default {
     },
   },
   computed: {
+    parsedBody() {
+      // const imageRegex =
+      //  /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/g
+      var imgUrlRegex = /https?:\/\/.*\.(?:png|jpg|gif)/i
+
+      return this.post.body.replace(imgUrlRegex, function (a, b, c) {
+        return (
+          'https://res.cloudinary.com/dlsll9dkn/image/fetch/f_auto,q_auto:low/' +
+          a
+        )
+      })
+    },
     rating() {
       if (this.post.additional.length) {
         return this.post.additional.filter(
