@@ -48,7 +48,7 @@ export default {
           property: 'og:image',
           content:
             this.article.length && this.article[0].cover !== undefined
-              ? this.article[0].cover.url
+              ? this.article[0].cover.formats.medium.url
               : '',
         },
         {
@@ -66,7 +66,7 @@ export default {
           property: 'twitter:image',
           content:
             this.article.length && this.article[0].cover !== undefined
-              ? this.article[0].cover.url
+              ? this.article[0].cover.formats.medium.url
               : '',
         },
       ],
