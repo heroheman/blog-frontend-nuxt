@@ -180,7 +180,7 @@ export default {
     linkify: true,
     breaks: true,
     runtime: true,
-    use: ['markdown-it-footnote'],
+    use: ['markdown-it-footnote', 'markdown-it-image-lazy-loading'],
   },
 
   generate: {
