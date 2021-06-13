@@ -8,6 +8,7 @@
       >
         <article-view v-if="post.category !== 'Heavy Rotation'" :post="post" />
       </div>
+
       <pagination
         class="pl-0 mt-8 mb-6 mr-0 text-left"
         :articles-count="articlesCount"
@@ -19,7 +20,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'Index',
   data() {

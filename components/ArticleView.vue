@@ -2,6 +2,7 @@
   <article
     role="article"
     class="text-left articleview-main"
+    :class="{ 'articleview--detail': detail }"
     v-if="post !== undefined"
   >
     <div class="flex flex-col mb-4">
@@ -17,7 +18,7 @@
         </h2>
       </nuxt-link>
 
-      <h2 v-else class="article-title title">
+      <h2 v-else class="article-title title italic">
         {{ post.title }}
       </h2>
     </div>
@@ -90,6 +91,7 @@ export default {
 </script>
 
 <style lang="postcss">
-.article-text {
+.articleview--detail {
+  margin-top: 2.5rem !important;
 }
 </style>

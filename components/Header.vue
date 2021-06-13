@@ -1,5 +1,8 @@
 <template>
-  <header class="header">
+  <header
+    class="header"
+    :class="{ 'header--blogpost': isPost, 'header--index': !isPost }"
+  >
     <h1 class="header__brand">
       <nuxt-link class="" to="/">
         <div class="brand">
@@ -118,6 +121,11 @@ export default {
       randomHeadNumber: Math.floor(Math.random() * 10),
     }
   },
+  computed: {
+    isPost() {
+      return this.$route.name === 'blog-post'
+    },
+  },
 }
 // grid-template-areas: 'nav social' 'brand brand';
 // grid-template-rows: 1fr 2fr;
@@ -128,17 +136,35 @@ export default {
 .header {
   @apply pt-8;
   display: grid;
-  grid-template-areas: 'nav' 'brand' 'social';
-  grid-template-rows: 60px minmax(260px, auto) 60px;
-  grid-template-columns: 1fr;
-  @screen md {
+
+  &--index {
     grid-template-areas: 'nav' 'brand' 'social';
-    grid-template-rows: 80px minmax(150px, auto) 60px;
+    grid-template-rows: 60px minmax(260px, auto) 60px;
     grid-template-columns: 1fr;
+    @screen md {
+      grid-template-areas: 'nav' 'brand' 'social';
+      grid-template-rows: 80px minmax(150px, auto) 60px;
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &--blogpost {
+    grid-template-areas: 'brand' 'nav';
+    grid-template-rows: 30px 20px;
+    grid-template-columns: 1fr;
+    @screen md {
+      grid-template-areas: 'brand nav';
+      grid-template-rows: 60px;
+      grid-template-columns: auto 1fr;
+    }
   }
 
   @apply border-b border-solid border-monochrome-500;
   @apply pb-4;
+
+  &.header--blogpost {
+    @apply border-b-0 pb-2;
+  }
 
   &__brand {
     grid-area: brand;
@@ -148,7 +174,21 @@ export default {
   }
   &__social {
     grid-area: social;
+    .header--blogpost & {
+      display: none;
+    }
     @apply py-4 px-0;
+  }
+
+  &__nav {
+    .header--blogpost & {
+      @apply pt-0 text-left md:ml-4;
+      li {
+        a {
+          @apply text-sm md:text-lg;
+        }
+      }
+    }
   }
 
   &__nav,
@@ -160,7 +200,7 @@ export default {
       @apply mr-4;
 
       a {
-        @apply text-lg font-normal;
+        @apply text-sm md:text-lg font-normal;
         @apply font-head;
         svg {
           @apply w-5 h-5 md:w-7 md:h-7;
@@ -182,10 +222,21 @@ export default {
     grid-area: bname;
     @apply font-head text-4xl;
     color: var(--text-title);
+
+    .header--blogpost & {
+      @apply text-base md:text-lg;
+      @screen md {
+        margin-top: 2px;
+      }
+    }
   }
   &__slogan {
     @apply text-xl md:text-2xl;
     color: var(--text-secondary);
+
+    .header--blogpost & {
+      display: none;
+    }
   }
 }
 
