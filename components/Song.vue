@@ -13,6 +13,7 @@
         v-if="song.spotify_url !== ''"
         :href="song.spotify_url"
         target="_blank"
+        rel="noopener noreferrer"
         class="mb-4 md:mr-2"
       >
         <font-awesome-icon
@@ -24,6 +25,7 @@
       <ui-button
         v-if="song.youtube_url !== ''"
         :href="song.youtube_url"
+        rel="noopener noreferrer"
         target="_blank"
       >
         <font-awesome-icon

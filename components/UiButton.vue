@@ -36,6 +36,10 @@ export default {
       type: [String, Boolean],
       default: false, // sm, md, lg, md = default
     },
+    rel: {
+      type: [String, Boolean],
+      default: false,
+    },
     href: {
       type: [String, Boolean],
       default: false,
@@ -68,6 +72,9 @@ export default {
       if (this.href) {
         props.is = 'a'
         props.href = this.href
+      }
+      if (this.rel) {
+        props.rel = this.rel
       }
       if (this.disabled) props.disabled = 'disabled'
 
