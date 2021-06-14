@@ -56,7 +56,7 @@ export default {
 
       return this.post.body.replace(imgUrlRegex, function (a, b, c) {
         return (
-          'https://res.cloudinary.com/dlsll9dkn/image/fetch/f_auto,q_auto:low/' +
+          'https://res.cloudinary.com/dlsll9dkn/image/fetch/c_limit,w_768,f_auto,q_auto:low/' +
           a
         )
       })
