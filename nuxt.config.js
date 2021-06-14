@@ -79,7 +79,7 @@ export default {
   // css: ['@/assets/css/tailwind.css', '@/assets/css/main.pcss'],
   css: [
     '@/assets/css/main.pcss',
-    'node_modules/lite-youtube-embed/src/lite-yt-embed.css'
+    'node_modules/lite-youtube-embed/src/lite-yt-embed.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -183,7 +183,20 @@ export default {
     linkify: true,
     breaks: true,
     runtime: true,
-    use: ['markdown-it-footnote', 'markdown-it-image-lazy-loading'],
+    use: [
+      'markdown-it-footnote',
+      'markdown-it-image-lazy-loading',
+      [
+        'markdown-it-link-attributes',
+        {
+          pattern: /^https:/,
+          attrs: {
+            target: '_blank',
+            rel: 'noopener noreferrer',
+          },
+        },
+      ],
+    ],
   },
 
   generate: {
