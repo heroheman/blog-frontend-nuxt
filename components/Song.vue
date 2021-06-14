@@ -7,18 +7,7 @@
 
       <div class="relative text-sm" v-html="$md.render(song.description)" />
 
-      <div
-        v-if="song.youtube_url !== '' && song.embed_youtube"
-        class="mb-10 video-container"
-      >
-        <iframe
-          :src="`https://www.youtube.com/embed/${getYoutubeId(
-            song.youtube_url
-          )}`"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
-      </div>
+      <yt-embed :url="song.youtube_url" v-if="song.embed_youtube" />
 
       <ui-button
         v-if="song.spotify_url !== ''"
@@ -61,22 +50,6 @@ export default {
     songs: {
       type: Array,
       default: () => [],
-    },
-  },
-  methods: {
-    getYoutubeId(url) {
-      if (url) {
-        console.log(url, url.split('v=')[1])
-        const videoId = url.split('v=')[1]
-        const ampersandPosition = videoId.indexOf('&')
-        if (ampersandPosition !== -1) {
-          return videoId.substring(0, ampersandPosition)
-        } else {
-          return videoId
-        }
-      } else {
-        return false
-      }
     },
   },
 }
