@@ -23,7 +23,7 @@
     "markdown-it-image-lazy-loading": "^1.1.0",
     "markdown-it-implicit-figures": "^0.10.0",
     "markdown-it-link-attributes": "^3.0.0",
-    "nuxt": "^2.15.3",
+    "nuxt": "^2.15.7",
     "react": "^17.0.2"
   },
   "devDependencies": {
