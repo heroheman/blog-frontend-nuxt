@@ -34,6 +34,11 @@ export default {
           content: this.article.length ? this.article[0].description : '',
         },
         {
+          hid: 'tags_post',
+          name: 'keywords',
+          content: this.article.length ? this.article[0].tags : '',
+        },
+        {
           hid: 'og:title_post',
           property: 'og:title_post',
           content: this.article.length ? this.article[0].title : '',
