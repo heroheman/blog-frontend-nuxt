@@ -1,7 +1,10 @@
 <template>
   <header
     class="header"
-    :class="{ 'header--blogpost': isPost, 'header--index': !isPost }"
+    :class="{
+      'header--blogpost': isPost || isCategory || isBlogIndexCompact,
+      'header--index': !isPost && !isCategory && !isBlogIndexCompact,
+    }"
   >
     <h1 class="header__brand">
       <nuxt-link class="" to="/">
@@ -42,6 +45,14 @@
     <ul class="header__nav">
       <li class="">
         <nuxt-link class="nav-link" to="/">Artikel</nuxt-link>
+      </li>
+      <li class="">
+        <nuxt-link class="nav-link" to="/category/buecher">
+          Lesetagebuch
+        </nuxt-link>
+      </li>
+      <li class="">
+        <nuxt-link class="nav-link" to="/category/musik">Musik</nuxt-link>
       </li>
       <!-- <li class=""> -->
       <!--   <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link> -->
@@ -125,6 +136,12 @@ export default {
     isPost() {
       return this.$route.name === 'blog-post'
     },
+    isCategory() {
+      return this.$route.name === 'category-category'
+    },
+    isBlogIndexCompact() {
+      return this.$route.name === 'blog'
+    },
   },
 }
 // grid-template-areas: 'nav social' 'brand brand';
@@ -163,7 +180,7 @@ export default {
   @apply pb-4;
 
   &.header--blogpost {
-    @apply border-b-0 pb-2;
+    @apply border-b-0 pb-16 md:pb-2;
   }
 
   &__brand {

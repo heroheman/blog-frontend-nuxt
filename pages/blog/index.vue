@@ -6,40 +6,7 @@
       >
       &mdash; Alle <strong>{{ $route.query.tag }}</strong> Artikel
     </div>
-    <ul class="flex flex-col md:pt-32 articles">
-      <li
-        v-for="(blogPost, index) in items"
-        :key="index"
-        class="flex flex-col border-b border-gray-200 border-solid articles"
-      >
-        <div class="flex flex-wrap text-left align-baseline font-meta">
-          <div class="w-full pr-2 mb-2 sm:w-full article-title font-meta">
-            <span
-              v-if="blogPost.date"
-              class="inline-block mb-2 text-sm text-left listdate"
-            >
-              {{ formatDate(blogPost.date, true) }}
-              <span class="hidden mx-1 sm:inline-block"> &ndash; </span>
-            </span>
-
-            <nuxt-link
-              :to="`blog/${blogPost.slug}`"
-              class="inline-block mb-2 article article--clickable"
-            >
-              {{ blogPost.title }}
-            </nuxt-link>
-            <p class="text-sm">
-              {{ blogPost.description }}
-            </p>
-          </div>
-          <tags
-            v-if="blogPost.tags"
-            class="w-full mb-2 md:self-end sm:w-full md:w-auto"
-            :tags="blogPost.tags"
-          />
-        </div>
-      </li>
-    </ul>
+    <article-index v-if="items" :articles="items" />
   </main>
 </template>
 
