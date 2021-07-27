@@ -1,14 +1,22 @@
 <template>
   <div class="container mx-auto">
     <div class="flex flex-wrap px-10 mx-auto md:px-20">
-      <Header class="w-full" />
+      <Header class="w-full" :settings="settings" />
       <div class="flex-auto w-full">
-        <nuxt />
+        <nuxt :settings="settings" />
       </div>
       <Footer class="w-fullmx-auto" />
     </div>
   </div>
 </template>
+
+<script>
+import settingsMixin from '@/mixins/settingsMixin.js'
+
+export default {
+  mixins: [settingsMixin],
+}
+</script>
 
 <style lang="postcss">
 html {

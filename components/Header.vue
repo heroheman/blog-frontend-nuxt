@@ -14,27 +14,21 @@
           <!-- </figure> -->
           <div class="brand__name">
             <div class="mb-4 italic leading-snug">Florenz Heldermann</div>
-            <div class="brand__slogan">
+            <div class="brand__slogan" v-if="settings.Phrases.length">
               <span v-if="randomHeadNumber < 2">
-                "Ein Untertitel, der mich treffend beschreibt. Unbedingt vor
-                Livegang austauschen"
+                {{ settings.Phrases[0].phrase }}
               </span>
               <span v-else-if="randomHeadNumber < 4">
-                "Vollgepackt mit tollen Sachen, die das Leben schöner machen,
-                hinein ins Weekend-Feeling"
+                {{ settings.Phrases[1].phrase }}
               </span>
               <span v-else-if="randomHeadNumber < 6">
-                "I, I will be king. And you, you will be queen. Though nothing
-                will drive them away. We can beat them, just for one day. We can
-                be Heroes, just for one day."
+                {{ settings.Phrases[2].phrase }}
               </span>
               <span v-else-if="randomHeadNumber < 8">
-                "Tanz immer so als würden dich alle sehen"
+                {{ settings.Phrases[3].phrase }}
               </span>
               <span v-else-if="randomHeadNumber < 10">
-                "Empty your mind, be formless, shapeless — like water. ... Now
-                water can flow or it can crash. Be water, my friend. Oder
-                Kaffee. Kaffee ist auch gut. — Bruce Lee"
+                {{ settings.Phrases[4].phrase }}
               </span>
             </div>
           </div>
@@ -68,6 +62,19 @@
           <font-awesome-icon icon="rss" :style="{ color: '#ee802f' }" />
         </a>
       </li>
+      <!-- <li v-for="(sm, index) of settings.socialmedia" :key="index"> -->
+      <!--   <a -->
+      <!--     rel="me noopener noreferrer" -->
+      <!--     :href="sm.link" -->
+      <!--     target="_blank" -->
+      <!--     :title="sm.title" -->
+      <!--   > -->
+      <!--     <font-awesome-icon -->
+      <!--       :icon="getSocialIcon(sm.icon_slug)" -->
+      <!--       :style="getSocialColor(sm.color)" -->
+      <!--     /> -->
+      <!--   </a> -->
+      <!-- </li> -->
       <li>
         <a
           rel="me noopener noreferrer"
@@ -127,10 +134,24 @@
 <script>
 export default {
   name: 'Header',
+  props: {
+    settings: {
+      type: Object,
+      value: () => {},
+    },
+  },
   data() {
     return {
       randomHeadNumber: Math.floor(Math.random() * 10),
     }
+  },
+  methods: {
+    getSocialIcon(name) {
+      return `['fab', '${name}']`
+    },
+    getSocialColor(color) {
+      return `{ color: ${color} }`
+    },
   },
   computed: {
     isPost() {
