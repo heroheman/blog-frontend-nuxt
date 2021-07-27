@@ -69,7 +69,7 @@ export default {
   }
 
   &__date {
-    @apply inline-block mb-2 text-sm text-left;
+    @apply block md:inline-block mb-2 text-sm text-left;
   }
 
   &__body {
