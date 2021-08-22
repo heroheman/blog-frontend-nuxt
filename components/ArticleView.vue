@@ -23,13 +23,17 @@
       </h2>
     </div>
 
-    <div class="relative article-text" v-html="$md.render(parsedBody)" />
+    <div class="relative article-text mb-4" v-html="$md.render(parsedBody)" />
 
-    <song v-if="!!songs" :songs="songs" class="mt-8" />
+    <song v-if="!!songs" :songs="songs" class="mt-8 mb-4" />
 
-    <rating v-if="!!rating" class="w-full" :rating="rating.ratingnumber" />
+    <rating v-if="!!rating" class="w-full mb-4" :rating="rating.ratingnumber" />
 
-    <tags v-if="detail" class="mt-8" :tags="post.tags" />
+    <internal-book-linking
+      v-if="detail"
+      :author="post.author"
+      :series="post.bookseries"
+    />
   </article>
 </template>
 

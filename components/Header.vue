@@ -158,7 +158,15 @@ export default {
       return this.$route.name === 'blog-post'
     },
     isCategory() {
-      return this.$route.name === 'category-category'
+      if (
+        this.$route.name === 'category-category' ||
+        this.$route.name === 'series-series' ||
+        this.$route.name === 'author-author'
+      ) {
+        return true
+      } else {
+        return false
+      }
     },
     isBlogIndexCompact() {
       return this.$route.name === 'blog'
