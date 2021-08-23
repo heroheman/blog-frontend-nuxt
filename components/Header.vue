@@ -161,6 +161,7 @@ export default {
       if (
         this.$route.name === 'category-category' ||
         this.$route.name === 'series-series' ||
+        this.$route.name === 'genre-book-bookgenre' ||
         this.$route.name === 'author-author'
       ) {
         return true

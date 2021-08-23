@@ -27,12 +27,13 @@
 
     <song v-if="!!songs" :songs="songs" class="mt-8 mb-4" />
 
-    <rating v-if="!!rating" class="w-full mb-4" :rating="rating.ratingnumber" />
+    <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" />
 
     <internal-book-linking
       v-if="detail"
       :author="post.author"
       :series="post.bookseries"
+      :bookgenre="post.genre_books"
     />
   </article>
 </template>

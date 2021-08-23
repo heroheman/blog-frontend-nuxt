@@ -10,6 +10,16 @@
         {{ s.title }}
       </nuxt-link>
     </li>
+    <li v-if="bookgenre.length">
+      <em>| Genre:</em>
+      <nuxt-link
+        v-for="(s, i) in bookgenre"
+        :key="i"
+        :to="`/genre/book/${s.slug}`"
+      >
+        {{ s.title }}
+      </nuxt-link>
+    </li>
   </ul>
 </template>
 
@@ -23,6 +33,11 @@ export default {
       default: () => {},
     },
     series: {
+      type: Array,
+      required: true,
+      default: () => [],
+    },
+    bookgenre: {
       type: Array,
       required: true,
       default: () => [],
