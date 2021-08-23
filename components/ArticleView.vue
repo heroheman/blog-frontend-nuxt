@@ -35,6 +35,12 @@
       :series="post.bookseries"
       :bookgenre="post.genre_books"
     />
+
+    <advertisement
+      v-if="detail && !!advertisement"
+      class="w-full mb-8"
+      :ad-data="advertisement"
+    />
   </article>
 </template>
 
@@ -80,6 +86,15 @@ export default {
         return this.post.additional.filter(
           (addi) => addi.__component === 'content.track'
         )
+      } else {
+        return false
+      }
+    },
+    advertisement() {
+      if (this.post.additional.length) {
+        return this.post.additional.filter(
+          (addi) => addi.__component === 'content.advertisement'
+        )[0]
       } else {
         return false
       }
