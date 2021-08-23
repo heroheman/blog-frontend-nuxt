@@ -16,15 +16,17 @@
               <span class="hidden mx-1 sm:inline-block"> &ndash; </span>
             </span>
 
-            <nuxt-link
-              :to="`/blog/${articles.slug}`"
-              class="inline-block mb-2 article article--clickable"
-            >
-              {{ articles.title }}
-            </nuxt-link>
-            <p class="article-item__body">
-              {{ articles.description }}
-            </p>
+            <h3 class="title title--index">
+              <nuxt-link
+                :to="`/blog/${articles.slug}`"
+                class="inline-block mb-2 article article--clickable"
+              >
+                {{ articles.title }}
+              </nuxt-link>
+            </h3>
+            <!-- <p class="article-item__body"> -->
+            <!--   {{ articles.description }} -->
+            <!-- </p> -->
           </div>
           <!-- <tags -->
           <!--   v-if="blogPost.tags" -->

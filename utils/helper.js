@@ -4,9 +4,9 @@ export const formatDate = (dateString, short = false) => {
   const date = new Date(dateString)
   let options
   if (short) {
-    options = { year: 'numeric', month: 'numeric', day: 'numeric' }
+    options = { year: 'numeric', month: '2-digit', day: '2-digit' }
   } else {
-    options = { year: 'numeric', month: 'long', day: 'numeric' }
+    options = { year: 'numeric', month: '2-digit', day: '2-digit' }
   }
   return date.toLocaleDateString('de-DE', options)
 }
