@@ -1,6 +1,6 @@
 <template>
   <ul class="internal-linking">
-    <li v-if="articlesCount > 1">
+    <li>
       <em>Autor:</em>
       <nuxt-link :to="`/author/${author.slug}`">{{ author.name }}</nuxt-link>
     </li>
