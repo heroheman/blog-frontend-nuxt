@@ -161,8 +161,11 @@ export default {
       if (
         this.$route.name === 'category-category' ||
         this.$route.name === 'series-series' ||
+        this.$route.name === 'category' ||
+        this.$route.name === 'genre-book' ||
         this.$route.name === 'genre-book-bookgenre' ||
-        this.$route.name === 'author-author'
+        this.$route.name === 'author-author' ||
+        this.$route.name === 'author'
       ) {
         return true
       } else {

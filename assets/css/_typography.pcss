@@ -56,23 +56,19 @@ a {
 p > a {
   @apply font-bold;
   @apply border-b border-solid;
-  /* @apply underline; */
-  /* text-decoration-skip: ink; */
   /* color: var(--text-secondary); */
   color: var(--text-primary-900);
   transition: all .25s ease;
 
   &:hover {
     @apply border-b-2;
-    /* @apply underline; */
-    /* text-decoration-skip: ink; */
   }
 }
 
 .internal-linking a {
   &:hover {
     @apply underline;
-    text-decoration-skip: ink;
+    text-decoration-skip-ink: auto;
   }
 }
 
@@ -96,7 +92,7 @@ p > em {
 
     &:hover {
       @apply underline;
-      text-decoration-skip: ink;
+      text-decoration-skip-ink: auto;
     }
   }
 }

@@ -1,6 +1,9 @@
 <template>
   <main class="w-full lg:max-w-3xl">
     <article-index v-if="articles" :articles="articles" />
+    <p>
+      <small> Zeig alle <nuxt-link to="/genre/book">Genres</nuxt-link> </small>
+    </p>
   </main>
 </template>
 

@@ -59,7 +59,10 @@ export default {
     @apply flex flex-col md:pt-32 pl-0;
   }
   &__listitem {
-    @apply flex flex-col border-b border-gray-200 border-solid;
+    @apply flex flex-col;
+    &:not(:last-child) {
+      @apply border-b border-gray-200 border-solid;
+    }
   }
 }
 
