@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full sm:max-w-3xl article-single">
+  <main class="w-full article-single">
     <article-view v-if="article.length" detail :post="article[0]" />
     <!-- <article-view-music detail v-else :blog-post="post" /> -->
     <div v-else>

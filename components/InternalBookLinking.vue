@@ -1,7 +1,12 @@
 <template>
   <ul class="internal-linking">
     <li>
-      <em>Autor:</em>
+      <time datetime="date">
+        {{ formatDate(date) }}
+      </time>
+    </li>
+    <li>
+      <em>| Autor:</em>
       <nuxt-link :to="`/author/${author.slug}`">{{ author.name }}</nuxt-link>
     </li>
     <li v-if="series.length">
@@ -24,9 +29,15 @@
 </template>
 
 <script>
+import { formatDate } from '@/utils/helper.js'
 export default {
   name: 'Author',
   props: {
+    date: {
+      type: String,
+      required: true,
+      default: '',
+    },
     author: {
       type: Object,
       required: true,
@@ -42,6 +53,9 @@ export default {
       required: true,
       default: () => [],
     },
+  },
+  methods: {
+    formatDate,
   },
   data() {
     return {

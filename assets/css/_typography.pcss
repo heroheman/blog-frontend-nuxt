@@ -115,6 +115,10 @@ p > em {
   @apply transition-colors duration-200 ease-in-out;
 }
 
+.internal-linking {
+  @apply border-t border-gray-400 border-solid pb-4 mb-2 inline-block pt-2;
+}
+
 .article-text {
   h3 {
     @apply text-2xl;
@@ -125,14 +129,13 @@ p > em {
   h3 {
     @apply text-lg;
   }
-}
 
-
-.article-text ul {
-  @apply my-6;
-  @apply text-base md:text-lg lg:text-xl;
-  line-height: 1.7;
-  font-style: normal;
+  ul {
+    @apply my-6;
+    @apply text-base md:text-lg lg:text-xl;
+    line-height: 1.7;
+    font-style: normal;
+  }
 }
 
 p {

@@ -5,7 +5,7 @@
       <div class="flex-auto w-full">
         <nuxt :settings="settings" />
       </div>
-      <Footer class="w-fullmx-auto" />
+      <Footer class="w-full mx-auto" />
     </div>
   </div>
 </template>

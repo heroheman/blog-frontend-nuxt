@@ -6,35 +6,32 @@
     v-if="post !== undefined"
   >
     <div class="flex flex-col mb-4">
-      <div>
-        <h6 v-if="post.display_published_date" class="date">
-          {{ formatDate(post.display_published_date) }}
-        </h6>
-      </div>
-
       <nuxt-link v-if="!detail" :to="`/blog/${post.slug}`">
-        <h2 class="article-title title">
+        <h2 class="article-title title !mb-0 !pb-0">
           {{ post.title }}
         </h2>
       </nuxt-link>
 
-      <h2 v-else class="article-title title italic">
+      <h2 v-else class="article-title title italic !mb-0 !pb-0">
         {{ post.title }}
       </h2>
     </div>
 
-    <div class="relative article-text mb-4" v-html="$md.render(parsedBody)" />
-
-    <song v-if="!!songs" :songs="songs" class="mt-8 mb-4" />
-
-    <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" />
-
     <internal-book-linking
-      v-if="detail"
+      :date="post.display_published_date"
       :author="post.author"
       :series="post.bookseries"
       :bookgenre="post.genre_books"
     />
+
+    <div
+      class="relative article-text mb-4 lg:max-w-3xl"
+      v-html="$md.render(parsedBody)"
+    />
+
+    <song v-if="!!songs" :songs="songs" class="mt-8 mb-4" />
+
+    <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" />
 
     <advertisement
       v-if="detail && !!advertisement"
@@ -46,7 +43,6 @@
 
 <script>
 /* eslint-disable */
-import { formatDate } from '@/utils/helper.js'
 export default {
   name: 'ArticleView',
   props: {
@@ -104,9 +100,7 @@ export default {
       return text
     },
   },
-  methods: {
-    formatDate,
-  },
+  methods: {},
 }
 </script>
 
