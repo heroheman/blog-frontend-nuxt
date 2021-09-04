@@ -1,6 +1,25 @@
 <template>
-  <main class="w-full lg:max-w-3xl">
-    <article-index v-if="articles" :articles="articles" />
+  <main class="flex flex-wrap">
+    <div class="w-full md:w-3/4 md:pr-12">
+      <article-index v-if="articles" :articles="articles" />
+    </div>
+    <div class="w-full md:w-1/4" v-if="$route.params.category === 'buecher'">
+      <collection-index
+        :collection="genre"
+        link-path="/genre/book"
+        collection-title="Genre"
+      />
+      <collection-index
+        :collection="authors"
+        link-path="/author"
+        collection-title="Autoren"
+      />
+      <collection-index
+        :collection="series"
+        link-path="/series"
+        collection-title="Buchserien"
+      />
+    </div>
   </main>
 </template>
 
@@ -10,6 +29,9 @@ export default {
   data() {
     return {
       articles: [],
+      series: [],
+      genre: [],
+      authors: [],
       loading: true,
     }
   },
@@ -25,6 +47,15 @@ export default {
         new Date(a.display_published_date).getTime()
       )
     })
+
+    const series = await this.$strapi.find('bookseries')
+    this.series = series
+
+    const genre = await this.$strapi.find('genre-books')
+    this.genre = genre
+
+    const author = await this.$strapi.find('authors')
+    this.authors = author
   },
   fetchOnServer: true,
 }

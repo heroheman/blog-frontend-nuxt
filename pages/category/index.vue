@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full lg:max-w-3xl">
+  <main class="w-full lg:w-3/4">
     <collection-index :collection="items" link-path="/category" />
   </main>
 </template>

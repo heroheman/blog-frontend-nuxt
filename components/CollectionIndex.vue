@@ -1,6 +1,11 @@
 <template>
   <div class="collection-index">
     <ul class="collection-index__list">
+      <li v-if="collectionTitle">
+        <h4>
+          {{ collectionTitle }}
+        </h4>
+      </li>
       <li
         v-for="(item, index) in collection"
         :key="index"
@@ -33,6 +38,10 @@ import { formatDate } from '@/utils/helper.js'
 export default {
   name: 'CollectionIndex',
   props: {
+    collectionTitle: {
+      type: String,
+      default: '',
+    },
     linkPath: {
       type: String,
       default: '',
@@ -49,7 +58,10 @@ export default {
 <style lang="postcss">
 .collection-index {
   &__list {
-    @apply flex flex-col md:pt-32 pl-0;
+    @apply flex flex-col pl-0;
+    @screen md {
+      padding-top: 2.4rem;
+    }
   }
   &__listitem {
     @apply flex flex-col;
