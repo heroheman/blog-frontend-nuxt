@@ -5,7 +5,14 @@
         {{ formatDate(date) }}
       </time>
     </li>
-    <li>
+    <!-- <li v-if="author && Object.prototype.hasOwnProperty.call(author, "slug");"> -->
+    <li
+      v-if="
+        author &&
+        Object.keys(author).length === 0 &&
+        author.constructor === Object
+      "
+    >
       <em>| Autor:</em>
       <nuxt-link :to="`/author/${author.slug}`">{{ author.name }}</nuxt-link>
     </li>
@@ -35,22 +42,18 @@ export default {
   props: {
     date: {
       type: String,
-      required: true,
       default: '',
     },
     author: {
       type: Object,
-      required: true,
       default: () => {},
     },
     series: {
       type: Array,
-      required: true,
       default: () => [],
     },
     bookgenre: {
       type: Array,
-      required: true,
       default: () => [],
     },
   },
@@ -59,17 +62,10 @@ export default {
   },
   data() {
     return {
-      articlesCount: [],
       loading: true,
     }
   },
-  async fetch() {
-    const tmp = await this.$strapi.find('authors', {
-      slug: this.author.slug,
-    })
-
-    this.articlesCount = tmp[0].articles.length
-  },
+  async fetch() {},
 }
 </script>
 
