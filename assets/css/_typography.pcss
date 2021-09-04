@@ -65,13 +65,6 @@ p > a {
   }
 }
 
-.internal-linking a {
-  &:hover {
-    @apply underline;
-    text-decoration-skip-ink: auto;
-  }
-}
-
 p > em {
   @apply font-head
 }
@@ -110,13 +103,20 @@ p > em {
   color: var(--text-secondary);
   word-spacing: 0.15em;
   @apply border-b border-gray-400 border-solid pb-4 mb-2;
-  @apply font-meta text-xs md:text-base;
+  @apply text-xs md:text-base italic;
   @apply inline-block font-light tracking-wide pb-2;
   @apply transition-colors duration-200 ease-in-out;
 }
 
 .internal-linking {
-  @apply border-t border-gray-400 border-solid pb-4 mb-2 inline-block pt-2;
+  @apply border-t border-gray-400 border-solid pb-4 inline-block pt-4;
+
+  a {
+    &:hover {
+      @apply underline;
+      text-decoration-skip-ink: auto;
+    }
+  }
 }
 
 .article-text {
@@ -135,6 +135,26 @@ p > em {
     @apply text-base md:text-lg lg:text-xl;
     line-height: 1.7;
     font-style: normal;
+  }
+
+  p {
+    @apply mb-12
+  }
+
+  .footnote-item {
+    p {
+      @apply mb-4
+    }
+  }
+
+  figure {
+    @apply mt-4 mb-8;
+    img {
+      @apply mb-2;
+    }
+    figcaption {
+      @apply italic text-center;
+    }
   }
 }
 

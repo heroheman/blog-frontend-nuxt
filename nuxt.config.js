@@ -185,7 +185,10 @@ export default {
     runtime: true,
     use: [
       'markdown-it-footnote',
-      'markdown-it-image-lazy-loading',
+      [
+        'markdown-it-implicit-figures',
+        { figcaption: true }
+      ],
       [
         'markdown-it-link-attributes',
         {
@@ -196,6 +199,7 @@ export default {
           },
         },
       ],
+      'markdown-it-image-lazy-loading',
     ],
   },
 

@@ -6,26 +6,40 @@
     v-if="post !== undefined"
   >
     <div class="flex flex-col mb-4">
-      <nuxt-link v-if="!detail" :to="`/blog/${post.slug}`">
-        <h2 class="article-title title !mb-0 !pb-0">
+      <!-- Startpage -->
+      <template v-if="!detail">
+        <div>
+          <h6 v-if="post.display_published_date" class="mb-8 date">
+            {{ formatDate(post.display_published_date) }}
+          </h6>
+        </div>
+
+        <nuxt-link v-if="!detail" :to="`/blog/${post.slug}`">
+          <h2 class="article-title title">
+            {{ post.title }}
+          </h2>
+        </nuxt-link>
+      </template>
+
+      <!-- Articleview -->
+      <template v-else>
+        <h2 class="mb-8 italic article-title title">
           {{ post.title }}
         </h2>
-      </nuxt-link>
 
-      <h2 v-else class="article-title title italic !mb-0 !pb-0">
-        {{ post.title }}
-      </h2>
+        <div>
+          <internal-book-linking
+            :date="post.display_published_date"
+            :author="post.author"
+            :series="post.bookseries"
+            :bookgenre="post.genre_books"
+          />
+        </div>
+      </template>
     </div>
 
-    <internal-book-linking
-      :date="post.display_published_date"
-      :author="post.author"
-      :series="post.bookseries"
-      :bookgenre="post.genre_books"
-    />
-
     <div
-      class="relative article-text mb-4 lg:max-w-3xl"
+      class="relative mb-4 article-text lg:max-w-3xl"
       v-html="$md.render(parsedBody)"
     />
 
@@ -43,6 +57,7 @@
 
 <script>
 /* eslint-disable */
+import { formatDate } from '@/utils/helper.js'
 export default {
   name: 'ArticleView',
   props: {
@@ -100,7 +115,9 @@ export default {
       return text
     },
   },
-  methods: {},
+  methods: {
+    formatDate,
+  },
 }
 </script>
 

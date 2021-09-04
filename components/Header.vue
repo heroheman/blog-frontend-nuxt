@@ -281,7 +281,7 @@ export default {
     }
   }
   &__slogan {
-    @apply text-xl md:text-2xl;
+    @apply text-xl md:text-2xl italic;
     color: var(--text-secondary);
 
     .header--blogpost & {
