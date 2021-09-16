@@ -1,7 +1,7 @@
 <template>
   <div class="songs" v-if="songs.length">
     <div v-for="(song, index) in songs" :key="index" class="my-4 mb-10">
-      <p>
+      <p class="mb-2">
         <strong>{{ song.title }}</strong>
       </p>
 
