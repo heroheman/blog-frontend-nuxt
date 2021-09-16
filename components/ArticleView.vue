@@ -43,7 +43,7 @@
       v-html="$md.render(parsedBody)"
     />
 
-    <song v-if="!!songs" :songs="songs" class="mt-8 mb-4" />
+    <song v-if="!!songs" :songs="songs" class="mt-8 mb-4 article-text lg:max-w-3xl" />
 
     <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" />
 
