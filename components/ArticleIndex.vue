@@ -24,9 +24,9 @@
                 {{ articles.title }}
               </nuxt-link>
             </h3>
-            <!-- <p class="article-item__body"> -->
-            <!--   {{ articles.description }} -->
-            <!-- </p> -->
+            <p class="article-item__body" v-if="showDescription">
+              {{ articles.description }}
+            </p>
           </div>
           <!-- <tags -->
           <!--   v-if="blogPost.tags" -->
@@ -47,6 +47,10 @@ export default {
     articles: {
       type: Array,
       default: () => [],
+    },
+    showDescription: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: { formatDate },
