@@ -43,7 +43,11 @@
       v-html="$md.render(parsedBody)"
     />
 
-    <song v-if="!!songs" :songs="songs" class="mt-8 mb-4 article-text lg:max-w-3xl" />
+    <song
+      v-if="!!songs"
+      :songs="songs"
+      class="mt-8 mb-4 article-text lg:max-w-3xl"
+    />
 
     <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" />
 
@@ -124,5 +128,15 @@ export default {
 <style lang="postcss">
 .articleview--detail {
   margin-top: 2.5rem !important;
+}
+
+.article-text {
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-size: 1.75rem;
+    font-style: italic;
+  }
 }
 </style>
