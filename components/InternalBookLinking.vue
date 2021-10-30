@@ -13,24 +13,22 @@
         author.constructor === Object
       "
     >
-      <em>| Autor:</em>
+      <strong>| Autor:</strong>
       <nuxt-link :to="`/author/${author.slug}`">{{ author.name }}</nuxt-link>
     </li>
     <li v-if="series.length">
-      <em>| Buchreihe:</em>
-      <nuxt-link v-for="(s, i) in series" :key="i" :to="`/series/${s.slug}`">
-        {{ s.title }}
-      </nuxt-link>
+      <strong>| Buchreihe:</strong>
+      <span v-for="(s, i) in series" :key="i">
+        <nuxt-link :to="`/series/${s.slug}`">{{ s.title }}</nuxt-link>
+        <span v-if="i + 1 !== series.length">, </span>
+      </span>
     </li>
-    <li v-if="bookgenre.length">
-      <em>| Genre:</em>
-      <nuxt-link
-        v-for="(s, i) in bookgenre"
-        :key="i"
-        :to="`/genre/book/${s.slug}`"
-      >
-        {{ s.title }}
-      </nuxt-link>
+    <li v-if="bookgenre.length" class="mr-2">
+      <strong>| Genre:</strong>
+      <span v-for="(s, i) in bookgenre" :key="i">
+        <nuxt-link :to="`/genre/book/${s.slug}`">{{ s.title }}</nuxt-link>
+        <span v-if="i + 1 !== bookgenre.length">, </span>
+      </span>
     </li>
   </ul>
 </template>
@@ -76,6 +74,11 @@ export default {
     @apply pl-0 ml-0;
     @apply inline-block;
     list-style: none;
+
+    a {
+      @apply italic underline;
+      @apply font-normal;
+    }
   }
 }
 </style>

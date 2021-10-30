@@ -130,13 +130,4 @@ export default {
   margin-top: 2.5rem !important;
 }
 
-.article-text {
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-size: 1.75rem;
-    font-style: italic;
-  }
-}
 </style>
