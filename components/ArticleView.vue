@@ -54,7 +54,7 @@
 
     <advertisement
       v-if="detail && !!advertisement"
-      class="w-full mb-8"
+      class="w-full mt-16 mb-8 lg:max-w-3xl"
       :ad-data="advertisement"
     />
   </article>

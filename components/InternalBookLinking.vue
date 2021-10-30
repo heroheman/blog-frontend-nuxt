@@ -1,5 +1,5 @@
 <template>
-  <ul class="internal-linking">
+  <ul class="mt-4 internal-linking">
     <li>
       <time datetime="date">
         {{ formatDate(date) }}
