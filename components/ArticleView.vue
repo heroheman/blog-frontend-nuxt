@@ -40,8 +40,9 @@
 
     <div
       class="relative mb-4 article-text lg:max-w-3xl"
+      :class="[getRatingClass]"
       v-html="$md.render(parsedBody)"
-    />
+    ></div>
 
     <song
       v-if="!!songs"
@@ -49,7 +50,7 @@
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
 
-    <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" />
+    <!-- <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" /> -->
 
     <advertisement
       v-if="detail && !!advertisement"
@@ -76,6 +77,7 @@ export default {
   },
   computed: {
     parsedBody() {
+      // PARSE IMAGES thorught cloudinary
       // const imageRegex =
       //  /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/g
       var imgUrlRegex = /https?:\/\/.*\.(?:png|jpg|gif)/i
@@ -94,6 +96,13 @@ export default {
         )[0]
       } else {
         return false
+      }
+    },
+    getRatingClass() {
+      if (this.rating) {
+        return `star-rating star-rating-${this.rating.ratingnumber}`
+      } else {
+        return 'no-rating'
       }
     },
     songs() {
@@ -129,5 +138,34 @@ export default {
 .articleview--detail {
   margin-top: 2.5rem !important;
 }
-
+.star-rating {
+  > p:last-of-type::after {
+    @apply block mt-4;
+  }
+  &-1 {
+    > p:last-of-type::after {
+      content: '★ ☆ ☆ ☆ ☆';
+    }
+  }
+  &-2 {
+    > p:last-of-type::after {
+      content: '★ ★ ☆ ☆ ☆';
+    }
+  }
+  &-3 {
+    > p:last-of-type::after {
+      content: '★ ★ ★ ☆ ☆';
+    }
+  }
+  &-4 {
+    > p:last-of-type::after {
+      content: '★ ★ ★ ★ ☆';
+    }
+  }
+  &-5 {
+    > p:last-of-type::after {
+      content: '★ ★ ★ ★ ★';
+    }
+  }
+}
 </style>
