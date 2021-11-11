@@ -6,13 +6,7 @@
       </time>
     </li>
     <!-- <li v-if="author && Object.prototype.hasOwnProperty.call(author, "slug");"> -->
-    <li
-      v-if="
-        author &&
-        Object.keys(author).length === 0 &&
-        author.constructor === Object
-      "
-    >
+    <li v-if="author && author.constructor === Object">
       <strong>| Autor:</strong>
       <nuxt-link :to="`/author/${author.slug}`">{{ author.name }}</nuxt-link>
     </li>
@@ -36,7 +30,7 @@
 <script>
 import { formatDate } from '@/utils/helper.js'
 export default {
-  name: 'Author',
+  name: 'InternalLinking',
   props: {
     date: {
       type: String,
