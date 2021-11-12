@@ -41,8 +41,23 @@
     <div
       class="relative mb-4 article-text lg:max-w-3xl"
       :class="[getRatingClass]"
-      v-html="$md.render(parsedBody)"
-    ></div>
+      v-html="`${$md.render(parsedBody)}`"
+    />
+
+    <nuxt-link
+      class="
+        block
+        p-3
+        border border-black border-solid
+        rounded
+        btn
+        md:w-auto md:inline-block
+      "
+      v-if="!detail && hasExcerpt"
+      :to="`/blog/${post.slug}`"
+    >
+      Weiterlesen
+    </nuxt-link>
 
     <song
       v-if="!!songs"
@@ -76,18 +91,45 @@ export default {
     },
   },
   computed: {
+    hasExcerpt() {
+      const dividerStr = '<!--more-->'
+      const content = this.post.body.split(dividerStr)
+      // if excerpt available
+      if (content.length > 1) {
+        return true
+      } else {
+        return false
+      }
+    },
     parsedBody() {
       // PARSE IMAGES thorught cloudinary
       // const imageRegex =
       //  /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/g
-      var imgUrlRegex = /https?:\/\/.*\.(?:png|jpg|gif)/i
+      const imgUrlRegex = /https?:\/\/.*\.(?:png|jpg|gif)/i
+      const dividerStr = '<!--more-->'
+      const cloudinaryUrl =
+        'https://res.cloudinary.com/dlsll9dkn/image/fetch/c_limit,w_768,f_auto,q_auto:low/'
 
-      return this.post.body.replace(imgUrlRegex, function (a, b, c) {
-        return (
-          'https://res.cloudinary.com/dlsll9dkn/image/fetch/c_limit,w_768,f_auto,q_auto:low/' +
-          a
-        )
+      // excerpt handling
+      let content
+      const tmp = this.post.body.split(dividerStr)
+      if (!this.detail) {
+        // if excerpt available
+        if (tmp.length > 1) {
+          content = tmp[0]
+        } else {
+          content = tmp.join('')
+        }
+      } else {
+        content = tmp.join('')
+      }
+
+      //cloudinary links
+      content = content.replace(imgUrlRegex, function (a, b, c) {
+        return cloudinaryUrl + a
       })
+
+      return content
     },
     rating() {
       if (this.post.additional.length) {
