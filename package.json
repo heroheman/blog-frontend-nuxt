@@ -37,7 +37,7 @@
     "@nuxtjs/markdownit": "^2.0.0",
     "@nuxtjs/svg": "^0.3.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
-    "babel-eslint": "^10.1.0",
+    "@babel/eslint-parser": "^7.5.4",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-nuxt": "^3.0.0",
