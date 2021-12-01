@@ -45,22 +45,15 @@
     />
 
     <nuxt-link
-      class="
-        block
-        p-3
-        border border-black border-solid
-        rounded
-        btn
-        md:w-auto md:inline-block
-      "
       v-if="!detail && hasExcerpt"
+      class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block"
       :to="`/blog/${post.slug}`"
     >
       Weiterlesen
     </nuxt-link>
 
     <song
-      v-if="!!songs"
+      v-if="!detail && hasExcerpt && !!songs"
       :songs="songs"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
@@ -141,7 +134,7 @@ export default {
       }
     },
     getRatingClass() {
-      if (this.rating) {
+      if (this.rating && !this.detail && !this.hasExcerpt) {
         return `star-rating star-rating-${this.rating.ratingnumber}`
       } else {
         return 'no-rating'
