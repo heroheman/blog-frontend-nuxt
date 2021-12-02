@@ -1,8 +1,12 @@
 <template>
   <div class="songs" v-if="songs.length">
-    <div v-for="(song, index) in songs" :key="index" class="my-4 mb-10">
+    <div
+      v-for="(song, index) in songs"
+      :key="index"
+      class="my-4 pb-4 mb-10 border-b border-solid border-[#a2a2a2]"
+    >
       <p class="!mb-2">
-        <strong>{{ song.title }}</strong>
+        <strong class="italic">{{ song.title }}</strong>
       </p>
 
       <div class="relative text-sm" v-html="$md.render(song.description)" />
