@@ -46,7 +46,14 @@
 
     <nuxt-link
       v-if="!detail && hasExcerpt"
-      class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block"
+      class="
+        block
+        p-3
+        border border-black border-solid
+        rounded
+        btn
+        md:w-auto md:inline-block
+      "
       :to="`/blog/${post.slug}`"
     >
       Weiterlesen
@@ -134,8 +141,12 @@ export default {
       }
     },
     getRatingClass() {
-      if (this.rating && !this.detail && !this.hasExcerpt) {
-        return `star-rating star-rating-${this.rating.ratingnumber}`
+      if (this.rating) {
+        if (this.hasExcerpt && !this.detail) {
+          return 'no-rating'
+        } else {
+          return `star-rating star-rating-${this.rating.ratingnumber}`
+        }
       } else {
         return 'no-rating'
       }
