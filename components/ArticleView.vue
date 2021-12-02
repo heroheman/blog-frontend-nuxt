@@ -53,7 +53,7 @@
     </nuxt-link>
 
     <song
-      v-if="!detail && hasExcerpt && !!songs"
+      v-if="!!songs"
       :songs="songs"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
