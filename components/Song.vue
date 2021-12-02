@@ -14,7 +14,8 @@
         :href="song.spotify_url"
         target="_blank"
         rel="noopener noreferrer"
-        class="mb-4 md:mr-2"
+        class="mb-4 md:"
+        title="Auf Spotify anhöremr-2"
       >
         <font-awesome-icon
           :icon="['fab', 'spotify']"
@@ -22,17 +23,33 @@
         />
         Auf Spotify
       </ui-button>
+
       <ui-button
         v-if="song.youtube_url !== ''"
         :href="song.youtube_url"
         rel="noopener noreferrer"
         target="_blank"
+        title="Auf YouTube anhören"
       >
         <font-awesome-icon
           :icon="['fab', 'youtube']"
           :style="{ color: '#FF0000' }"
         />
         Auf YouTube
+      </ui-button>
+
+      <ui-button
+        v-if="hasSongwhip(song)"
+        :href="song.songwhip_url"
+        rel="noopener noreferrer"
+        target="_blank"
+        title="Songwhip"
+      >
+        <font-awesome-icon
+          :icon="['fas', 'compact-disc']"
+          :style="{ color: '#5b5b5b' }"
+        />
+        Alle Plattformen
       </ui-button>
     </div>
     <p>
@@ -53,6 +70,17 @@ export default {
     songs: {
       type: Array,
       default: () => [],
+    },
+  },
+  methods: {
+    hasSongwhip(songObj) {
+      return songObj.songwhip_url !== '' && Reflect.has(songObj, 'songwhip_url')
+    },
+    hasYoutube(songObj) {
+      return songObj.youtube_url !== '' && Reflect.has(songObj, 'youtube_url')
+    },
+    hasSpotify(songObj) {
+      return songObj.spotify_url !== '' && Reflect.has(songObj, 'spotify_url')
     },
   },
 }

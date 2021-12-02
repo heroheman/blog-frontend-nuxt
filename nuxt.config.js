@@ -133,7 +133,7 @@ export default {
         'faInstagram',
         'faGoodreads',
       ],
-      solid: ['faRss'],
+      solid: ['faRss', 'faCompactDisc'],
     },
   },
 
