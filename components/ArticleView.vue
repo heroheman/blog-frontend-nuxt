@@ -153,9 +153,13 @@ export default {
     },
     songs() {
       if (this.post.additional.length) {
-        return this.post.additional.filter(
-          (addi) => addi.__component === 'content.track'
-        )
+        if (this.hasExcerpt && !this.detail) {
+          return false
+        } else {
+          return this.post.additional.filter(
+            (addi) => addi.__component === 'content.track'
+          )
+        }
       } else {
         return false
       }
