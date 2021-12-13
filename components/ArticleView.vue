@@ -38,40 +38,20 @@
       </template>
     </div>
 
-    <div
-      class="relative mb-4 article-text lg:max-w-3xl"
-      :class="[getRatingClass]"
-      v-html="`${$md.render(parsedBody)}`"
-    />
+    <!-- {{ $md.render(parsedBody) }} -->
+    <!-- prettier-ignore -->
+    <article-markdown :class="[getRatingClass]">{{ parsedBody() }}<song ref="songs" v-if="!!songs" :songs="songs" class="mt-8 mb-4 article-text lg:max-w-3xl"></song>
+    </article-markdown>
 
     <nuxt-link
       v-if="!detail && hasExcerpt"
-      class="
-        block
-        p-3
-        border border-black border-solid
-        rounded
-        btn
-        md:w-auto md:inline-block
-      "
+      class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block"
       :to="`/blog/${post.slug}`"
     >
       Weiterlesen
     </nuxt-link>
 
-    <song
-      v-if="!!songs"
-      :songs="songs"
-      class="mt-8 mb-4 article-text lg:max-w-3xl"
-    />
-
-    <!-- <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" /> -->
-
-    <advertisement
-      v-if="detail && !!advertisement"
-      class="w-full mt-16 mb-8 lg:max-w-3xl"
-      :ad-data="advertisement"
-    />
+    <advertisement v-if="detail && !!advertisement" class="w-full mt-16 mb-8 lg:max-w-3xl" :ad-data="advertisement" />
   </article>
 </template>
 
@@ -90,6 +70,11 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      songString: '',
+    }
+  },
   computed: {
     hasExcerpt() {
       const dividerStr = '<!--more-->'
@@ -101,41 +86,9 @@ export default {
         return false
       }
     },
-    parsedBody() {
-      // PARSE IMAGES thorught cloudinary
-      // const imageRegex =
-      //  /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/g
-      const imgUrlRegex = /https?:\/\/.*\.(?:png|jpg|gif)/i
-      const dividerStr = '<!--more-->'
-      const cloudinaryUrl =
-        'https://res.cloudinary.com/dlsll9dkn/image/fetch/c_limit,w_768,f_auto,q_auto:low/'
-
-      // excerpt handling
-      let content
-      const tmp = this.post.body.split(dividerStr)
-      if (!this.detail) {
-        // if excerpt available
-        if (tmp.length > 1) {
-          content = tmp[0]
-        } else {
-          content = tmp.join('')
-        }
-      } else {
-        content = tmp.join('')
-      }
-
-      //cloudinary links
-      content = content.replace(imgUrlRegex, function (a, b, c) {
-        return cloudinaryUrl + a
-      })
-
-      return content
-    },
     rating() {
       if (this.post.additional.length) {
-        return this.post.additional.filter(
-          (addi) => addi.__component === 'content.rating'
-        )[0]
+        return this.post.additional.filter((addi) => addi.__component === 'content.rating')[0]
       } else {
         return false
       }
@@ -156,9 +109,7 @@ export default {
         if (this.hasExcerpt && !this.detail) {
           return false
         } else {
-          return this.post.additional.filter(
-            (addi) => addi.__component === 'content.track'
-          )
+          return this.post.additional.filter((addi) => addi.__component === 'content.track')
         }
       } else {
         return false
@@ -166,9 +117,7 @@ export default {
     },
     advertisement() {
       if (this.post.additional.length) {
-        return this.post.additional.filter(
-          (addi) => addi.__component === 'content.advertisement'
-        )[0]
+        return this.post.additional.filter((addi) => addi.__component === 'content.advertisement')[0]
       } else {
         return false
       }
@@ -180,7 +129,48 @@ export default {
   },
   methods: {
     formatDate,
+    async getHtmlFromSong() {
+      this.$nextTick().then(() => {
+        if (this.songs.length && this.$refs.songs) {
+          return this.$refs.songs.$el.innerHTML
+        }
+        return ''
+      })
+    },
+    parsedBody() {
+      // PARSE IMAGES thorught cloudinary
+      const imgUrlRegex = /https?:\/\/.*\.(?:png|jpg|gif)/i
+      const dividerStr = '<!--more-->'
+      const cloudinaryUrl = 'https://res.cloudinary.com/dlsll9dkn/image/fetch/c_limit,w_768,f_auto,q_auto:low/'
+
+      // excerpt handling
+      let content
+      const tmp = this.post.body.split(dividerStr)
+      if (!this.detail) {
+        // if excerpt available
+        if (tmp.length > 1) {
+          content = tmp[0]
+        } else {
+          content = tmp.join('')
+        }
+      } else {
+        content = tmp.join('')
+      }
+
+      // add songs to body
+      // let tmpSong
+      // tmpSong = this.getHtmlFromSong()
+      // content = `${content} ${tmpSong}`
+
+      //cloudinary links
+      content = content.replace(imgUrlRegex, function (a, b, c) {
+        return cloudinaryUrl + a
+      })
+
+      return content
+    },
   },
+  mounted() {},
 }
 </script>
 

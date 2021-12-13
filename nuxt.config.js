@@ -83,7 +83,10 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/youtube.client.js'],
+  plugins: [
+    '~/plugins/youtube.client.js',
+    // '~/plugins/vue-dompurify.js'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -179,25 +182,24 @@ export default {
    ** Custom additions configuration
    */
   markdownit: {
+    runtime: true,
     injected: true,
     linkify: true,
     breaks: true,
-    runtime: true,
+    html: true,
     use: [
       'markdown-it-footnote',
-      [
-        'markdown-it-implicit-figures',
+      'markdown-it-image-lazy-loading',
+      ['markdown-it-implicit-figures',
         { figcaption: true }
       ],
-      [
-        'markdown-it-video',
+      ['markdown-it-video',
         {
           youtube: { width: 640, height: 390, nocookie: true },
           vimeo: { width: 500, height: 281 },
         }
       ],
-      [
-        'markdown-it-link-attributes',
+      ['markdown-it-link-attributes',
         {
           pattern: /^https:/,
           attrs: {
@@ -206,7 +208,43 @@ export default {
           },
         },
       ],
-      'markdown-it-image-lazy-loading',
+      ['markdown-it-custom-block',
+        {
+          example (arg) {
+            return `<example-${arg}/>`
+          },
+          video (url) {
+            return `<video controls>
+              <source src="${url}" type="video/mp4">
+            </video>`
+          },
+          lol (url) {
+            return `ilol, ${url}`
+          },
+          spotifylink (arg) {
+            return `<ui-button href="${arg}" target="_blank" rel="noopener noreferer" class="mb-4 md:mr-2" title="Auf Spotify anhören">
+                <font-awesome-icon :icon="['fab', 'spotify']" :style="{ color: '#1DB954' }"/>
+                Auf Spotify
+              </ui-button>`
+          },
+        }
+      ],
+      ['markdown-it-container', 'spoiler',
+        {
+          render: function (tokens, idx) {
+            var m = tokens[idx].info.trim().match(/^spoiler\s+(.*)$/);
+
+            if (tokens[idx].nesting === 1) {
+              // opening tag
+              return `<details><summary> ${md.utils.escapeHtml(m[1])} </summary>\n`;
+
+            } else {
+              // closing tag
+              return '</details>\n';
+            }
+          }
+        }
+      ]
     ],
   },
 

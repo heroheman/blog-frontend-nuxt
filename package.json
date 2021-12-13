@@ -12,6 +12,7 @@
     "generateFragments": "graphql-codegen"
   },
   "dependencies": {
+    "@adapttive/vue-markdown": "^4.0.1",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@nuxtjs/axios": "^5.13.6",
@@ -19,15 +20,19 @@
     "@nuxtjs/strapi": "^0.3.1",
     "core-js": "^3.19.0",
     "lite-youtube-embed": "^0.2.0",
+    "markdown-it-container": "^3.0.0",
+    "markdown-it-custom-block": "^0.1.2",
     "markdown-it-footnote": "^3.0.3",
     "markdown-it-image-lazy-loading": "^1.1.0",
     "markdown-it-implicit-figures": "^0.10.0",
     "markdown-it-link-attributes": "^3.0.0",
     "markdown-it-video": "^0.6.3",
     "nuxt": "^2.15.8",
-    "react": "^17.0.2"
+    "react": "^17.0.2",
+    "vue-dompurify-html": "^2.4.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.5.4",
     "@graphql-codegen/cli": "^2.2.2",
     "@graphql-codegen/fragment-matcher": "^3.2.0",
     "@nuxtjs/eslint-config": "^7.0.0",
@@ -37,7 +42,6 @@
     "@nuxtjs/markdownit": "^2.0.0",
     "@nuxtjs/svg": "^0.3.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
-    "@babel/eslint-parser": "^7.5.4",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-nuxt": "^3.0.0",
