@@ -6,6 +6,8 @@ import postcssImport from 'postcss-import'
 import postcssNested from 'postcss-nesting'
 import postcssPresetEnv from 'postcss-preset-env'
 
+const BLOG_EP = 'https://strapi.flore.nz'
+
 import { feedContentParsed } from './utils/helper'
 
 export default {
@@ -110,7 +112,7 @@ export default {
 
   strapi: {
     // baseURL: process.env.NUXT_ENV_STRAPI_EP,
-    url: 'https://flrnz-blog-backend.herokuapp.com',
+    url: BLOG_EP,
     entities: ['articles', 'pages'],
   },
 
@@ -258,7 +260,8 @@ export default {
         }
 
         const posts = await axios.get(
-          'https://flrnz-blog-backend.herokuapp.com/articles'
+          // 'https://flrnz-blog-backend.herokuapp.com/articles'
+          `${BLOG_EP}/articles`
         )
 
         posts.data.forEach((post) => {
@@ -294,7 +297,8 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://flrnz-blog-backend.herokuapp.com',
+    // baseURL: 'https://flrnz-blog-backend.herokuapp.com',
+    baseURL: 'https://strapi.flore.nz',
   },
 
   // apollo: {

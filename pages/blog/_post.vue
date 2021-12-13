@@ -52,7 +52,7 @@ export default {
           hid: 'og:image_post',
           property: 'og:image',
           content:
-            this.article.length && this.article[0].cover !== undefined
+            this.article.length && this.article[0].cover !== undefined && this.article[0].cover !== null
               ? this.article[0].cover.formats.medium.url
               : '',
         },
@@ -70,7 +70,7 @@ export default {
           hid: 'twitter:image_post',
           property: 'twitter:image',
           content:
-            this.article.length && this.article[0].cover !== undefined
+            this.article.length && this.article[0].cover !== undefined && this.article[0].cover !== null
               ? this.article[0].cover.formats.medium.url
               : '',
         },

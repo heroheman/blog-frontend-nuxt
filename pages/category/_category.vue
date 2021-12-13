@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  name: 'Index',
+  name: 'IndexCategory',
   data() {
     return {
       showDescription: false,
@@ -51,7 +51,6 @@ export default {
   },
   async fetch() {
     const tmp = await this.$strapi.find('categories', {
-      _sort: 'display_published_date:DESC',
       slug: this.$route.params.category,
     })
 

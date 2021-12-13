@@ -21,13 +21,13 @@
 
 <script>
 export default {
-  name: 'Index',
+  name: 'RootIndex',
   data() {
     return {
       articles: [],
       articlesCount: 0,
       page: 0,
-      per_page: 5,
+      per_page: 10,
       loading: true,
     }
   },
