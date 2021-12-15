@@ -18,7 +18,6 @@ export default {
   },
   async fetch() {
     const tmp = await this.$strapi.find('genre-books', {
-      _sort: 'display_published_date:DESC',
       slug: this.$route.params.bookgenre,
     })
 
