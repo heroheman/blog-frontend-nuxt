@@ -46,14 +46,7 @@
 
     <nuxt-link
       v-if="!detail && hasExcerpt"
-      class="
-        block
-        p-3
-        border border-black border-solid
-        rounded
-        btn
-        md:w-auto md:inline-block
-      "
+      class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block"
       :to="`/blog/${post.slug}`"
     >
       Weiterlesen
@@ -62,6 +55,12 @@
     <song
       v-if="!!songs"
       :songs="songs"
+      class="mt-8 mb-4 article-text lg:max-w-3xl"
+    />
+
+    <song
+      v-if="!!songsWrapped"
+      :songs="songsWrapped"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
 
@@ -159,6 +158,19 @@ export default {
           return this.post.additional.filter(
             (addi) => addi.__component === 'content.track'
           )
+        }
+      } else {
+        return false
+      }
+    },
+    songsWrapped() {
+      if (this.post.additional.length) {
+        if (this.hasExcerpt && !this.detail) {
+          return false
+        } else {
+          return this.post.additional.filter(
+            (addi) => addi.__component === 'content.track-container'
+          )[0].songs
         }
       } else {
         return false

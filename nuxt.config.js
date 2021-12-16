@@ -6,7 +6,8 @@ import postcssImport from 'postcss-import'
 import postcssNested from 'postcss-nesting'
 import postcssPresetEnv from 'postcss-preset-env'
 
-const BLOG_EP = 'https://strapi.flore.nz'
+// const BLOG_EP = 'https://strapi.flore.nz'
+const BLOG_EP = process.env.STRAPI_URL || 'http://localhost:1337'
 
 import { feedContentParsed } from './utils/helper'
 
@@ -112,6 +113,7 @@ export default {
 
   strapi: {
     // baseURL: process.env.NUXT_ENV_STRAPI_EP,
+    // url: process.env.STRAPI_URL || http://localhost:1337
     url: BLOG_EP,
     entities: ['articles', 'pages'],
   },
