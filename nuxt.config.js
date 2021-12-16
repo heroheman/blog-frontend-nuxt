@@ -189,16 +189,13 @@ export default {
     runtime: true,
     use: [
       'markdown-it-footnote',
-      [
-        'markdown-it-implicit-figures',
-        { figcaption: true }
-      ],
+      ['markdown-it-implicit-figures', { figcaption: true }],
       [
         'markdown-it-video',
         {
           youtube: { width: 640, height: 390, nocookie: true },
           vimeo: { width: 500, height: 281 },
-        }
+        },
       ],
       [
         'markdown-it-link-attributes',

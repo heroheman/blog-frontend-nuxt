@@ -66,6 +66,12 @@
 
     <!-- <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" /> -->
 
+    <widget-open-library
+      v-if="!!isbn"
+      :isbn="isbn"
+      class="mt-8 mb-4 article-text lg:max-w-3xl"
+    />
+
     <advertisement
       v-if="detail && !!advertisement"
       class="w-full mt-16 mb-8 lg:max-w-3xl"
@@ -150,6 +156,15 @@ export default {
         return 'no-rating'
       }
     },
+    isbn() {
+      if (this.post.additional.length) {
+        return this.post.additional.filter(
+          (addi) => addi.__component === 'external-api.open-library-isbn'
+        )[0]
+      } else {
+        return false
+      }
+    },
     songs() {
       if (this.post.additional.length) {
         if (this.hasExcerpt && !this.detail) {
@@ -167,7 +182,11 @@ export default {
       if (this.post.additional.length) {
         if (this.hasExcerpt && !this.detail) {
           return false
-        } else if(this.post.additional.filter((addi) => addi.__component === 'content.track-container').length) {
+        } else if (
+          this.post.additional.filter(
+            (addi) => addi.__component === 'content.track-container'
+          ).length
+        ) {
           return this.post.additional.filter(
             (addi) => addi.__component === 'content.track-container'
           )
