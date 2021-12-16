@@ -60,7 +60,7 @@
 
     <song
       v-if="!!songsWrapped"
-      :songs="songsWrapped"
+      :songs="songsWrapped[0].songs"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
 
@@ -167,10 +167,10 @@ export default {
       if (this.post.additional.length) {
         if (this.hasExcerpt && !this.detail) {
           return false
-        } else {
+        } else if(this.post.additional.filter((addi) => addi.__component === 'content.track-container').length) {
           return this.post.additional.filter(
             (addi) => addi.__component === 'content.track-container'
-          )[0].songs
+          )
         }
       } else {
         return false
