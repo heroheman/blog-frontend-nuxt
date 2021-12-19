@@ -157,7 +157,7 @@ export default {
       }
     },
     isbn() {
-      if (this.post.additional.length) {
+      if (this.post.additional.length && this.detail) {
         return this.post.additional.filter(
           (addi) => addi.__component === 'external-api.open-library-isbn'
         )[0]
