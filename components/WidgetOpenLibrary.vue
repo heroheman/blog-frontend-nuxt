@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-wrap p-4 border-4 border-solid border-[#c2c2c2]"
-    v-if="isLoaded"
+    v-if="!$fetchState.pending"
   >
     <figure class="w-full pr-4 !mt-0 !mb-0 sm:w-1/4 lg:w-1/6">
       <img
@@ -16,13 +16,15 @@
       <br />
       <strong>{{ metadata.title }}</strong>
       <br />
-      <span v-if="metadata.publishers.length">{{ metadata.publishers[0].name }},</span>
+      <span v-if="metadata.publishers.length && Object.prototype.hasOwnProperty.call(metadata, 'publishers')"
+        >{{ metadata.publishers[0].name }},</span
+      >
       {{ metadata.publish_date }}<br />
       {{ metadata.number_of_pages }} Seiten<br />
-      <span class="text-xs text-[#aaaaaa]">
-        ISBN-10: {{ metadata.identifiers.isbn_10[0] }} ISBN-13:
-        {{ metadata.identifiers.isbn_13[0] }}
-      </span>
+      <!-- <span class="text-xs text-[#aaaaaa]"> -->
+      <!--   ISBN-10: {{ metadata.identifiers.isbn_10.length ?  metadata.identifiers.isbn_10[0] : 'Not Found' }} ISBN-13: -->
+      <!--   {{ metadata.identifiers.isbn_13.length ?  metadata.identifiers.isbn_13[0] : 'Not Found' }} -->
+      <!-- </span> -->
     </div>
   </div>
 </template>
@@ -49,17 +51,7 @@ export default {
     const tmp = await this.$http.$get(
       `https://openlibrary.org/api/books?bibkeys=${id}&jscmd=data&format=json`
     )
-    this.isLoaded = true
     this.metadata = tmp[id]
-  },
-  computed: {
-    coverUrl() {
-      if (Object.prototype.hasOwnProperty.call(this.metadata, 'covers')) {
-        return `https://covers.openlibrary.org/b/id/${this.metadata.covers[0]}-M.jpg`
-      } else {
-        return false
-      }
-    },
   },
 }
 </script>
