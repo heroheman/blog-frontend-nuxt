@@ -12,11 +12,12 @@
       />
     </figure>
     <div class="w-full italic leading-normal sm:w-3/4 lg:w-5/6 font-sm">
-      <em>{{ metadata.authors[0].name }}</em>
+      <em v-if="metadata.authors.length">{{ metadata.authors[0].name }}</em>
       <br />
       <strong>{{ metadata.title }}</strong>
       <br />
-      {{ metadata.publishers[0].name }}, {{ metadata.publish_date }}<br />
+      <span v-if="metadata.publishers.length">{{ metadata.publishers[0].name }},</span>
+      {{ metadata.publish_date }}<br />
       {{ metadata.number_of_pages }} Seiten<br />
       <span class="text-xs text-[#aaaaaa]">
         ISBN-10: {{ metadata.identifiers.isbn_10[0] }} ISBN-13:
