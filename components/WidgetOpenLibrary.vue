@@ -6,7 +6,6 @@
     <figure class="w-full pr-4 !mt-0 !mb-0 sm:w-1/4 lg:w-1/6">
       <img
         loading="lazy"
-        v-if="!!getBookImage()"
         :src="getBookImage()"
         :alt="`Cover: ${metadata.title}`"
         :title="`Bookcover: ${metadata.title}`"
@@ -104,7 +103,7 @@ export default {
       } else if (
           Object.prototype.hasOwnProperty.call(
             this.metadata,
-            'thumbnail'
+            'cover'
           )
       ) {
         // else use open lib cover
