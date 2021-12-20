@@ -68,7 +68,7 @@
 
     <widget-open-library
       v-if="!!isbn"
-      :isbn="isbn"
+      :bookMeta="isbn"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
 

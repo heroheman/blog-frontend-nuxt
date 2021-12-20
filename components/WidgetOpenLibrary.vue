@@ -5,7 +5,8 @@
   >
     <figure class="w-full pr-4 !mt-0 !mb-0 sm:w-1/4 lg:w-1/6">
       <img
-        :src="metadata.cover.medium"
+        loading=lazy
+        :src="getBookImage()"
         :alt="`Cover: ${metadata.title}`"
         :title="`Bookcover: ${metadata.title}`"
         class="object-contain"
@@ -34,7 +35,7 @@
 export default {
   name: 'WidgetOpenLibrary',
   props: {
-    isbn: {
+    bookMeta: {
       type: Object,
       required: true,
       default: () => {},
@@ -47,11 +48,27 @@ export default {
     }
   },
   async fetch() {
-    const id = `ISBN:${this.isbn.isbn}`
+    const id = `ISBN:${this.bookMeta.isbn}`
     const tmp = await this.$http.$get(
       `https://openlibrary.org/api/books?bibkeys=${id}&jscmd=data&format=json`
     )
     this.metadata = tmp[id]
   },
+  methods: {
+    getBookImage() {
+      // checko for custom cover
+      if (Object.prototype.hasOwnProperty.call(this.bookMeta, 'cover')) {
+        if (Object.prototype.hasOwnProperty.call(this.bookMeta.cover.formats, 'small')) {
+          return this.bookMeta.cover.formats.small.url
+        }
+        if (Object.prototype.hasOwnProperty.call(this.bookMeta.cover.formats, 'thumbnail')) {
+          return this.bookMeta.cover.formats.thumbnail.url
+        }
+      } else {
+        // else use open lib cover
+        return this.metadata.cover.medium
+      }
+    }
+  }
 }
 </script>
