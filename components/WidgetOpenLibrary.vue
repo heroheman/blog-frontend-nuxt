@@ -5,7 +5,7 @@
   >
     <figure class="w-full pr-4 !mt-0 !mb-0 sm:w-1/4 lg:w-1/6">
       <img
-        loading=lazy
+        loading="lazy"
         :src="getBookImage()"
         :alt="`Cover: ${metadata.title}`"
         :title="`Bookcover: ${metadata.title}`"
@@ -17,15 +17,18 @@
       <br />
       <strong>{{ metadata.title }}</strong>
       <br />
-      <span v-if="metadata.publishers.length && Object.prototype.hasOwnProperty.call(metadata, 'publishers')"
+      <span
+        v-if="
+          metadata.publishers.length &&
+          Object.prototype.hasOwnProperty.call(metadata, 'publishers')
+        "
         >{{ metadata.publishers[0].name }},</span
       >
       {{ metadata.publish_date }}<br />
       {{ metadata.number_of_pages }} Seiten<br />
-      <!-- <span class="text-xs text-[#aaaaaa]"> -->
-      <!--   ISBN-10: {{ metadata.identifiers.isbn_10.length ?  metadata.identifiers.isbn_10[0] : 'Not Found' }} ISBN-13: -->
-      <!--   {{ metadata.identifiers.isbn_13.length ?  metadata.identifiers.isbn_13[0] : 'Not Found' }} -->
-      <!-- </span> -->
+      <span class="text-xs text-[#aaaaaa]">
+        {{ getIsbn() }}
+      </span>
     </div>
   </div>
 </template>
@@ -55,20 +58,46 @@ export default {
     this.metadata = tmp[id]
   },
   methods: {
+    getIsbn() {
+      const isbn10 = Object.prototype.hasOwnProperty.call(
+        this.metadata.identifiers,
+        'isbn_10'
+      )
+        ? this.metadata.identifiers.isbn_10
+        : 'Not Found'
+      const isbn13 = Object.prototype.hasOwnProperty.call(
+        this.metadata.identifiers,
+        'isbn_10'
+      )
+        ? this.metadata.identifiers.isbn_10
+        : 'Not Found'
+
+      return `ISBN: ${isbn10} (ISBN-13: ${isbn13})`
+    },
     getBookImage() {
       // checko for custom cover
-      if (Object.prototype.hasOwnProperty.call(this.bookMeta, 'cover')) {
-        if (Object.prototype.hasOwnProperty.call(this.bookMeta.cover.formats, 'small')) {
+      if (this.bookMeta.cover !== null) {
+        if (
+          Object.prototype.hasOwnProperty.call(
+            this.bookMeta.cover.formats,
+            'small'
+          )
+        ) {
           return this.bookMeta.cover.formats.small.url
         }
-        if (Object.prototype.hasOwnProperty.call(this.bookMeta.cover.formats, 'thumbnail')) {
+        if (
+          Object.prototype.hasOwnProperty.call(
+            this.bookMeta.cover.formats,
+            'thumbnail'
+          )
+        ) {
           return this.bookMeta.cover.formats.thumbnail.url
         }
       } else {
         // else use open lib cover
         return this.metadata.cover.medium
       }
-    }
-  }
+    },
+  },
 }
 </script>
