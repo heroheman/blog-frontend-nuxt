@@ -110,7 +110,8 @@ export default {
         // else use open lib cover
         return this.metadata.cover.medium
       } else {
-        return false
+        // just use placeh0older
+        return 'https://res.cloudinary.com/dlsll9dkn/image/upload/v1640007514/book_09ed7892d7.png'
       }
     },
   },
