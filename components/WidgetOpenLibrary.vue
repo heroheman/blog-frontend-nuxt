@@ -1,11 +1,12 @@
 <template>
   <div
     class="flex flex-wrap p-4 border-4 border-solid border-[#c2c2c2]"
-    v-if="!$fetchState.pending"
+    v-if="isLoaded"
   >
     <figure class="w-full pr-4 !mt-0 !mb-0 sm:w-1/4 lg:w-1/6">
       <img
         loading="lazy"
+        v-if="!!getBookImage()"
         :src="getBookImage()"
         :alt="`Cover: ${metadata.title}`"
         :title="`Bookcover: ${metadata.title}`"
@@ -47,6 +48,7 @@ export default {
   data() {
     return {
       isLoaded: false,
+      isEmptyResponse: false,
       metadata: {},
     }
   },
@@ -55,7 +57,13 @@ export default {
     const tmp = await this.$http.$get(
       `https://openlibrary.org/api/books?bibkeys=${id}&jscmd=data&format=json`
     )
-    this.metadata = tmp[id]
+    if (JSON.stringify(tmp) !== '{}') {
+      this.metadata = tmp[id]
+      this.isLoaded = true
+    } else {
+      this.isEmptyResponse = true
+      this.isLoaded = false
+    }
   },
   methods: {
     getIsbn() {
@@ -93,9 +101,16 @@ export default {
         ) {
           return this.bookMeta.cover.formats.thumbnail.url
         }
-      } else {
+      } else if (
+          Object.prototype.hasOwnProperty.call(
+            this.metadata,
+            'thumbnail'
+          )
+      ) {
         // else use open lib cover
         return this.metadata.cover.medium
+      } else {
+        return false
       }
     },
   },
