@@ -17,11 +17,7 @@
       <br />
       <strong>{{ metadata.title }}</strong>
       <br />
-      <span
-        v-if="
-          metadata.publishers.length &&
-          Object.prototype.hasOwnProperty.call(metadata, 'publishers')
-        "
+      <span v-if="Object.prototype.hasOwnProperty.call(metadata, 'publishers')"
         >{{ metadata.publishers[0].name }},</span
       >
       {{ metadata.publish_date }}<br />
@@ -100,12 +96,7 @@ export default {
         ) {
           return this.bookMeta.cover.formats.thumbnail.url
         }
-      } else if (
-          Object.prototype.hasOwnProperty.call(
-            this.metadata,
-            'cover'
-          )
-      ) {
+      } else if (Object.prototype.hasOwnProperty.call(this.metadata, 'cover')) {
         // else use open lib cover
         return this.metadata.cover.medium
       } else {
