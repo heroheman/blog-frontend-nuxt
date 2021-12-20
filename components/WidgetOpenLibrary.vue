@@ -25,7 +25,7 @@
         >{{ metadata.publishers[0].name }},</span
       >
       {{ metadata.publish_date }}<br />
-      {{ metadata.number_of_pages }} Seiten<br />
+      {{ metadata.number_of_pages || metadata.pagination }} Seiten<br />
       <span class="text-xs text-[#aaaaaa]">
         {{ getIsbn() }}
       </span>
