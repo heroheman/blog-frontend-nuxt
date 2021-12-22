@@ -20,7 +20,7 @@
     "core-js": "^3.19.0",
     "lite-youtube-embed": "^0.2.0",
     "markdown-it-footnote": "^3.0.3",
-    "markdown-it-image-lazy-loading": "^1.1.0",
+    "markdown-it-image-lazy-loading": "^1.2.0",
     "markdown-it-implicit-figures": "^0.10.0",
     "markdown-it-link-attributes": "^3.0.0",
     "markdown-it-video": "^0.6.3",
