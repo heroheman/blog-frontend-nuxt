@@ -12,7 +12,7 @@
 import { formatDate } from '@/utils/helper.js'
 
 export default {
-  name: 'Article',
+  name: 'ArticleItem',
   data() {
     return {
       article: [],
@@ -52,8 +52,12 @@ export default {
           hid: 'og:image_post',
           property: 'og:image',
           content:
-            this.article.length && this.article[0].cover !== undefined && this.article[0].cover !== null
-              ? this.article[0].cover.formats.medium.url
+            this.article.length &&
+            this.article[0].cover !== undefined &&
+            this.article[0].cover !== null
+              ? this.article[0].cover.formats.medium
+                ? this.article[0].cover.formats.medium.url
+                : this.article[0].cover.formats.thumbnail.url
               : '',
         },
         {
@@ -70,8 +74,12 @@ export default {
           hid: 'twitter:image_post',
           property: 'twitter:image',
           content:
-            this.article.length && this.article[0].cover !== undefined && this.article[0].cover !== null
-              ? this.article[0].cover.formats.medium.url
+            this.article.length &&
+            this.article[0].cover !== undefined &&
+            this.article[0].cover !== null
+              ? this.article[0].cover.formats.medium
+                ? this.article[0].cover.formats.medium.url
+                : this.article[0].cover.formats.thumbnail.url
               : '',
         },
       ],
