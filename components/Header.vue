@@ -38,7 +38,7 @@
 
     <ul class="header__nav">
       <li class="">
-        <nuxt-link class="nav-link" to="/">Artikel</nuxt-link>
+        <nuxt-link class="nav-link" to="/blog">Artikel</nuxt-link>
       </li>
       <li class="">
         <nuxt-link class="nav-link" to="/category/buecher">
@@ -133,7 +133,7 @@
 
 <script>
 export default {
-  name: 'Header',
+  name: 'HeaderGlobal',
   props: {
     settings: {
       type: Object,
