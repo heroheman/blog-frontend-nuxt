@@ -26,7 +26,7 @@
 import indexMixin from '@/mixins/indexMixin.js'
 
 export default {
-  name: 'Page',
+  name: 'PageIndex',
   mixins: [indexMixin],
 }
 </script>
