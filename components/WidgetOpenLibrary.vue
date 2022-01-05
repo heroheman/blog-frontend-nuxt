@@ -25,6 +25,51 @@
       <span class="text-xs text-[#aaaaaa]">
         {{ getIsbn() }}
       </span>
+
+      <div
+        class="mt-4 mb-2 refbuttons"
+        v-if="bookMeta.showAmazonRef || bookMeta.showGenialokalRef"
+      >
+        <p class="!mt-0 !mb-1 text-sm font-bold">
+          <small> Bestellen bei*: </small>
+        </p>
+        <ui-button
+          v-if="bookMeta.showGenialokalRef && bookMeta.genialokalRefUrl !== ''"
+          :href="bookMeta.genialokalRefUrl"
+          rel="noopener noreferrer"
+          target="_blank"
+          title="Dieses Buch bei Genialokal kaufen oder bei deinen lokalen Buchhändler bestellen und nach Hause liefern lassen"
+        >
+          <font-awesome-icon
+            :icon="['fas', 'book-open']"
+            :style="{ color: '#a4c408' }"
+          />
+          Genialokal
+        </ui-button>
+        <ui-button
+          v-if="bookMeta.showAmazonRef && bookMeta.amazonRefUrl !== ''"
+          :href="bookMeta.amazonRefUrl"
+          rel="noopener noreferrer"
+          target="_blank"
+          title="Dieses Buch bei Amazon kaufen"
+        >
+          <font-awesome-icon
+            :icon="['fab', 'amazon']"
+            :style="{ color: '#ff9900' }"
+          />
+          Amazon
+        </ui-button>
+        <p class="!mt-0 !mb-1 text-xs text-[#aaaaaa] !mt-2">
+          <small>
+            *Partnerlinks - Ich bekomme einen kleinen Prozentsatz von den
+            Händlern und du bekommst ein Buch.
+            <span v-if="bookMeta.showGenialokalRef">
+              Mit Genialokal kannst du im übrigen direkt bei deiner Buchhandlung
+              um die Ecke bestellen und unterstützt den lokalen Handel.
+            </span>
+          </small>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -107,3 +152,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.refbuttons svg {
+  height: 14px;
+}
+</style>

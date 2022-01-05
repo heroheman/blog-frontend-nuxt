@@ -136,8 +136,9 @@ export default {
         'faYoutube',
         'faInstagram',
         'faGoodreads',
+        'faAmazon',
       ],
-      solid: ['faRss', 'faCompactDisc'],
+      solid: ['faRss', 'faCompactDisc', 'faBookOpen'],
     },
   },
 
