@@ -13,7 +13,7 @@
           <!--   <img src="/img/me.jpg" alt="me" class="w-10" /> -->
           <!-- </figure> -->
           <div class="brand__name">
-            <h1 class="mb-4 italic leading-snug">Florenz Heldermann</h1>
+            <h1 class="mb-4 italic leading-snug">{{ settings.sitetitle }}</h1>
             <div class="brand__slogan" v-if="settings.Phrases.length">
               <span v-if="randomHeadNumber < 2">
                 {{ settings.Phrases[0].phrase }}
@@ -281,7 +281,7 @@ export default {
     }
   }
   &__slogan {
-    @apply text-xl md:text-2xl italic;
+    @apply text-xl italic;
     color: var(--text-secondary);
 
     .header--blogpost & {
