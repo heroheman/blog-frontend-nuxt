@@ -1,10 +1,6 @@
 <template>
   <div class="songs" v-if="songs.length">
-    <div
-      v-for="(song, index) in songs"
-      :key="index"
-      class="my-4 pb-4 mb-10 border-b border-solid border-[#a2a2a2]"
-    >
+    <div v-for="(song, index) in songs" :key="index" class="song">
       <p class="!mb-2">
         <strong class="italic">{{ song.title }}</strong>
       </p>
@@ -70,6 +66,7 @@
 
 <script>
 export default {
+  name: 'SongList',
   props: {
     songs: {
       type: Array,
@@ -90,7 +87,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="pcss">
 .video-container {
   position: relative;
   padding-bottom: 56.25%;
@@ -107,5 +104,15 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.song {
+  @apply my-4 py-4 pt-8 px-8 mb-10;
+  @apply border-t border-solid border-[#a2a2a2];
+  @apply bg-[#f6f6f6];
+
+  p {
+    @apply text-base;
+  }
 }
 </style>
