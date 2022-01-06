@@ -52,12 +52,14 @@
       Weiterlesen
     </nuxt-link>
 
+    <!-- Single Song List -->
     <song
       v-if="!!songs"
       :songs="songs"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
 
+    <!-- Containered Song List -->
     <song
       v-if="!!songsWrapped"
       :songs="songsWrapped[0].songs"
@@ -66,9 +68,17 @@
 
     <!-- <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" /> -->
 
+    <!-- Single Book List (Legacy) -->
     <widget-open-library
       v-if="!!isbn"
       :bookMeta="isbn"
+      class="mt-8 mb-4 article-text lg:max-w-3xl"
+    />
+
+    <!-- Containered Book List -->
+    <widget-open-library-list
+      v-if="!!isbnWrapped"
+      :books="isbnWrapped[0].bookmeta"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
 
@@ -161,6 +171,23 @@ export default {
         return this.post.additional.filter(
           (addi) => addi.__component === 'external-api.open-library-isbn'
         )[0]
+      } else {
+        return false
+      }
+    },
+    isbnWrapped() {
+      if (this.post.additional.length) {
+        if (this.hasExcerpt && !this.detail) {
+          return false
+        } else if (
+          this.post.additional.filter(
+            (addi) => addi.__component === 'external-api.book-container'
+          ).length
+        ) {
+          return this.post.additional.filter(
+            (addi) => addi.__component === 'external-api.book-container'
+          )
+        }
       } else {
         return false
       }

@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="flex flex-wrap p-4 border-4 border-solid border-[#c2c2c2]"
-    v-if="isLoaded"
-  >
+  <div class="book" v-if="isLoaded">
     <figure class="w-full pr-4 !mt-0 !mb-0 sm:w-1/4 lg:w-1/6">
       <img
         loading="lazy"
@@ -154,6 +151,10 @@ export default {
 </script>
 
 <style>
+.book {
+  @apply flex flex-wrap p-4 border-4 border-solid border-[#c2c2c2];
+}
+
 .refbuttons svg {
   height: 14px;
 }
