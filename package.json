@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "STRAPI_URL=http://localhost:1337 nuxt --port 5050",
+    "dev-prod": "nuxt --port 5050",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",

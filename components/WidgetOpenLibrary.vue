@@ -10,7 +10,13 @@
       />
     </figure>
     <div class="w-full italic leading-normal sm:w-3/4 lg:w-5/6 font-sm">
-      <em v-if="metadata.authors.length">{{ metadata.authors[0].name }}</em>
+      <em
+        v-if="
+          Object.prototype.hasOwnProperty.call(metadata, 'authors') &&
+          metadata.authors.length
+        "
+        >{{ metadata.authors[0].name }}</em
+      >
       <br />
       <strong>{{ metadata.title }}</strong>
       <br />
