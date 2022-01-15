@@ -1,6 +1,6 @@
 <template>
   <div class="book" v-if="isLoaded">
-    <figure class="w-full pr-4 !mt-0 !mb-0 sm:w-1/4 lg:w-1/6">
+    <figure class="book__image w-full sm:w-1/4 lg:w-1/6">
       <img
         loading="lazy"
         :src="getBookImage()"
@@ -9,35 +9,40 @@
         class="object-contain"
       />
     </figure>
-    <div class="w-full italic leading-normal sm:w-3/4 lg:w-5/6 font-sm">
-      <em
+    <div class="book__detail w-full sm:w-3/4 lg:w-5/6">
+      <p
+        class="font-italic"
         v-if="
           Object.prototype.hasOwnProperty.call(metadata, 'authors') &&
           metadata.authors.length
         "
-        >{{ metadata.authors[0].name }}</em
       >
-      <br />
-      <strong>{{ metadata.title }}</strong>
-      <br />
-      <span v-if="Object.prototype.hasOwnProperty.call(metadata, 'publishers')"
-        >{{ metadata.publishers[0].name }},</span
-      >
-      {{ metadata.publish_date }}<br />
-      {{ metadata.number_of_pages || metadata.pagination }} Seiten<br />
-      <span class="text-xs text-[#aaaaaa]">
-        {{ getIsbn() }}
-      </span>
+        {{ metadata.authors[0].name }}
+      </p>
+      <p class="font-bold">{{ metadata.title }}</p>
+      <p v-if="Object.prototype.hasOwnProperty.call(metadata, 'publishers')">
+        {{ metadata.publishers[0].name }},
+      </p>
+      <p>
+        {{ metadata.publish_date }}<br />
+        {{ metadata.number_of_pages || metadata.pagination }} Seiten<br />
+      </p>
+      <p>
+        <small class="text-xs text-[#aaaaaa]">
+          {{ getIsbn() }}
+        </small>
+      </p>
 
       <div
         class="mt-4 mb-2 refbuttons"
         v-if="bookMeta.showAmazonRef || bookMeta.showGenialokalRef"
       >
-        <p class="!mt-0 !mb-1 text-sm font-bold">
+        <p class="!mt-0 !mb-1 font-bold inline-block">
           <small> Bestellen bei*: </small>
         </p>
         <ui-button
           v-if="bookMeta.showGenialokalRef && bookMeta.genialokalRefUrl !== ''"
+          class="ref-button"
           :href="bookMeta.genialokalRefUrl"
           rel="noopener noreferrer"
           target="_blank"
@@ -51,6 +56,7 @@
         </ui-button>
         <ui-button
           v-if="bookMeta.showAmazonRef && bookMeta.amazonRefUrl !== ''"
+          class="ref-button"
           :href="bookMeta.amazonRefUrl"
           rel="noopener noreferrer"
           target="_blank"
@@ -62,15 +68,13 @@
           />
           Amazon
         </ui-button>
-        <p class="!mt-0 !mb-1 text-xs text-[#aaaaaa] !mt-2">
-          <small>
-            *Partnerlinks - Ich bekomme einen kleinen Prozentsatz von den
-            Händlern und du bekommst ein Buch.
-            <span v-if="bookMeta.showGenialokalRef">
-              Mit Genialokal kannst du im übrigen direkt bei deiner Buchhandlung
-              um die Ecke bestellen und unterstützt den lokalen Handel.
-            </span>
-          </small>
+        <p class="!mt-0 !mb-1 !text-xs text-[#aaaaaa] !mt-0">
+          *Partnerlinks - Ich bekomme einen kleinen Prozentsatz von den Händlern
+          und du bekommst ein Buch.
+          <span v-if="bookMeta.showGenialokalRef">
+            Mit Genialokal kannst du im übrigen direkt bei deiner Buchhandlung
+            um die Ecke bestellen und unterstützt den lokalen Handel.
+          </span>
         </p>
       </div>
     </div>
@@ -156,12 +160,34 @@ export default {
 }
 </script>
 
-<style>
+<style lang="postcss">
 .book {
-  @apply flex flex-wrap p-4 border-4 border-solid border-[#c2c2c2];
+  @apply flex flex-wrap;
+  @apply my-4 py-4 pt-8 px-8 mb-10;
+  @apply border-t border-solid border-[#a2a2a2];
+  @apply bg-[#f6f6f6];
+
+  &__image {
+    @apply pr-4 !mt-0 !mb-0;
+  }
+
+  &__detail {
+    p {
+      @apply italic leading-normal text-sm;
+      @apply mb-0;
+    }
+  }
 }
 
 .refbuttons svg {
   height: 14px;
+}
+
+.ref-button {
+  padding: 0.3rem 0.8rem;
+  border: 0;
+  @apply !border-0;
+  @apply text-sm;
+  @apply hover:bg-[#f2f2f2];
 }
 </style>
