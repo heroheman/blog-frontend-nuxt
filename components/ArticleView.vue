@@ -70,14 +70,14 @@
 
     <!-- Single Book List (Legacy) -->
     <widget-open-library
-      v-if="!!isbn"
+      v-if="detail && !!isbn"
       :bookMeta="isbn"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
 
     <!-- Containered Book List -->
     <widget-open-library-list
-      v-if="!!isbnWrapped"
+      v-if="detail && !!isbnWrapped"
       :books="isbnWrapped[0].bookmeta"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
