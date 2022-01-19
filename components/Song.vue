@@ -7,10 +7,15 @@
 
       <div class="relative text-sm" v-html="$md.render(song.description)" />
 
+      <div class="text-sm mb-4" v-if="song.genre">
+        <strong>Genre:</strong>
+        <span class="italic">{{ song.genre }}</span>
+      </div>
+
       <yt-embed :url="song.youtube_url" v-if="song.embed_youtube" />
 
       <ui-button
-        v-if="song.spotify_url !== ''"
+        v-if="hasSpotify(song)"
         :href="song.spotify_url"
         target="_blank"
         rel="noopener noreferrer"
@@ -25,7 +30,7 @@
       </ui-button>
 
       <ui-button
-        v-if="song.youtube_url !== ''"
+        v-if="hasYoutube(song)"
         :href="song.youtube_url"
         rel="noopener noreferrer"
         target="_blank"
@@ -75,13 +80,13 @@ export default {
   },
   methods: {
     hasSongwhip(songObj) {
-      return songObj.songwhip_url !== '' && Reflect.has(songObj, 'songwhip_url')
+      return songObj.songwhip_url && Reflect.has(songObj, 'songwhip_url')
     },
     hasYoutube(songObj) {
-      return songObj.youtube_url !== '' && Reflect.has(songObj, 'youtube_url')
+      return songObj.youtube_url && Reflect.has(songObj, 'youtube_url')
     },
     hasSpotify(songObj) {
-      return songObj.spotify_url !== '' && Reflect.has(songObj, 'spotify_url')
+      return songObj.spotify_url && Reflect.has(songObj, 'spotify_url')
     },
   },
 }
