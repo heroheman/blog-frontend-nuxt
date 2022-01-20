@@ -29,6 +29,7 @@
     "react": "^17.0.2"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.5.4",
     "@graphql-codegen/cli": "^2.2.2",
     "@graphql-codegen/fragment-matcher": "^3.2.0",
     "@nuxtjs/eslint-config": "^7.0.0",
@@ -38,7 +39,7 @@
     "@nuxtjs/markdownit": "^2.0.0",
     "@nuxtjs/svg": "^0.3.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
-    "@babel/eslint-parser": "^7.5.4",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-nuxt": "^3.0.0",

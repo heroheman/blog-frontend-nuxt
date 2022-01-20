@@ -4,6 +4,10 @@ module.exports = {
   mode: 'jit',
   purge: ['./**/*.vue'],
   theme: {
+    screens: {
+      'xs': '475px',
+      ...defaultTheme.screens,
+    },
     extend: {
       fontFamily: {
         head: ['Playfair Display', ...defaultTheme.fontFamily.serif],
@@ -62,5 +66,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
 }
