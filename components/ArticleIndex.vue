@@ -1,6 +1,6 @@
 <template>
   <div class="article-index">
-    <ul class="article-index__list">
+    <ul v-if="view === 'list'" class="article-index__list">
       <li
         v-for="(articles, index) in articles"
         :key="index"
@@ -36,6 +36,45 @@
         </div>
       </li>
     </ul>
+
+    <ul v-if="view === 'thumbs'" class="article-index__thumbs">
+      <li
+        v-for="(article, index) in articles"
+        :key="index"
+        class="article-index__thumbitem"
+      >
+        <figure class="article-item">
+          <img
+            v-if="article.cover"
+            :src="article.cover.formats.thumbnail.url"
+            :alt="articles.title"
+            :height="article.cover.formats.thumbnail.height.$numberInt"
+            :width="article.cover.formats.thumbnail.width.$numberInt"
+          />
+          <figcaption class="article-item__title">
+            <span
+              v-if="article.display_published_date"
+              class="article-item__date"
+            >
+              {{ formatDate(article.display_published_date, true) }}
+              <span class="hidden mx-1 sm:inline-block"> &ndash; </span>
+            </span>
+
+            <h3 class="title title--index">
+              <nuxt-link
+                :to="`/blog/${article.slug}`"
+                class="inline-block mb-2 article article--clickable"
+              >
+                {{ article.title }}
+              </nuxt-link>
+            </h3>
+            <!-- <p class="article-item__body" v-if="showDescription"> -->
+            <!--   {{ article.description }} -->
+            <!-- </p> -->
+          </figcaption>
+        </figure>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -44,6 +83,10 @@ import { formatDate } from '@/utils/helper.js'
 export default {
   name: 'ArticleIndex',
   props: {
+    view: {
+      type: String,
+      default: 'list', // list, thumbs
+    },
     articles: {
       type: Array,
       default: () => [],
@@ -60,6 +103,7 @@ export default {
 <style lang="postcss">
 .article-index {
   &__list {
+    @apply list-none;
     @apply flex flex-col md:pt-32 pl-0;
   }
   &__listitem {
@@ -67,6 +111,23 @@ export default {
     &:not(:last-child) {
       @apply border-b border-gray-200 border-solid;
     }
+  }
+
+  &__thumbs {
+    @apply flex flex-row flex-wrap md:pt-32 pl-0;
+    @apply list-none;
+
+    figure.article-item {
+      @apply aspect-four-by-three;
+
+      img {
+        @apply m-0;
+      }
+    }
+  }
+
+  &__thumbitem {
+    @apply w-full sm:w-1/2 md:w-1/3;
   }
 }
 

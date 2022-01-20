@@ -1,6 +1,6 @@
 <template>
   <main class="w-full lg:max-w-3xl">
-    <article-index v-if="articles" :articles="articles" />
+    <article-index v-if="articles" :articles="articles" view="thumbs" />
     <p class="text-base">
       <small> Zeig alle <nuxt-link to="/series">Buchreihen</nuxt-link> </small>
     </p>
