@@ -46,10 +46,14 @@
         <figure class="article-item">
           <img
             v-if="article.cover"
-            :src="article.cover.formats.thumbnail.url"
+            :srcset="`${article.cover.formats.small.url} ${article.cover.formats.small.width}w,
+                    ${article.cover.formats.thumbnail.url} ${article.cover.formats.thumbnail.width}w
+                    ${article.cover.formats.medium.url} ${article.cover.formats.medium.width}w
+                    ${article.cover.formats.large.url} ${article.cover.formats.large.width}w`"
+            sizes="(max-width: 600px) 480px,
+                    800px"
+            :src="article.cover.formats.small.url"
             :alt="articles.title"
-            :height="article.cover.formats.thumbnail.height.$numberInt"
-            :width="article.cover.formats.thumbnail.width.$numberInt"
           />
           <figcaption class="article-item__title">
             <span
@@ -57,7 +61,6 @@
               class="article-item__date"
             >
               {{ formatDate(article.display_published_date, true) }}
-              <span class="hidden mx-1 sm:inline-block"> &ndash; </span>
             </span>
 
             <h3 class="title title--index">
@@ -104,7 +107,7 @@ export default {
 .article-index {
   &__list {
     @apply list-none;
-    @apply flex flex-col md:pt-32 pl-0;
+    @apply flex flex-col pl-0;
   }
   &__listitem {
     @apply flex flex-col;
@@ -114,20 +117,44 @@ export default {
   }
 
   &__thumbs {
-    @apply flex flex-row flex-wrap md:pt-32 pl-0;
+    @apply flex flex-row flex-wrap pl-0;
     @apply list-none;
 
     figure.article-item {
-      @apply aspect-four-by-three;
+      @apply aspect-w-4 aspect-h-3;
+      @apply mb-0;
 
+      .article-item__date {
+        display: inline-block;
+        background: white;
+      }
+      .article-item__date,
+      .title {
+        @apply inline-block px-2 mx-4 my-2;
+        a {
+          display: inline;
+          background-color: #fff;
+          color: black;
+          box-shadow: 0 0 0 7px #fff, 0 0 0 7px #fff, 0 0 0 7px #fff;
+          box-decoration-break: clone;
+        }
+      }
+
+      .article-item__title {
+        top: auto;
+        height: auto;
+      }
+
+      ,
       img {
         @apply m-0;
+        border-radius: 5px;
       }
     }
   }
 
   &__thumbitem {
-    @apply w-full sm:w-1/2 md:w-1/3;
+    @apply w-full xs:w-1/2 md:w-1/2 lg:w-1/3 p-2;
   }
 }
 
