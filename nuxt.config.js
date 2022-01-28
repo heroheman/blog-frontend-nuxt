@@ -110,6 +110,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/feed',
     '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
   ],
 
   strapi: {
@@ -290,6 +291,82 @@ export default {
     },
   ],
   loading: '~/components/LoadingAnimation.vue',
+
+  sitemap: {
+    hostname: 'https://flore.nz',
+    gzip: true,
+    defaults: {
+      changefreq: 'daily',
+      priority: 1,
+      lastmod: new Date()
+    },
+    routes: () => {
+      let articles = axios
+        .get('http://strapi.flore.nz/articles')
+        .then((res) => {
+          return res.data.map((article) => {
+            return '/blog/' + article.slug
+          })
+        })
+
+      let pagiIndex = axios
+        .get('https://strapi.flore.nz/articles/count')
+        .then((res) => {
+          let pArray = []
+          let n = 0
+          let pp = res.data / 10
+          while (n < pp) {
+            n++
+            pArray.push('/page/' + n)
+          }
+          return pArray
+        })
+
+      let pages = axios
+        .get('http://strapi.flore.nz/pages')
+        .then((res) => {
+          return res.data.map((page) => {
+            return '/' + page.slug
+          })
+        })
+
+      let categories = axios
+        .get('http://strapi.flore.nz/categories')
+        .then((res) => {
+          return res.data.map((page) => {
+            return '/category/' + page.slug
+          })
+        })
+
+      let bookSeries = axios
+        .get('http://strapi.flore.nz/bookseries')
+        .then((res) => {
+          return res.data.map((page) => {
+            return '/series/' + page.slug
+          })
+        })
+
+      let genreBooks = axios
+        .get('http://strapi.flore.nz/genre-books')
+        .then((res) => {
+          return res.data.map((page) => {
+            return '/genre/book/' + page.slug
+          })
+        })
+
+      let bookAuthors = axios
+        .get('http://strapi.flore.nz/authors')
+        .then((res) => {
+          return res.data.map((page) => {
+            return '/author/' + page.slug
+          })
+        })
+
+      return Promise.all([articles, pages, pagiIndex, categories, bookSeries, genreBooks, bookAuthors]).then((values) => {
+        return values.join().split(',')
+      })
+    },
+  },
 
   // tailwindcss: {
   //   cssPath: '~/assets/css/tailwind.css',
