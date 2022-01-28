@@ -37,6 +37,7 @@
     "@nuxtjs/feed": "^2.0.0",
     "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/markdownit": "^2.0.0",
+    "@nuxtjs/robots": "^2.5.0",
     "@nuxtjs/svg": "^0.3.0",
     "@nuxtjs/tailwindcss": "^4.2.1",
     "@tailwindcss/aspect-ratio": "^0.4.0",

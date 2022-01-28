@@ -9,7 +9,7 @@ import postcssPresetEnv from 'postcss-preset-env'
 // const BLOG_EP = 'https://strapi.flore.nz'
 const BLOG_EP = process.env.STRAPI_URL || 'http://localhost:1337'
 
-import { feedContentParsed } from './utils/helper'
+import {feedContentParsed} from './utils/helper'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -19,8 +19,8 @@ export default {
   head: {
     title: 'flore.nz heroheman',
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {charset: 'utf-8'},
+      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
       {
         hid: 'description',
         name: 'description',
@@ -109,6 +109,7 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
     '@nuxtjs/feed',
+    '@nuxtjs/robots',
   ],
 
   strapi: {
@@ -124,7 +125,7 @@ export default {
         return savedPosition
       }
 
-      return { x: 0, y: 0 }
+      return {x: 0, y: 0}
     },
   },
 
@@ -190,12 +191,12 @@ export default {
     runtime: true,
     use: [
       'markdown-it-footnote',
-      ['markdown-it-implicit-figures', { figcaption: true }],
+      ['markdown-it-implicit-figures', {figcaption: true}],
       [
         'markdown-it-video',
         {
-          youtube: { width: 640, height: 390, nocookie: true },
-          vimeo: { width: 500, height: 281 },
+          youtube: {width: 640, height: 390, nocookie: true},
+          vimeo: {width: 500, height: 281},
         },
       ],
       [
