@@ -18,7 +18,7 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/strapi": "^0.3.1",
-    "core-js": "^3.19.0",
+    "core-js": "^3.22.2",
     "lite-youtube-embed": "^0.2.0",
     "markdown-it-footnote": "^3.0.3",
     "markdown-it-image-lazy-loading": "^1.1.0",
