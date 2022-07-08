@@ -33,7 +33,7 @@
     "@graphql-codegen/cli": "^2.2.2",
     "@graphql-codegen/fragment-matcher": "^3.2.0",
     "@nuxtjs/eslint-config": "^7.0.0",
-    "@nuxtjs/eslint-module": "^3.0.2",
+    "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/feed": "^2.0.0",
     "@nuxtjs/fontawesome": "^1.1.2",
     "@nuxtjs/markdownit": "^2.0.0",
