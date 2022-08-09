@@ -31,7 +31,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.18.2",
     "@graphql-codegen/cli": "^2.2.2",
-    "@graphql-codegen/fragment-matcher": "^3.2.0",
+    "@graphql-codegen/fragment-matcher": "^3.3.1",
     "@nuxtjs/eslint-config": "^7.0.0",
     "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/feed": "^2.0.0",
