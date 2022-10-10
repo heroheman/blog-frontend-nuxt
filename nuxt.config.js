@@ -6,10 +6,10 @@ import postcssImport from 'postcss-import'
 import postcssNested from 'postcss-nesting'
 import postcssPresetEnv from 'postcss-preset-env'
 
+import { feedContentParsed } from './utils/helper'
+
 // const BLOG_EP = 'https://strapi.flore.nz'
 const BLOG_EP = process.env.STRAPI_URL || 'http://localhost:1337'
-
-import {feedContentParsed} from './utils/helper'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -19,8 +19,8 @@ export default {
   head: {
     title: 'flore.nz heroheman',
     meta: [
-      {charset: 'utf-8'},
-      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       {
         hid: 'description',
         name: 'description',
@@ -126,7 +126,7 @@ export default {
         return savedPosition
       }
 
-      return {x: 0, y: 0}
+      return { x: 0, y: 0 }
     },
   },
 
@@ -192,12 +192,12 @@ export default {
     runtime: true,
     use: [
       'markdown-it-footnote',
-      ['markdown-it-implicit-figures', {figcaption: true}],
+      ['markdown-it-implicit-figures', { figcaption: true }],
       [
         'markdown-it-video',
         {
-          youtube: {width: 640, height: 390, nocookie: true},
-          vimeo: {width: 500, height: 281},
+          youtube: { width: 640, height: 390, nocookie: true },
+          vimeo: { width: 500, height: 281 },
         },
       ],
       [
@@ -298,10 +298,10 @@ export default {
     defaults: {
       changefreq: 'daily',
       priority: 1,
-      lastmod: new Date()
+      lastmod: new Date(),
     },
     routes: () => {
-      let articles = axios
+      const articles = axios
         .get('http://strapi.flore.nz/articles')
         .then((res) => {
           return res.data.map((article) => {
@@ -309,12 +309,12 @@ export default {
           })
         })
 
-      let pagiIndex = axios
+      const pagiIndex = axios
         .get('https://strapi.flore.nz/articles/count')
         .then((res) => {
-          let pArray = []
+          const pArray = []
           let n = 0
-          let pp = res.data / 10
+          const pp = res.data / 10
           while (n < pp) {
             n++
             pArray.push('/page/' + n)
@@ -322,15 +322,13 @@ export default {
           return pArray
         })
 
-      let pages = axios
-        .get('http://strapi.flore.nz/pages')
-        .then((res) => {
-          return res.data.map((page) => {
-            return '/' + page.slug
-          })
+      const pages = axios.get('http://strapi.flore.nz/pages').then((res) => {
+        return res.data.map((page) => {
+          return '/' + page.slug
         })
+      })
 
-      let categories = axios
+      const categories = axios
         .get('http://strapi.flore.nz/categories')
         .then((res) => {
           return res.data.map((page) => {
@@ -338,7 +336,7 @@ export default {
           })
         })
 
-      let bookSeries = axios
+      const bookSeries = axios
         .get('http://strapi.flore.nz/bookseries')
         .then((res) => {
           return res.data.map((page) => {
@@ -346,7 +344,7 @@ export default {
           })
         })
 
-      let genreBooks = axios
+      const genreBooks = axios
         .get('http://strapi.flore.nz/genre-books')
         .then((res) => {
           return res.data.map((page) => {
@@ -354,7 +352,7 @@ export default {
           })
         })
 
-      let bookAuthors = axios
+      const bookAuthors = axios
         .get('http://strapi.flore.nz/authors')
         .then((res) => {
           return res.data.map((page) => {
@@ -362,7 +360,15 @@ export default {
           })
         })
 
-      return Promise.all([articles, pages, pagiIndex, categories, bookSeries, genreBooks, bookAuthors]).then((values) => {
+      return Promise.all([
+        articles,
+        pages,
+        pagiIndex,
+        categories,
+        bookSeries,
+        genreBooks,
+        bookAuthors,
+      ]).then((values) => {
         return values.join().split(',')
       })
     },
