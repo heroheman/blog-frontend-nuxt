@@ -135,6 +135,7 @@
 export default {
   name: 'HeaderGlobal',
   props: {
+    // eslint-disable-next-line vue/require-default-prop
     settings: {
       type: Object,
       value: () => {},
@@ -144,14 +145,6 @@ export default {
     return {
       randomHeadNumber: Math.floor(Math.random() * 10),
     }
-  },
-  methods: {
-    getSocialIcon(name) {
-      return `['fab', '${name}']`
-    },
-    getSocialColor(color) {
-      return `{ color: ${color} }`
-    },
   },
   computed: {
     isPost() {
@@ -174,6 +167,14 @@ export default {
     },
     isBlogIndexCompact() {
       return this.$route.name === 'blog'
+    },
+  },
+  methods: {
+    getSocialIcon(name) {
+      return `['fab', '${name}']`
+    },
+    getSocialColor(color) {
+      return `{ color: ${color} }`
     },
   },
 }

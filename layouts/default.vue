@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto">
     <div class="flex flex-wrap px-10 mx-auto md:px-20">
-      <Header class="w-full" :settings="settings" />
+      <Header class="w-full" :settings="settings.data.attributes" />
       <div class="flex-auto w-full">
         <nuxt :settings="settings" />
       </div>
@@ -14,6 +14,7 @@
 import settingsMixin from '@/mixins/settingsMixin.js'
 
 export default {
+  name: 'DefaultLayout',
   mixins: [settingsMixin],
 }
 </script>

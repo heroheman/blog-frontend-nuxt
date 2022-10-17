@@ -20,12 +20,20 @@ export default {
     }
   },
   async fetch() {
-    this.articles = await this.$strapi.$articles.find({
-      _sort: 'display_published_date:DESC',
-      _start: this.page * this.per_page,
-      _limit: this.per_page,
+    const payload = await this.$strapi.find('articles', {
+      populate: '*', // populate all relations';
+      sort: 'display_published_date:DESC',
+      pagination: {
+        start: this.page * this.per_page,
+        limit: this.per_page,
+      },
     })
-    this.articlesCount = await this.$strapi.$articles.count()
+    this.articles = payload.data
+    console.log(this.articles, this.articles.length)
+    this.articlesCount = await payload.meta.pagination.total
   },
   fetchOnServer: true,
+  mounted() {
+    console.log('indexMixin mounted')
+  },
 }

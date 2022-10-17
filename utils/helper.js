@@ -1,5 +1,17 @@
 const md = require('markdown-it')().use(require('markdown-it-footnote'))
 
+// check of objec has a property
+export const hasProperty = (obj, prop) => {
+  return Object.prototype.hasOwnProperty.call(obj, prop)
+}
+
+export const objIsNotEmpty = (obj) => {
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) return true
+  }
+  return false
+}
+
 export const formatDate = (dateString, short = false) => {
   const date = new Date(dateString)
   let options

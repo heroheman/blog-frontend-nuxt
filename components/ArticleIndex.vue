@@ -2,30 +2,30 @@
   <div class="article-index">
     <ul v-if="view === 'list'" class="article-index__list">
       <li
-        v-for="(articles, index) in articles"
+        v-for="(article, index) in articles"
         :key="index"
         class="article-index__listitem"
       >
         <div class="article-item">
           <div class="article-item__title">
             <span
-              v-if="articles.display_published_date"
+              v-if="article.attributes.display_published_date"
               class="article-item__date"
             >
-              {{ formatDate(articles.display_published_date, true) }}
+              {{ formatDate(article.attributes.display_published_date, true) }}
               <span class="hidden mx-1 sm:inline-block"> &ndash; </span>
             </span>
 
             <h3 class="title title--index">
               <nuxt-link
-                :to="`/blog/${articles.slug}`"
+                :to="`/blog/${article.attributes.slug}`"
                 class="inline-block mb-2 article article--clickable"
               >
-                {{ articles.title }}
+                {{ article.attributes.title }}
               </nuxt-link>
             </h3>
             <p class="article-item__body" v-if="showDescription">
-              {{ articles.description }}
+              {{ articlesattributes.description }}
             </p>
           </div>
           <!-- <tags -->

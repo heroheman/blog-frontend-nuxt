@@ -13,14 +13,18 @@
     <li v-if="series.length">
       <strong>| Buchreihe:</strong>
       <span v-for="(s, i) in series" :key="i">
-        <nuxt-link :to="`/series/${s.slug}`">{{ s.title }}</nuxt-link>
+        <nuxt-link :to="`/series/${s.attributes.slug}`">
+          {{ s.attributes.title }}
+        </nuxt-link>
         <span v-if="i + 1 !== series.length">, </span>
       </span>
     </li>
     <li v-if="bookgenre.length" class="mr-2">
       <strong>| Genre:</strong>
       <span v-for="(s, i) in bookgenre" :key="i">
-        <nuxt-link :to="`/genre/book/${s.slug}`">{{ s.title }}</nuxt-link>
+        <nuxt-link :to="`/genre/book/${s.attributes.slug}`">
+          {{ s.attributes.title }}
+        </nuxt-link>
         <span v-if="i + 1 !== bookgenre.length">, </span>
       </span>
     </li>
@@ -49,15 +53,14 @@ export default {
       default: () => [],
     },
   },
-  methods: {
-    formatDate,
-  },
   data() {
     return {
       loading: true,
     }
   },
-  async fetch() {},
+  methods: {
+    formatDate,
+  },
 }
 </script>
 

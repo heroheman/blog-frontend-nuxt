@@ -1,22 +1,22 @@
 <template>
   <article
+    v-if="post !== undefined"
     role="article"
     class="text-left articleview-main"
     :class="{ 'articleview--detail': detail }"
-    v-if="post !== undefined"
   >
     <div class="flex flex-col mb-4">
       <!-- Startpage -->
       <template v-if="!detail">
         <div>
-          <h6 v-if="post.display_published_date" class="mb-8 date">
-            {{ formatDate(post.display_published_date) }}
+          <h6 v-if="post.attributes.display_published_date" class="mb-8 date">
+            {{ formatDate(post.attributes.display_published_date) }}
           </h6>
         </div>
 
-        <nuxt-link v-if="!detail" :to="`/blog/${post.slug}`">
+        <nuxt-link v-if="!detail" :to="`/blog/${post.attributes.slug}`">
           <h2 class="article-title title">
-            {{ post.title }}
+            {{ post.attributes.title }}
           </h2>
         </nuxt-link>
       </template>
@@ -24,15 +24,15 @@
       <!-- Articleview -->
       <template v-else>
         <h2 class="mb-8 italic article-title title">
-          {{ post.title }}
+          {{ post.attributes.title }}
         </h2>
 
         <div>
           <internal-book-linking
-            :date="post.display_published_date"
-            :author="post.author"
-            :series="post.bookseries"
-            :bookgenre="post.genre_books"
+            :date="post.attributes.display_published_date"
+            :author="post.attributes.author.data.attributes"
+            :series="post.attributes.bookseries.data"
+            :bookgenre="post.attributes.genre_books.data"
           />
         </div>
       </template>
@@ -47,7 +47,7 @@
     <nuxt-link
       v-if="!detail && hasExcerpt"
       class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block"
-      :to="`/blog/${post.slug}`"
+      :to="`/blog/${post.attributes.slug}`"
     >
       Weiterlesen
     </nuxt-link>
@@ -69,11 +69,11 @@
     <!-- <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" /> -->
 
     <!-- Single Book List (Legacy) -->
-    <widget-open-library
+    <!-- <widget-open-library
       v-if="detail && !!isbn"
       :bookMeta="isbn"
       class="mt-8 mb-4 article-text lg:max-w-3xl"
-    />
+    /> -->
 
     <!-- Containered Book List -->
     <widget-open-library-list
@@ -82,17 +82,17 @@
       class="mt-8 mb-4 article-text lg:max-w-3xl"
     />
 
-    <advertisement
+    <!-- <advertisement
       v-if="detail && !!advertisement"
       class="w-full mt-16 mb-8 lg:max-w-3xl"
       :ad-data="advertisement"
-    />
+    /> -->
   </article>
 </template>
 
 <script>
 /* eslint-disable */
-import { formatDate } from '@/utils/helper.js'
+import { formatDate, hasProperty } from '@/utils/helper.js'
 export default {
   name: 'ArticleView',
   props: {
@@ -108,7 +108,7 @@ export default {
   computed: {
     hasExcerpt() {
       const dividerStr = '<!--more-->'
-      const content = this.post.body.split(dividerStr)
+      const content = this.post.attributes.body.split(dividerStr)
       // if excerpt available
       if (content.length > 1) {
         return true
@@ -127,7 +127,7 @@ export default {
 
       // excerpt handling
       let content
-      const tmp = this.post.body.split(dividerStr)
+      const tmp = this.post.attributes.body.split(dividerStr)
       if (!this.detail) {
         // if excerpt available
         if (tmp.length > 1) {
@@ -147,8 +147,8 @@ export default {
       return content
     },
     rating() {
-      if (this.post.additional.length) {
-        return this.post.additional.filter(
+      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
+        return this.post.attributes.additional.filter(
           (addi) => addi.__component === 'content.rating'
         )[0]
       } else {
@@ -166,25 +166,25 @@ export default {
         return 'no-rating'
       }
     },
-    isbn() {
-      if (this.post.additional.length && this.detail) {
-        return this.post.additional.filter(
-          (addi) => addi.__component === 'external-api.open-library-isbn'
-        )[0]
-      } else {
-        return false
-      }
-    },
+    // isbn() {
+    //   if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length && this.detail) {
+    //     return this.post.attributes.additional.filter(
+    //       (addi) => addi.__component === 'external-api.open-library-isbn'
+    //     )[0]
+    //   } else {
+    //     return false
+    //   }
+    // },
     isbnWrapped() {
-      if (this.post.additional.length) {
+      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
         if (this.hasExcerpt && !this.detail) {
           return false
         } else if (
-          this.post.additional.filter(
+          this.post.attributes.additional.filter(
             (addi) => addi.__component === 'external-api.book-container'
           ).length
         ) {
-          return this.post.additional.filter(
+          return this.post.attributes.additional.filter(
             (addi) => addi.__component === 'external-api.book-container'
           )
         }
@@ -193,11 +193,11 @@ export default {
       }
     },
     songs() {
-      if (this.post.additional.length) {
+      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
         if (this.hasExcerpt && !this.detail) {
           return false
         } else {
-          return this.post.additional.filter(
+          return this.post.attributes.additional.filter(
             (addi) => addi.__component === 'content.track'
           )
         }
@@ -206,15 +206,15 @@ export default {
       }
     },
     songsWrapped() {
-      if (this.post.additional.length) {
+      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
         if (this.hasExcerpt && !this.detail) {
           return false
         } else if (
-          this.post.additional.filter(
+          this.post.attributes.additional.filter(
             (addi) => addi.__component === 'content.track-container'
           ).length
         ) {
-          return this.post.additional.filter(
+          return this.post.attributes.additional.filter(
             (addi) => addi.__component === 'content.track-container'
           )
         }
@@ -223,8 +223,8 @@ export default {
       }
     },
     advertisement() {
-      if (this.post.additional.length) {
-        return this.post.additional.filter(
+      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
+        return this.post.attributes.additional.filter(
           (addi) => addi.__component === 'content.advertisement'
         )[0]
       } else {
@@ -232,7 +232,7 @@ export default {
       }
     },
     bodyText() {
-      const text = this.post.body.split('<!--more-->')
+      const text = this.post.attributes.body.split('<!--more-->')
       return text
     },
   },

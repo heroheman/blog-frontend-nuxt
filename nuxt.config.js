@@ -1,19 +1,22 @@
 // import glob from 'glob'
-import path from 'path'
+// import path from 'path'
 import axios from 'axios'
 // import fs from 'fs'
-import postcssImport from 'postcss-import'
-import postcssNested from 'postcss-nesting'
-import postcssPresetEnv from 'postcss-preset-env'
+// import postcssImport from 'postcss-import'
+// import postcssNested from 'postcss-nesting'
+// import postcssPresetEnv from 'postcss-preset-env'
 
 import { feedContentParsed } from './utils/helper'
 
-// const BLOG_EP = 'https://strapi.flore.nz'
-const BLOG_EP = process.env.STRAPI_URL || 'http://localhost:1337'
+const BLOG_EP = process.env.STRAPI_URL
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+
+  publicRuntimeConfig: {
+    strapiUrl: process.env.STRAPI_URL || 'http://localhost:1337',
+  },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -86,7 +89,7 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/youtube.client.js'],
+  plugins: ['~/plugins/youtube.client.js', '~/plugins/strapi.js'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -96,6 +99,7 @@ export default {
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/tailwindcss
+    '@nuxt/postcss8',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/svg',
     '@nuxtjs/fontawesome',
@@ -105,7 +109,7 @@ export default {
   modules: [
     '@nuxtjs/markdownit',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/strapi',
+    // '@nuxtjs/strapi',
     '@nuxtjs/pwa',
     '@nuxtjs/axios',
     '@nuxtjs/feed',
@@ -113,12 +117,12 @@ export default {
     '@nuxtjs/sitemap',
   ],
 
-  strapi: {
-    // baseURL: process.env.NUXT_ENV_STRAPI_EP,
-    // url: process.env.STRAPI_URL || http://localhost:1337
-    url: BLOG_EP,
-    entities: ['articles', 'pages'],
-  },
+  // strapi: {
+  // baseURL: process.env.NUXT_ENV_STRAPI_EP,
+  // url: process.env.STRAPI_URL || http://localhost:1337
+  // url: BLOG_EP,
+  // entities: ['articles', 'pages'],
+  // },
 
   router: {
     scrollBehavior(to, from, savedPosition) {
@@ -160,16 +164,10 @@ export default {
     extractCSS: true,
     postcss: {
       plugins: {
-        tailwindcss: path.resolve(__dirname, './tailwind.config.js'),
-        'postcss-import': postcssImport,
-        'postcss-nested': postcssNested,
-        'postcss-preset-env': postcssPresetEnv({
-          stage: 2,
-          autoprefixer: true,
-          features: {
-            'nesting-rules': true,
-          },
-        }),
+        'tailwindcss/nesting': {},
+        tailwindcss: {},
+        'postcss-import': {},
+        autoprefixer: {},
       },
     },
     /*
@@ -263,16 +261,16 @@ export default {
 
         const posts = await axios.get(
           // 'https://flrnz-blog-backend.herokuapp.com/articles'
-          `${BLOG_EP}/articles`
+          `${BLOG_EP}/articles?populate=*`
         )
 
         posts.data.forEach((post) => {
           feed.addItem({
-            title: post.title,
-            date: new Date(post.display_published_date),
-            id: post.url,
-            link: 'https://flore.nz/blog/' + post.slug,
-            description: post.description,
+            title: post.attributes.title,
+            date: new Date(post.attributes.display_published_date),
+            id: post.attributes.url,
+            link: 'https://flore.nz/blog/' + post.attributes.slug,
+            description: post.attributes.description,
             content: feedContentParsed(post),
           })
         })
@@ -290,6 +288,7 @@ export default {
       // data: ['Some additional data'] // Will be passed as 2nd argument to `create` function
     },
   ],
+
   loading: '~/components/LoadingAnimation.vue',
 
   sitemap: {
@@ -305,16 +304,16 @@ export default {
         .get('http://strapi.flore.nz/articles')
         .then((res) => {
           return res.data.map((article) => {
-            return '/blog/' + article.slug
+            return '/blog/' + article.attributes.slug
           })
         })
 
       const pagiIndex = axios
-        .get('https://strapi.flore.nz/articles/count')
+        .get('https://strapi.flore.nz/articles')
         .then((res) => {
           const pArray = []
           let n = 0
-          const pp = res.data / 10
+          const pp = res.meta.pagination.total / 10
           while (n < pp) {
             n++
             pArray.push('/page/' + n)
@@ -324,7 +323,7 @@ export default {
 
       const pages = axios.get('http://strapi.flore.nz/pages').then((res) => {
         return res.data.map((page) => {
-          return '/' + page.slug
+          return '/' + page.attributes.slug
         })
       })
 
@@ -332,7 +331,7 @@ export default {
         .get('http://strapi.flore.nz/categories')
         .then((res) => {
           return res.data.map((page) => {
-            return '/category/' + page.slug
+            return '/category/' + page.attributes.slug
           })
         })
 
@@ -340,7 +339,7 @@ export default {
         .get('http://strapi.flore.nz/bookseries')
         .then((res) => {
           return res.data.map((page) => {
-            return '/series/' + page.slug
+            return '/series/' + page.attributes.slug
           })
         })
 
@@ -348,7 +347,7 @@ export default {
         .get('http://strapi.flore.nz/genre-books')
         .then((res) => {
           return res.data.map((page) => {
-            return '/genre/book/' + page.slug
+            return '/genre/book/' + page.attributes.slug
           })
         })
 
@@ -356,7 +355,7 @@ export default {
         .get('http://strapi.flore.nz/authors')
         .then((res) => {
           return res.data.map((page) => {
-            return '/author/' + page.slug
+            return '/author/' + page.attributes.slug
           })
         })
 

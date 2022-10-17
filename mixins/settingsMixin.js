@@ -5,7 +5,9 @@ export default {
     }
   },
   async fetch() {
-    this.settings = await this.$strapi.find('global')
+    this.settings = await this.$strapi.find('global', {
+      populate: '*', // populate all relations
+    })
   },
   fetchOnServer: true,
 }

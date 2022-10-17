@@ -4,7 +4,7 @@
       <h2 class="article-title title">
         {{ title }}
       </h2>
-      <p>{{ description }}</p>
+      <p class="mb-8">{{ description }}</p>
     </div>
 
     <div class="w-full md:w-3/4 md:pr-12">
@@ -14,19 +14,21 @@
         :show-description="showDescription"
       />
     </div>
-    <div class="w-full md:w-1/4" v-if="$route.params.category === 'buecher'">
+    <div v-if="$route.params.category === 'buecher'" class="w-full md:w-1/4">
       <collection-index
-        :collection="genre"
+        show-single-collections
+        :collection="genre.data"
         link-path="/genre/book"
         collection-title="Genre"
       />
       <collection-index
-        :collection="authors"
+        show-single-collections
+        :collection="authors.data"
         link-path="/author"
         collection-title="Autoren"
       />
       <collection-index
-        :collection="series"
+        :collection="series.data"
         link-path="/series"
         collection-title="Buchserien"
       />
@@ -50,32 +52,41 @@ export default {
     }
   },
   async fetch() {
-    const tmp = await this.$strapi.find('categories', {
-      slug: this.$route.params.category,
+    const payload = await this.$strapi.find('categories', {
+      populate: '*', // populate all relations';
+      // sort: 'display_published_date:DESC',
+      // slug: this.$route.params.category,
+      filters: {
+        slug: {
+          $eq: this.$route.params.category,
+        },
+      },
     })
+
+    const tmp = payload.data
 
     if (this.$route.params.category === 'musik') {
       this.showDescription = true
     }
 
-    this.showDescription = tmp[0].showDescriptionInIndex
-    this.title = tmp[0].title
-    this.description = tmp[0].description
+    this.showDescription = tmp[0].attributes.showDescriptionInIndex
+    this.title = tmp[0].attributes.title
+    this.description = tmp[0].attributes.description
 
-    this.articles = tmp[0].articles.sort(function (a, b) {
+    this.articles = tmp[0].attributes.articles.data.sort(function (a, b) {
       return (
-        new Date(b.display_published_date).getTime() -
-        new Date(a.display_published_date).getTime()
+        new Date(b.attributes.display_published_date).getTime() -
+        new Date(a.attributes.display_published_date).getTime()
       )
     })
 
-    const series = await this.$strapi.find('bookseries')
+    const series = await this.$strapi.find('bookseries', { populate: '*' })
     this.series = series
 
-    const genre = await this.$strapi.find('genre-books')
+    const genre = await this.$strapi.find('genre-books', { populate: '*' })
     this.genre = genre
 
-    const author = await this.$strapi.find('authors')
+    const author = await this.$strapi.find('authors', { populate: '*' })
     this.authors = author
   },
   fetchOnServer: true,

@@ -21,6 +21,11 @@ export default {
       hasTag: false,
     }
   },
+  async fetch() {
+    this.articles = await this.$strapi.find('articles', {
+      sort: 'display_published_date:DESC',
+    }).data
+  },
   computed: {
     items() {
       if (this.hasTag) {
@@ -38,22 +43,7 @@ export default {
       })
     },
   },
-  async fetch() {
-    this.articles = await this.$strapi.$articles.find({
-      _sort: 'display_published_date:DESC',
-    })
-  },
   fetchOnServer: true,
-  methods: {
-    formatDate,
-  },
-  mounted() {
-    if (this.$route.query.tag) {
-      this.hasTag = true
-    } else {
-      this.hasTag = false
-    }
-  },
   watch: {
     '$route.query.tag'() {
       if (this.$route.query.tag) {
@@ -62,6 +52,16 @@ export default {
         this.hasTag = false
       }
     },
+  },
+  mounted() {
+    if (this.$route.query.tag) {
+      this.hasTag = true
+    } else {
+      this.hasTag = false
+    }
+  },
+  methods: {
+    formatDate,
   },
 }
 </script>

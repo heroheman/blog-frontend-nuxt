@@ -1,28 +1,33 @@
+<!-- eslint-disable vue/no-use-v-if-with-v-for -->
 <template>
   <div class="collection-index">
-    <ul class="collection-index__list">
+    <ul class="collection-index__list mb-4">
       <li v-if="collectionTitle">
-        <h4>
+        <h4 class="mt-0 pt-0">
           {{ collectionTitle }}
         </h4>
       </li>
+
       <li
         v-for="(item, index) in collection"
         :key="index"
         class="collection-index__listitem"
+        :class="{
+          'is-hidden': isSingleCollection(item) && !showSingleCollections,
+        }"
       >
         <div class="collection-item">
           <div class="collection-item__title">
             <h3 class="title title--index">
               <nuxt-link
-                :to="`${linkPath}/${item.slug}`"
+                :to="`${linkPath}/${item.attributes.slug}`"
                 class="inline-block mb-2 collection--clickable"
               >
-                {{ item.title || item.name }}
+                {{ item.attributes.title || item.attributes.name }}
               </nuxt-link>
               <span class="collection-item__counter">
                 <span>
-                  {{ item.articles.length }}
+                  {{ item.attributes.articles.data.length }}
                 </span>
               </span>
             </h3>
@@ -50,17 +55,33 @@ export default {
       type: Array,
       default: () => [],
     },
+    showSingleCollections: {
+      type: Boolean,
+      default: false,
+    },
   },
-  methods: { formatDate },
+  methods: {
+    formatDate,
+    isSingleCollection(item) {
+      return item.attributes.articles.data.length === 1
+    },
+  },
 }
 </script>
 
 <style lang="postcss">
+.is-hidden {
+  @apply !hidden;
+}
 .collection-index {
   &__list {
     @apply flex flex-col pl-0;
     @screen md {
       padding-top: 2.4rem;
+    }
+
+    &:first-child {
+      @apply pt-0;
     }
   }
   &__listitem {

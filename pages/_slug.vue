@@ -18,7 +18,7 @@
       </article>
     </div>
     <div v-else>
-      <h2>404 und so</h2>
+      <h2>404 and stuff</h2>
     </div>
   </main>
 </template>
@@ -27,21 +27,21 @@
 import { formatDate } from '@/utils/helper.js'
 
 export default {
-  name: 'Page',
+  name: 'PageComponent',
   data() {
     return {
       pages: [],
     }
   },
+  async fetch() {
+    this.pages = await this.$strapi.find('pages', {
+      slug: this.$route.params.slug.toString(),
+    })
+  },
   computed: {
     content() {
       return this.pages[0]
     },
-  },
-  async fetch() {
-    this.pages = await this.$strapi.$pages.find({
-      slug: this.$route.params.slug.toString(),
-    })
   },
   fetchOnServer: true,
   methods: {

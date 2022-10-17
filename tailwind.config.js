@@ -1,11 +1,11 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
-  mode: 'jit',
-  purge: ['./**/*.vue'],
+  // mode: 'jit',
+  content: ['./**/*.vue'],
   theme: {
     screens: {
-      'xs': '475px',
+      xs: '475px',
       ...defaultTheme.screens,
     },
     extend: {
@@ -66,7 +66,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [
-    require('@tailwindcss/aspect-ratio'),
-  ],
+  plugins: [require('@tailwindcss/aspect-ratio')],
 }
