@@ -1,5 +1,6 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
-  <div class="songs" v-if="songs.length">
+  <div v-if="songs.length" class="songs">
     <div v-for="(song, index) in songs" :key="index" class="song">
       <p class="!mb-2">
         <strong class="italic">{{ song.title }}</strong>
@@ -7,12 +8,12 @@
 
       <div class="relative text-sm" v-html="$md.render(song.description)" />
 
-      <div class="text-sm mb-4" v-if="song.genre">
+      <div v-if="song.genre" class="text-sm mb-4">
         <strong>Genre:</strong>
         <span class="italic">{{ song.genre }}</span>
       </div>
 
-      <yt-embed :url="song.youtube_url" v-if="song.embed_youtube" />
+      <yt-embed v-if="song.embed_youtube" :url="song.youtube_url" />
 
       <ui-button
         v-if="hasSpotify(song)"

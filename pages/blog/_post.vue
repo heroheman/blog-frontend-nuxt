@@ -25,7 +25,7 @@ export default {
   // },
   async fetch() {
     const payload = await this.$strapi.find('articles', {
-      populate: '*',
+      populate: 'deep,3',
       filters: {
         slug: {
           $eq: this.$route.params.post,

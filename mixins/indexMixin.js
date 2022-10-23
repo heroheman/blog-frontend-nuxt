@@ -29,11 +29,7 @@ export default {
       },
     })
     this.articles = payload.data
-    console.log('articles length ', this.articles.length)
     this.articlesCount = await payload.meta.pagination.total
   },
   fetchOnServer: true,
-  mounted() {
-    console.log('indexMixin mounted')
-  },
 }

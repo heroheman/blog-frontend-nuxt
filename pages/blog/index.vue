@@ -22,9 +22,16 @@ export default {
     }
   },
   async fetch() {
-    this.articles = await this.$strapi.find('articles', {
+    // TODO: Increase max Result list
+    // https://forum.strapi.io/t/this-should-be-an-easy-one-how-do-i-get-strapi-query-to-return-all-entries-in-version-v4/21339
+    const payload = await this.$strapi.find('articles', {
+      populate: '*', // populate all relations';
       sort: 'display_published_date:DESC',
-    }).data
+      pagination: {
+        pageSize: 200,
+      },
+    })
+    this.articles = payload.data
   },
   computed: {
     items() {

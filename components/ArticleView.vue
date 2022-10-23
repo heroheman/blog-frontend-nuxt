@@ -53,7 +53,7 @@
       Weiterlesen
     </nuxt-link>
 
-    <!-- Single Song List -->
+    <!-- : Single Song List -->
     <song
       v-if="!!songs"
       :songs="songs"
