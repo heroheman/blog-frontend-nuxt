@@ -14,7 +14,17 @@ export default {
     }
   },
   async fetch() {
-    const tmp = await this.$strapi.find('genre-books')
+    // const tmp = await this.$strapi.find('genre-books')
+    const payload = await this.$strapi.find('bookseries', {
+      populate: 'deep,3', // populate all relations
+      filters: {
+        slug: {
+          $eq: this.$route.params.series,
+        },
+      },
+    })
+
+    const tmp = payload.data[0].attributes
     this.items = tmp
   },
   fetchOnServer: true,
