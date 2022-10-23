@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <main class="w-full lg:max-w-3xl">
     <div class="w-full">
@@ -29,14 +30,24 @@ export default {
     }
   },
   async fetch() {
-    const tmp = await this.$strapi.find('bookseries', {
-      slug: this.$route.params.series,
+    // const tmp = await this.$strapi.find('bookseries', {
+    //   slug: this.$route.params.series,
+    // })
+    const payload = await this.$strapi.find('bookseries', {
+      populate: 'deep,3', // populate all relations
+      filters: {
+        slug: {
+          $eq: this.$route.params.series,
+        },
+      },
     })
 
-    this.title = tmp[0].title
-    this.description = tmp[0].description
+    const tmp = payload.data[0].attributes
 
-    this.articles = tmp[0].articles.sort(function (a, b) {
+    this.title = tmp.title
+    this.description = tmp.description
+
+    this.articles = tmp.articles.data.sort(function (a, b) {
       return (
         new Date(b.display_published_date).getTime() -
         new Date(a.display_published_date).getTime()

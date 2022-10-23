@@ -44,31 +44,32 @@
         class="article-index__thumbitem"
       >
         <figure class="article-item">
+          <!-- attributes.cover.data.attributes.formats.small -->
           <img
-            v-if="article.cover"
-            :srcset="`${article.cover.formats.small.url} ${article.cover.formats.small.width}w,
-                    ${article.cover.formats.thumbnail.url} ${article.cover.formats.thumbnail.width}w
-                    ${article.cover.formats.medium.url} ${article.cover.formats.medium.width}w
-                    ${article.cover.formats.large.url} ${article.cover.formats.large.width}w`"
+            v-if="article.attributes.cover"
+            :srcset="`${article.attributes.cover.data.attributes.formats.small.url} ${article.attributes.cover.data.attributes.formats.small.width}w,
+                    ${article.attributes.cover.data.attributes.formats.thumbnail.url} ${article.attributes.cover.data.attributes.formats.thumbnail.width}w
+                    ${article.attributes.cover.data.attributes.formats.medium.url} ${article.attributes.cover.data.attributes.formats.medium.width}w
+                    ${article.attributes.cover.data.attributes.formats.large.url} ${article.attributes.cover.data.attributes.formats.large.width}w`"
             sizes="(max-width: 600px) 480px,
                     800px"
-            :src="article.cover.formats.small.url"
-            :alt="articles.title"
+            :src="article.attributes.cover.data.attributes.formats.small.url"
+            :alt="article.attributes.title"
           />
           <figcaption class="article-item__title">
             <span
-              v-if="article.display_published_date"
+              v-if="article.attributes.display_published_date"
               class="article-item__date"
             >
-              {{ formatDate(article.display_published_date, true) }}
+              {{ formatDate(article.attributes.display_published_date, true) }}
             </span>
 
             <h3 class="title title--index">
               <nuxt-link
-                :to="`/blog/${article.slug}`"
+                :to="`/blog/${article.attributes.slug}`"
                 class="inline-block mb-2 article article--clickable"
               >
-                {{ article.title }}
+                {{ article.attributes.title }}
               </nuxt-link>
             </h3>
             <!-- <p class="article-item__body" v-if="showDescription"> -->
