@@ -17,11 +17,21 @@ export default {
     }
   },
   async fetch() {
-    const tmp = await this.$strapi.find('authors', {
-      slug: this.$route.params.author,
+    // const tmp = await this.$strapi.find('authors', {
+    //   slug: this.$route.params.author,
+    // })
+    const payload = await this.$strapi.find('authors', {
+      populate: 'deep,3', // populate all relations
+      filters: {
+        slug: {
+          $eq: this.$route.params.author,
+        },
+      },
     })
 
-    this.articles = tmp[0].articles.sort(function (a, b) {
+    const tmp = payload.data[0].attributes
+
+    this.articles = tmp.articles.data.sort(function (a, b) {
       return (
         new Date(b.display_published_date).getTime() -
         new Date(a.display_published_date).getTime()

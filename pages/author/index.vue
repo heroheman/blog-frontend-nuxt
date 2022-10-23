@@ -14,7 +14,12 @@ export default {
     }
   },
   async fetch() {
-    const tmp = await this.$strapi.find('authors')
+    // const tmp = await this.$strapi.find('authors')
+    const payload = await this.$strapi.find('authors', {
+      populate: 'deep,3', // populate all relations
+    })
+
+    const tmp = payload.data[0].attributes
     this.items = tmp
   },
   fetchOnServer: true,
