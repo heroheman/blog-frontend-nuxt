@@ -11,6 +11,7 @@
       <article-index
         v-if="articles"
         :articles="articles"
+        :description="description"
         :show-description="showDescription"
       />
     </div>

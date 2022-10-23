@@ -29,7 +29,7 @@ export default {
       },
     })
     this.articles = payload.data
-    console.log(this.articles, this.articles.length)
+    console.log('articles length ', this.articles.length)
     this.articlesCount = await payload.meta.pagination.total
   },
   fetchOnServer: true,

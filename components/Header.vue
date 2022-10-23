@@ -9,11 +9,18 @@
     <h1 class="header__brand">
       <nuxt-link class="" to="/">
         <div class="brand">
-          <!-- <figure class="brand__img"> -->
-          <!--   <img src="/img/me.jpg" alt="me" class="w-10" /> -->
-          <!-- </figure> -->
           <div class="brand__name">
-            <h1 class="mb-4 italic leading-snug">{{ settings.sitetitle }}</h1>
+            <h1 class="mb-4 italic leading-snug">
+              <!-- <figure class="brand__img">
+                <img
+                  src="/img/me.jpg"
+                  class="w-10"
+                  :alt="settings.sitetitle"
+                  :title="settings.sitetitle"
+                />
+              </figure> -->
+              {{ settings.sitetitle }}
+            </h1>
             <div class="brand__slogan" v-if="settings.Phrases.length">
               <span v-if="randomHeadNumber < 2">
                 {{ settings.Phrases[0].phrase }}

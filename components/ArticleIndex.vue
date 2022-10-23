@@ -25,7 +25,7 @@
               </nuxt-link>
             </h3>
             <p class="article-item__body" v-if="showDescription">
-              {{ articlesattributes.description }}
+              {{ description }}
             </p>
           </div>
           <!-- <tags -->
@@ -98,6 +98,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    description: {
+      type: String,
+      default: 'no description given', // list, thumbs
+    },
   },
   methods: { formatDate },
 }
@@ -144,8 +148,6 @@ export default {
         top: auto;
         height: auto;
       }
-
-      ,
       img {
         @apply m-0;
         border-radius: 5px;

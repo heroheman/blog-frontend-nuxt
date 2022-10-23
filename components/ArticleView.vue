@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <article
     v-if="post !== undefined"
@@ -30,7 +31,7 @@
         <div>
           <internal-book-linking
             :date="post.attributes.display_published_date"
-            :author="post.attributes.author.data.attributes"
+            :author="post.attributes.author.data"
             :series="post.attributes.bookseries.data"
             :bookgenre="post.attributes.genre_books.data"
           />

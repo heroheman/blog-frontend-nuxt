@@ -8,7 +8,9 @@
     <!-- <li v-if="author && Object.prototype.hasOwnProperty.call(author, "slug");"> -->
     <li v-if="author && author.constructor === Object">
       <strong>| Autor:</strong>
-      <nuxt-link :to="`/author/${author.slug}`">{{ author.name }}</nuxt-link>
+      <nuxt-link :to="`/author/${author.attributes.slug}`">
+        {{ author.attributes.name }}
+      </nuxt-link>
     </li>
     <li v-if="series.length">
       <strong>| Buchreihe:</strong>
