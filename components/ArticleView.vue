@@ -250,6 +250,7 @@ export default {
 .star-rating {
   > p:last-of-type::after {
     @apply block mt-4;
+    color: #ddb63e;
   }
   &-1 {
     > p:last-of-type::after {

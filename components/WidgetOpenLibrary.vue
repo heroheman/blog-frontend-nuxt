@@ -1,5 +1,5 @@
 <template>
-  <div class="book" v-if="isLoaded">
+  <div v-if="isLoaded" class="book">
     <figure class="book__image w-full sm:w-1/4 lg:w-1/6">
       <img
         loading="lazy"
@@ -11,11 +11,11 @@
     </figure>
     <div class="book__detail w-full sm:w-3/4 lg:w-5/6">
       <p
-        class="font-italic"
         v-if="
           Object.prototype.hasOwnProperty.call(metadata, 'authors') &&
           metadata.authors.length
         "
+        class="font-italic"
       >
         {{ metadata.authors[0].name }}
       </p>
@@ -101,9 +101,13 @@ export default {
   },
   async fetch() {
     const id = `ISBN:${this.bookMeta.isbn}`
-    const tmp = await this.$http.$get(
+    // const tmp = await this.$http.$get(
+    //   `https://openlibrary.org/api/books?bibkeys=${id}&jscmd=data&format=json`
+    // )
+    const tmp = await fetch(
       `https://openlibrary.org/api/books?bibkeys=${id}&jscmd=data&format=json`
-    )
+    ).then((response) => response.json())
+
     if (JSON.stringify(tmp) !== '{}') {
       this.metadata = tmp[id]
       this.isLoaded = true
@@ -130,8 +134,10 @@ export default {
       return `ISBN: ${isbn10} (ISBN-13: ${isbn13})`
     },
     getBookImage() {
-      // checko for custom cover
-      if (this.bookMeta.cover !== null) {
+      if (
+        this.bookMeta.cover !== null &&
+        Object.prototype.hasOwnProperty.call(this.bookMeta, 'cover')
+      ) {
         if (
           Object.prototype.hasOwnProperty.call(
             this.bookMeta.cover.formats,
