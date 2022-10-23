@@ -34,13 +34,21 @@ export default {
     }
   },
   async fetch() {
-    this.pages = await this.$strapi.find('pages', {
-      slug: this.$route.params.slug.toString(),
+    // this.pages = await this.$strapi.find('pages', {
+    //   slug: this.$route.params.slug.toString(),
+    // })
+    const payload = await this.$strapi.find('pages', {
+      filters: {
+        slug: {
+          $eq: this.$route.params.slug.toString(),
+        },
+      },
     })
+    this.pages = payload.data
   },
   computed: {
     content() {
-      return this.pages[0]
+      return this.pages[0].attributes
     },
   },
   fetchOnServer: true,
