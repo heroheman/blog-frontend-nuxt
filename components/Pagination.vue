@@ -55,7 +55,7 @@
 
 <script>
 export default {
-  name: 'Pagination',
+  name: 'PaginationComponent',
   props: {
     articlesCount: {
       type: Number,

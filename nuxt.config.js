@@ -303,19 +303,20 @@ export default {
     },
     routes: () => {
       const articles = axios
-        .get('http://strapi.flore.nz/articles?populate=deep,3')
+        .get('http://strapi.flore.nz/api/articles?populate=deep,3')
+        // .then(res => { console.log(res); return res;})
         .then((res) => {
-          return res.data.map((article) => {
+          return res.data.data.map((article) => {
             return '/blog/' + article.attributes.slug
           })
         })
 
       const pagiIndex = axios
-        .get('https://strapi.flore.nz/articles')
+        .get('https://strapi.flore.nz/api/articles')
         .then((res) => {
           const pArray = []
           let n = 0
-          const pp = res.meta.pagination.total / 10
+          const pp = res.data.meta.pagination.total / 10
           while (n < pp) {
             n++
             pArray.push('/page/' + n)
@@ -323,40 +324,42 @@ export default {
           return pArray
         })
 
-      const pages = axios.get('http://strapi.flore.nz/pages').then((res) => {
-        return res.data.map((page) => {
-          return '/' + page.attributes.slug
+      const pages = axios
+        .get('http://strapi.flore.nz/api/pages')
+        .then((res) => {
+          return res.data.data.map((page) => {
+            return '/' + page.attributes.slug
+          })
         })
-      })
 
       const categories = axios
-        .get('http://strapi.flore.nz/categories')
+        .get('http://strapi.flore.nz/api/categories')
         .then((res) => {
-          return res.data.map((page) => {
+          return res.data.data.map((page) => {
             return '/category/' + page.attributes.slug
           })
         })
 
       const bookSeries = axios
-        .get('http://strapi.flore.nz/bookseries')
+        .get('http://strapi.flore.nz/api/bookseries')
         .then((res) => {
-          return res.data.map((page) => {
+          return res.data.data.map((page) => {
             return '/series/' + page.attributes.slug
           })
         })
 
       const genreBooks = axios
-        .get('http://strapi.flore.nz/genre-books')
+        .get('http://strapi.flore.nz/api/genre-books')
         .then((res) => {
-          return res.data.map((page) => {
+          return res.data.data.map((page) => {
             return '/genre/book/' + page.attributes.slug
           })
         })
 
       const bookAuthors = axios
-        .get('http://strapi.flore.nz/authors')
+        .get('http://strapi.flore.nz/api/authors')
         .then((res) => {
-          return res.data.map((page) => {
+          return res.data.data.map((page) => {
             return '/author/' + page.attributes.slug
           })
         })
