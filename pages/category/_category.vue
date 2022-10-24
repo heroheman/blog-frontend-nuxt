@@ -29,6 +29,7 @@
         collection-title="Autoren"
       />
       <collection-index
+        show-single-collections
         :collection="series.data"
         link-path="/series"
         collection-title="Buchserien"

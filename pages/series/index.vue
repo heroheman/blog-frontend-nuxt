@@ -1,6 +1,10 @@
 <template>
   <main class="w-full lg:max-w-3xl">
-    <collection-index :collection="items" link-path="/series" />
+    <collection-index
+      show-single-collections
+      :collection="items.data"
+      link-path="/series"
+    />
   </main>
 </template>
 
@@ -14,8 +18,16 @@ export default {
     }
   },
   async fetch() {
-    const tmp = await this.$strapi.find('bookseries')
-    this.items = tmp
+    // const tmp = await this.$strapi.find('bookseries')
+    // this.items = tmp
+    const payload = await this.$strapi.find('bookseries', {
+      populate: '*', // populate all relations
+      pagination: {
+        pageSize: 200,
+      },
+    })
+
+    this.items = payload
   },
   fetchOnServer: true,
 }

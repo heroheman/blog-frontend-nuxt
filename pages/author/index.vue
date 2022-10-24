@@ -1,6 +1,10 @@
 <template>
   <main class="w-full lg:max-w-3xl">
-    <collection-index :collection="items" link-path="/author" />
+    <collection-index
+      show-single-collections
+      :collection="items.data"
+      link-path="/author"
+    />
   </main>
 </template>
 
@@ -15,12 +19,20 @@ export default {
   },
   async fetch() {
     // const tmp = await this.$strapi.find('authors')
+    // const payload = await this.$strapi.find('authors', {
+    //   populate: 'deep,3', // populate all relations
+    // })
+
+    // const tmp = payload.data[0].attributes
+    // this.items = tmp
     const payload = await this.$strapi.find('authors', {
-      populate: 'deep,3', // populate all relations
+      populate: '*', // populate all relations
+      pagination: {
+        pageSize: 200,
+      },
     })
 
-    const tmp = payload.data[0].attributes
-    this.items = tmp
+    this.items = payload
   },
   fetchOnServer: true,
 }

@@ -8,14 +8,16 @@ import axios from 'axios'
 
 import { feedContentParsed } from './utils/helper'
 
-const BLOG_EP = process.env.STRAPI_URL
+// TODO: env file to uberspace... somehow
+const BLOG_EP = process.env.STRAPI_URL || 'https://strapi.flore.nz'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
   publicRuntimeConfig: {
-    strapiUrl: process.env.STRAPI_URL || 'http://localhost:1337',
+    // strapiUrl: process.env.STRAPI_URL || 'http://localhost:1337',
+    strapiUrl: BLOG_EP,
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
