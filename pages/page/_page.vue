@@ -8,12 +8,12 @@
       >
         <article-view v-if="post.category !== 'Heavy Rotation'" :post="post" />
       </div>
-      <!-- <pagination
+      <pagination
         class="pl-0 mt-8 mb-6 mr-0 text-left"
         :articles-count="articlesCount"
         :per-page="per_page"
         :current-page="page"
-      /> -->
+      />
     </div>
     <div v-else>
       <loading />

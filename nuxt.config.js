@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // import glob from 'glob'
 // import path from 'path'
 import axios from 'axios'
@@ -216,39 +217,9 @@ export default {
 
   generate: {
     crawler: true,
-    // routes() {
-    //   let articles = axios
-    //     .get('https://flrnz-blog-backend.herokuapp.com/articles')
-    //     .then((res) => {
-    //       return res.data.map((article) => {
-    //         return '/blog/' + article.slug
-    //       })
-    //     })
-
-    //   let pagiIndex = axios
-    //     .get('https://flrnz-blog-backend.herokuapp.com/articles/count')
-    //     .then((res) => {
-    //       let pArray = []
-    //       let n = 0
-    //       let pp = res.data / 5
-    //       while (n < pp) {
-    //         n++
-    //         pArray.push('/page/' + n)
-    //       }
-    //       return pArray
-    //     })
-
-    //   let pages = axios
-    //     .get('https://flrnz-blog-backend.herokuapp.com/pages')
-    //     .then((res) => {
-    //       return res.data.map((page) => {
-    //         return '/' + page.slug
-    //       })
-    //     })
-    //   return Promise.all([articles, pages, pagiIndex]).then((values) => {
-    //     return values.join().split(',')
-    //   })
-    // },
+    exclude: [
+      /^\/page\/[-+][1-9]/
+    ],
   },
 
   feed: [

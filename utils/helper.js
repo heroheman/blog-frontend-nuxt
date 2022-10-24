@@ -23,6 +23,10 @@ export const formatDate = (dateString, short = false) => {
   return date.toLocaleDateString('de-DE', options)
 }
 
+// regex check if slug '/page/-3' has a negative number
+
+
+
 export const songsAsMarkup = (songArray) => {
   return songArray
     .map(
