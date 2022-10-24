@@ -263,17 +263,17 @@ export default {
 
         const posts = await axios.get(
           // 'https://flrnz-blog-backend.herokuapp.com/articles'
-          `${BLOG_EP}/articles?populate=*`
+          `${BLOG_EP}/api/articles?populate=*`
         )
 
-        posts.data.forEach((post) => {
+        posts.data.data.forEach((post) => {
           feed.addItem({
             title: post.attributes.title,
             date: new Date(post.attributes.display_published_date),
             id: post.attributes.url,
             link: 'https://flore.nz/blog/' + post.attributes.slug,
             description: post.attributes.description,
-            content: feedContentParsed(post),
+            content: feedContentParsed(post.attributes),
           })
         })
 
@@ -303,7 +303,7 @@ export default {
     },
     routes: () => {
       const articles = axios
-        .get('http://strapi.flore.nz/articles')
+        .get('http://strapi.flore.nz/articles?populate=deep,3')
         .then((res) => {
           return res.data.map((article) => {
             return '/blog/' + article.attributes.slug
