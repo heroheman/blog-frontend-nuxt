@@ -31,8 +31,6 @@ export default {
 
     const tmp = payload.data[0].attributes
 
-    console.log(tmp)
-
     this.articles = tmp.articles.data.sort(function (a, b) {
       return (
         new Date(b.display_published_date).getTime() -

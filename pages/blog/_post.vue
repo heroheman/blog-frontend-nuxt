@@ -71,6 +71,7 @@ export default {
           content:
             this.article.length &&
             this.article[0].attributes.cover !== undefined &&
+            this.article[0].attributes.cover.data !== null &&
             this.article[0].attributes.cover !== null
               ? this.article[0].attributes.cover.data.attributes.formats.medium
                 ? this.article[0].attributes.cover.data.attributes.formats
@@ -97,6 +98,7 @@ export default {
           content:
             this.article.length &&
             this.article[0].cover !== undefined &&
+            this.article[0].cover.data !== null &&
             this.article[0].cover !== null
               ? this.article[0].cover.data.attributes.formats.medium
                 ? this.article[0].cover.data.attributes.formats.medium.url

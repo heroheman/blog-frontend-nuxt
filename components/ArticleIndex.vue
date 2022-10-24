@@ -46,7 +46,7 @@
         <figure class="article-item">
           <!-- attributes.cover.data.attributes.formats.small -->
           <img
-            v-if="article.attributes.cover"
+            v-if="article.attributes.cover && article.attributes.cover.data"
             :srcset="`${article.attributes.cover.data.attributes.formats.small.url} ${article.attributes.cover.data.attributes.formats.small.width}w,
                     ${article.attributes.cover.data.attributes.formats.thumbnail.url} ${article.attributes.cover.data.attributes.formats.thumbnail.width}w
                     ${article.attributes.cover.data.attributes.formats.medium.url} ${article.attributes.cover.data.attributes.formats.medium.width}w
