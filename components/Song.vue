@@ -6,9 +6,13 @@
         <strong class="italic">{{ song.title }}</strong>
       </p>
 
-      <div class="relative text-sm" v-html="$md.render(song.description)" />
+      <div
+        v-if="song.description !== '' && song.description !== null"
+        class="relative text-sm"
+        v-html="$md.render(song.description)"
+      />
 
-      <div v-if="song.genre" class="text-sm mb-4">
+      <div class="mb-4">
         <strong>Genre:</strong>
         <span class="italic">{{ song.genre }}</span>
       </div>
