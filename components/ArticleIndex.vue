@@ -25,7 +25,7 @@
               </nuxt-link>
             </h3>
             <p class="article-item__body" v-if="showDescription">
-              {{ description }}
+              {{ article.attributes.description }}
             </p>
           </div>
           <!-- <tags -->
