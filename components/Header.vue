@@ -49,17 +49,17 @@
       </li>
       <li class="">
         <nuxt-link class="nav-link" to="/category/buecher">
-          Lesetagebuch
+          Gelesen 
         </nuxt-link>
       </li>
       <li class="">
-        <nuxt-link class="nav-link" to="/category/musik">Musik</nuxt-link>
+        <nuxt-link class="nav-link" to="/category/musik">Gehört</nuxt-link>
       </li>
       <!-- <li class=""> -->
       <!--   <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link> -->
       <!-- </li> -->
       <li class="">
-        <nuxt-link class="nav-link" to="/about">Florenz</nuxt-link>
+        <nuxt-link class="nav-link" to="/about">Über</nuxt-link>
       </li>
     </ul>
 
@@ -95,7 +95,7 @@
           />
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a
           rel="me noopener noreferrer"
           href="https://instagram.com/flrnz"
@@ -107,7 +107,7 @@
             :style="{ color: '#fd1d1d' }"
           />
         </a>
-      </li>
+      </li> -->
       <li>
         <a
           rel="me noopener noreferrer"
@@ -121,7 +121,7 @@
           />
         </a>
       </li>
-      <li>
+      <!-- <li>
         <a
           rel="me noopener noreferrer"
           href="https://twitter.com/StadtInItalien"
@@ -133,7 +133,7 @@
             :style="{ color: '#0084b4' }"
           />
         </a>
-      </li>
+      </li> -->
     </ul>
   </header>
 </template>
