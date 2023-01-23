@@ -87,8 +87,6 @@ export default {
         defer: true,
         'data-website-id': '56d3d15c-123d-488f-b640-6c11fe1d6e95',
       },
-
-      <script async defer data-website-id="56d3d15c-123d-488f-b640-6c11fe1d6e95" src="https://63ceb4978547c411faacde62--stellar-swan-cb1dd0.netlify.app/umami.js"></script>
     ],
   },
 
