@@ -7,7 +7,7 @@
     }"
   >
     <h1 class="header__brand">
-      <nuxt-link class="" to="/">
+      <nuxt-link class="umami--click--logo" to="/">
         <div class="brand">
           <div class="brand__name">
             <h1 class="mb-4 italic leading-snug">
@@ -45,27 +45,27 @@
 
     <ul class="header__nav">
       <li class="">
-        <nuxt-link class="nav-link" to="/blog">Artikel</nuxt-link>
+        <nuxt-link class="nav-link umami--click--nav-article" to="/blog">Artikel</nuxt-link>
       </li>
       <li class="">
-        <nuxt-link class="nav-link" to="/category/buecher">
+        <nuxt-link class="nav-link  umami--click--nav-books" to="/category/buecher">
           Gelesen 
         </nuxt-link>
       </li>
-      <li class="">
+      <li class=" umami--click--nav-music">
         <nuxt-link class="nav-link" to="/category/musik">Gehört</nuxt-link>
       </li>
       <!-- <li class=""> -->
       <!--   <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link> -->
       <!-- </li> -->
-      <li class="">
+      <li class=" umami--click--nav-about">
         <nuxt-link class="nav-link" to="/about">Über</nuxt-link>
       </li>
     </ul>
 
     <ul class="header__social">
       <li>
-        <a href="/feed.xml" target="_blank" title="RSS Feed">
+        <a href="/feed.xml" target="_blank" title="RSS Feed" umami--click--nav-article>
           <font-awesome-icon icon="rss" :style="{ color: '#ee802f' }" />
         </a>
       </li>
@@ -87,6 +87,7 @@
           rel="me noopener noreferrer"
           href="https://www.goodreads.com/user/show/64751703-florenz"
           target="_blank"
+           class="umami--click--social-goodreads"
           title="Goodreads"
         >
           <font-awesome-icon
@@ -100,6 +101,7 @@
           rel="me noopener noreferrer"
           href="https://instagram.com/flrnz"
           target="_blank"
+           class="umami--click--social-instagram"
           title="Instagram"
         >
           <font-awesome-icon
@@ -113,6 +115,7 @@
           rel="me noopener noreferrer"
           href="https://open.spotify.com/user/1121802350?si=96to6js2SQCDoiwpnMKLbw"
           target="_blank"
+           class="umami--click--social-spotify"
           title="Spotify"
         >
           <font-awesome-icon
@@ -126,6 +129,7 @@
           rel="me noopener noreferrer"
           href="https://twitter.com/StadtInItalien"
           target="_blank"
+           class="umami--click--social-twitter"
           title="Twitter"
         >
           <font-awesome-icon

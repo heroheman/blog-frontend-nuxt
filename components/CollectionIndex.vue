@@ -21,7 +21,7 @@
             <h3 class="title title--index">
               <nuxt-link
                 :to="`${linkPath}/${item.attributes.slug}`"
-                class="inline-block mb-2 collection--clickable"
+                class="inline-block mb-2 collection--clickable unami--click--collection-title"
               >
                 {{ item.attributes.title || item.attributes.name }}
               </nuxt-link>

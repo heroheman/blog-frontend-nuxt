@@ -24,7 +24,7 @@
         :href="song.spotify_url"
         target="_blank"
         rel="noopener noreferrer"
-        class="mb-4 md:"
+        class="mb-4 unami--click--song-spotity"
         title="Auf Spotify anhöremr-2"
       >
         <font-awesome-icon
@@ -37,6 +37,7 @@
       <ui-button
         v-if="hasYoutube(song)"
         :href="song.youtube_url"
+        class="unami--click--song-youtube"
         rel="noopener noreferrer"
         target="_blank"
         title="Auf YouTube anhören"
@@ -52,6 +53,7 @@
         v-if="hasSongwhip(song)"
         :href="song.songwhip_url"
         rel="noopener noreferrer"
+        class="unami--click--song-songwhip"
         target="_blank"
         title="Songwhip"
       >
@@ -67,6 +69,7 @@
       <a
         href="https://open.spotify.com/playlist/6AL0K5kauc5GJRBnN1zZYi?si=8499ec9d18654a04"
         rel="noopener noreferrer"
+        class="unami--click--song-playlist"
         target="_blank"
         >Spotify Playlist</a
       >.
