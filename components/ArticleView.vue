@@ -15,7 +15,7 @@
           </h6>
         </div>
 
-        <nuxt-link v-if="!detail" :to="`/blog/${post.attributes.slug}`">
+        <nuxt-link v-if="!detail" :to="`/blog/${post.attributes.slug}`" class="unami--click--index-article-title">
           <h2 class="article-title title">
             {{ post.attributes.title }}
           </h2>
@@ -47,7 +47,7 @@
 
     <nuxt-link
       v-if="!detail && hasExcerpt"
-      class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block"
+      class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block unami--click--index-article-readmore"
       :to="`/blog/${post.attributes.slug}`"
     >
       Weiterlesen
