@@ -153,7 +153,7 @@ export default {
         'faGoodreads',
         'faAmazon',
       ],
-      solid: ['faRss', 'faCompactDisc', 'faBookOpen'],
+      solid: ['faRss', 'faCompactDisc', 'faBookOpen', 'faEnvelope'],
     },
   },
 

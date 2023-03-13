@@ -124,6 +124,20 @@
           />
         </a>
       </li>
+      <li>
+        <a
+          rel="me noopener noreferrer"
+          href="https://norden.social/@florenz"
+          target="_blank"
+          class="umami--click--social-mastodon"
+          title="Mastodon"
+        >
+          <font-awesome-icon
+            :icon="['fab', 'envelope']"
+            :style="{ color: '#0084b4' }"
+          />
+        </a>
+      </li>
       <!-- <li>
         <a
           rel="me noopener noreferrer"
