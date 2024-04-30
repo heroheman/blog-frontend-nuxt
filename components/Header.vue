@@ -48,7 +48,7 @@
         <nuxt-link data-umami-event="nav-click-article-index" to="/blog">Artikel</nuxt-link>
       </li>
       <li class="">
-        <nuxt-link  data-umami-event="nav-click-books-index"= to="/category/buecher">
+        <nuxt-link data-umami-event="nav-click-books-index" to="/category/buecher">
           Gelesen 
         </nuxt-link>
       </li>
