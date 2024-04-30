@@ -82,10 +82,10 @@ export default {
         'data-goatcounter': 'https://flrnz.goatcounter.com/count',
       },
       {
-        src: '//umami.florenz.dev/urmummy.js',
+        src: '//umami.florenz.dev/urmummy',
         async: true,
         defer: true,
-        'data-website-id': '56d3d15c-123d-488f-b640-6c11fe1d6e95',
+        'data-website-id': '507df4fa-c87c-4ba8-aa8c-a2450e92c622',
       },
     ],
   },
