@@ -1,8 +1,8 @@
 <template>
   <footer class="footer">
     &copy; 1983 - {{ new Date().getFullYear() }} - flore.nz -
-    <nuxt-link class="umami--click--footer-imprint" to="/impressum">Impressum</nuxt-link> -
-    <nuxt-link class="umami--click--footer-privacy" to="/datenschutz">Datenschutz</nuxt-link>
+    <nuxt-link data-umami-event="footer-click-imprint" to="/impressum">Impressum</nuxt-link> -
+    <nuxt-link data-umami-event="footer-click-privacy" to="/datenschutz">Datenschutz</nuxt-link>
   </footer>
 </template>
 

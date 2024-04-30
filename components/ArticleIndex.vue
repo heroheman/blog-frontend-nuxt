@@ -19,6 +19,9 @@
             <h3 class="title title--index">
               <nuxt-link
                 :to="`/blog/${article.attributes.slug}`"
+                data-umami-event="index-click-article"
+                data-umami-event-title="{{ article.attributes.title }}"
+                data-umami-event-url="`/blog/${article.attributes.slug}`"
                 class="inline-block mb-2 article article--clickable  unami--click--index-list-title"
               >
                 {{ article.attributes.title }}

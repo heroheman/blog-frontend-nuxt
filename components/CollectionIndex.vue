@@ -22,6 +22,9 @@
               <nuxt-link
                 :to="`${linkPath}/${item.attributes.slug}`"
                 class="inline-block mb-2 collection--clickable unami--click--collection-title"
+                data-umami-event="index-click-collection"
+                data-umami-event-title="{{ item.attributes.title || item.attributes.name }}"
+                data-umami-event-url="`${linkPath}/${item.attributes.slug}`"
               >
                 {{ item.attributes.title || item.attributes.name }}
               </nuxt-link>

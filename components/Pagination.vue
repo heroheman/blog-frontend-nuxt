@@ -1,13 +1,17 @@
 <template>
   <ul class="mt-10 pagination">
     <li class="pagination__item pagination__item--symbol">
-      <nuxt-link :to="{ name: 'page-page', params: { page: 1 } }">
+      <nuxt-link :to="{ name: 'page-page', params: { page: 1 } }"
+        data-umami-event="pagi-click"
+        data-umami-event-page="0"
+      >
         ◂◂
       </nuxt-link>
     </li>
     <li
       class="pagination__item pagination__item--symbol"
       :class="{ 'pagination__item--disabled': currentPage === 0 }"
+      data-umami-event="pagi-click"
     >
       <nuxt-link :to="{ name: 'page-page', params: { page: currentPage - 1 } }">
         ◂

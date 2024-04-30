@@ -8,14 +8,21 @@
     <!-- <li v-if="author && Object.prototype.hasOwnProperty.call(author, "slug");"> -->
     <li v-if="author && author.constructor === Object">
       <strong>| Autor:</strong>
-      <nuxt-link :to="`/author/${author.attributes.slug}`" class="umami--click--internal-author">
+      <nuxt-link :to="`/author/${author.attributes.slug}`"
+        data-umami-event="internal-link-author"
+        data-umami-event-target="{{author.attributes.name}}"
+        data-umami-event-url="`/author/${author.attributes.slug}`"
+        class="umami--click--internal-author">
         {{ author.attributes.name }}
       </nuxt-link>
     </li>
     <li v-if="series.length">
       <strong>| Buchreihe:</strong>
       <span v-for="(s, i) in series" :key="i">
-        <nuxt-link :to="`/series/${s.attributes.slug}`"  class="umami--click--internal-series">
+        <nuxt-link :to="`/series/${s.attributes.slug}`"  
+        data-umami-event="internal-link-series"
+        data-umami-event-target="{{s.attributes.title}}"
+        data-umami-event-url="`/series/${s.attributes.slug}`">
           {{ s.attributes.title }}
         </nuxt-link>
         <span v-if="i + 1 !== series.length">, </span>
@@ -24,7 +31,10 @@
     <li v-if="bookgenre.length" class="mr-2">
       <strong>| Genre:</strong>
       <span v-for="(s, i) in bookgenre" :key="i">
-        <nuxt-link :to="`/genre/book/${s.attributes.slug}`" class="umami--click--internal-genre">
+        <nuxt-link :to="`/genre/book/${s.attributes.slug}`" 
+          data-umami-event="internal-link-genre"
+          data-umami-event-target="{{s.attributes.title}}"
+          data-umami-event-url="`/genre/book/${s.attributes.slug}`">
           {{ s.attributes.title }}
         </nuxt-link>
         <span v-if="i + 1 !== bookgenre.length">, </span>

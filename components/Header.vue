@@ -7,7 +7,7 @@
     }"
   >
     <h1 class="header__brand">
-      <nuxt-link class="umami--click--logo" to="/">
+      <nuxt-link data-umami-event="header-click-logo" to="/">
         <div class="brand">
           <div class="brand__name">
             <h1 class="mb-4 italic leading-snug">
@@ -45,20 +45,20 @@
 
     <ul class="header__nav">
       <li class="">
-        <nuxt-link class="nav-link umami--click--nav-article" to="/blog">Artikel</nuxt-link>
+        <nuxt-link data-umami-event="nav-click-article-index" to="/blog">Artikel</nuxt-link>
       </li>
       <li class="">
-        <nuxt-link class="nav-link  umami--click--nav-books" to="/category/buecher">
+        <nuxt-link  data-umami-event="nav-click-books-index"= to="/category/buecher">
           Gelesen 
         </nuxt-link>
       </li>
-      <li class=" umami--click--nav-music">
+      <li data-umami-event="nav-click-music-index">
         <nuxt-link class="nav-link" to="/category/musik">Gehört</nuxt-link>
       </li>
       <!-- <li class=""> -->
       <!--   <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link> -->
       <!-- </li> -->
-      <li class=" umami--click--nav-about">
+      <li  data-umami-event="nav-click-about" class=" umami--click--nav-about">
         <nuxt-link class="nav-link" to="/about">Über</nuxt-link>
       </li>
     </ul>
@@ -87,7 +87,7 @@
           rel="me noopener noreferrer"
           href="https://www.goodreads.com/user/show/64751703-florenz"
           target="_blank"
-           class="umami--click--social-goodreads"
+          data-umami-event="nav-click-sm-goodreads"
           title="Goodreads"
         >
           <font-awesome-icon
@@ -102,6 +102,7 @@
           href="https://instagram.com/flrnz"
           target="_blank"
            class="umami--click--social-instagram"
+          data-umami-event="nav-click-sm-instagram"
           title="Instagram"
         >
           <font-awesome-icon
@@ -116,6 +117,7 @@
           href="https://open.spotify.com/user/1121802350?si=96to6js2SQCDoiwpnMKLbw"
           target="_blank"
            class="umami--click--social-spotify"
+           data-umami-event="nav-click-sm-spotify"
           title="Spotify"
         >
           <font-awesome-icon
@@ -130,6 +132,7 @@
           href="https://norden.social/@florenz"
           target="_blank"
           class="umami--click--social-mastodon"
+          data-umami-event="nav-click-sm-mastodon"
           title="Mastodon"
         >
           <font-awesome-icon
