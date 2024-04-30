@@ -77,12 +77,7 @@ export default {
     ], // ? Imports the font 'Karla' and is optimized by the netlify plugin 'Subfont'
     script: [
       {
-        src: '//gc.zgo.at/count.js',
-        async: true,
-        'data-goatcounter': 'https://flrnz.goatcounter.com/count',
-      },
-      {
-        src: '//umami.florenz.dev/urmummy',
+        src: 'https://umami.florenz.dev/script.js',
         async: true,
         defer: true,
         'data-website-id': '507df4fa-c87c-4ba8-aa8c-a2450e92c622',
