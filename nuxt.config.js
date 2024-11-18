@@ -40,6 +40,10 @@ export default {
         name: 'theme-color',
         content: '#ffffff',
       },
+      {
+        name: 'fediverse:creator',
+        content: '@florenz@norden.social'
+      }
     ],
     link: [
       {
@@ -75,6 +79,7 @@ export default {
         color: '#5bdad5',
       },
     ], // ? Imports the font 'Karla' and is optimized by the netlify plugin 'Subfont'
+    
     script: [
       {
         src: 'https://umami.florenz.dev/script.js',
