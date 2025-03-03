@@ -195,6 +195,7 @@ export default {
   markdownit: {
     injected: true,
     linkify: true,
+    html: true,
     breaks: true,
     runtime: true,
     use: [
