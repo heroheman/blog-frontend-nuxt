@@ -44,6 +44,7 @@ export default {
         name: 'fediverse:creator',
         content: '@florenz@norden.social'
       }
+
     ],
     link: [
       {
@@ -77,6 +78,10 @@ export default {
         rel: 'mask-icon',
         href: '/safari-pinned-tab.svg',
         color: '#5bdad5',
+      },
+      {
+        rel: 'me',
+        href: 'https://github.com/heroheman',
       },
     ], // ? Imports the font 'Karla' and is optimized by the netlify plugin 'Subfont'
 
