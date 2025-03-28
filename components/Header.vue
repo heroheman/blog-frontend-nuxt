@@ -156,7 +156,7 @@
       <li>
         <a
           rel="me noopener noreferrer"
-          href="https://bsky.app/profile/flrnz.bsky.social"
+          href="https://bsky.app/profile/flore.nz"
           target="_blank"
           class="umami--click--social-bluesky"
           data-umami-event="nav-click-sm-bluesky"

@@ -9,7 +9,11 @@
 </template>
 
 <script>
-import { formatDate, objIsNotEmpty } from '@/utils/helper.js'
+import {
+  formatDate,
+  objIsNotEmpty,
+  createExcerptFromText,
+} from '@/utils/helper.js'
 
 export default {
   name: 'ArticleItem',
@@ -45,7 +49,9 @@ export default {
           hid: 'description_post',
           name: 'description',
           content: this.article.length
-            ? this.article[0].attributes.description
+            ? `${
+                this.article[0].attributes.description
+              } - ${createExcerptFromText(this.article[0].attributes.body, 30)}`
             : '',
         },
         {
@@ -62,7 +68,9 @@ export default {
           hid: 'og:description_post',
           property: 'og:description',
           content: this.article.length
-            ? this.article[0].attributes.description
+            ? `${
+                this.article[0].attributes.description
+              } - ${createExcerptFromText(this.article[0].attributes.body, 30)}`
             : '',
         },
         {
@@ -89,7 +97,9 @@ export default {
           hid: 'twitter:description_post',
           name: 'twitter:description',
           content: this.article.length
-            ? this.article[0].attributes.description
+            ? `${
+                this.article[0].attributes.description
+              } - ${createExcerptFromText(this.article[0].attributes.body, 30)}`
             : '',
         },
         {
@@ -111,6 +121,7 @@ export default {
   methods: {
     formatDate,
     objIsNotEmpty,
+    createExcerptFromText,
   },
 }
 </script>

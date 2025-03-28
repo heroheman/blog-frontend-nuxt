@@ -25,8 +25,6 @@ export const formatDate = (dateString, short = false) => {
 
 // regex check if slug '/page/-3' has a negative number
 
-
-
 export const songsAsMarkup = (songArray) => {
   return songArray
     .map(
@@ -61,4 +59,30 @@ export const feedContentParsed = (post) => {
   } else {
     return post.description
   }
+}
+
+// create excerpt from string
+export const createExcerpt = (str, length) => {
+  const excerpt = str.split(' ').slice(0, length).join(' ')
+  return excerpt + '...'
+}
+
+// clean up from html tags, remove markdown images, remove markdown links
+export const cleanUpText = (str) => {
+  return (
+    str
+      .replace(/<[^>]*>/g, '')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+      // remove markdown links and replace it with the text
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+      // remove all markdown elements like _, *, ~
+      .replace(/[_*~]/g, '')
+      .replace(/\n/g, ' ')
+  )
+}
+
+// cleanup text and then create excerpt from string with length
+export const createExcerptFromText = (str, length) => {
+  const cleaned = cleanUpText(str)
+  return createExcerpt(cleaned, length)
 }
