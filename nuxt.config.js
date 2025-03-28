@@ -244,7 +244,8 @@ export default {
 
         const posts = await axios.get(
           // 'https://flrnz-blog-backend.herokuapp.com/articles'
-          `${BLOG_EP}/api/articles?populate=*`
+          // `${BLOG_EP}/api/articles?populate=*`
+          `${BLOG_EP}/api/articles?populate=*&sort%5B0%5D=createdAt:DESC`
         )
 
         posts.data.data.forEach((post) => {
