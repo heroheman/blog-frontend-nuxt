@@ -20,14 +20,14 @@
               <nuxt-link
                 :to="`/blog/${article.attributes.slug}`"
                 data-umami-event="index-click-article"
-                data-umami-event-title="{{ article.attributes.title }}"
+                :data-umami-event-title="article.attributes.title"
                 data-umami-event-url="`/blog/${article.attributes.slug}`"
-                class="inline-block mb-2 article article--clickable  unami--click--index-list-title"
+                class="inline-block mb-2 article article--clickable unami--click--index-list-title"
               >
                 {{ article.attributes.title }}
               </nuxt-link>
             </h3>
-            <p class="article-item__body" v-if="showDescription">
+            <p v-if="showDescription" class="article-item__body">
               {{ article.attributes.description }}
             </p>
           </div>
@@ -70,7 +70,7 @@
             <h3 class="title title--index">
               <nuxt-link
                 :to="`/blog/${article.attributes.slug}`"
-                class="inline-block mb-2 article article--clickable  unami--click--index-thumb-title"
+                class="inline-block mb-2 article article--clickable unami--click--index-thumb-title"
               >
                 {{ article.attributes.title }}
               </nuxt-link>

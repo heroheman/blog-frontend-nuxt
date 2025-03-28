@@ -42,10 +42,10 @@
         </p>
         <ui-button
           v-if="bookMeta.showGenialokalRef && bookMeta.genialokalRefUrl !== ''"
-          class="ref-button  unami--click--ad-geniallokal"
+          class="ref-button unami--click--ad-geniallokal"
           data-umami-event="article-click-ad"
           data-umami-event-ad-type="geniallokal"
-          data-umami-event-ad-book="{{ metadata.title }}"
+          :data-umami-event-ad-book="metadata.title"
           :href="bookMeta.genialokalRefUrl"
           rel="noopener noreferrer"
           target="_blank"
@@ -59,10 +59,10 @@
         </ui-button>
         <ui-button
           v-if="bookMeta.showAmazonRef && bookMeta.amazonRefUrl !== ''"
-          class="ref-button  unami--click--ad-amazon"
+          class="ref-button unami--click--ad-amazon"
           data-umami-event="article-click-ad"
           data-umami-event-ad-type="amazon"
-          data-umami-event-ad-book="{{ metadata.title }}"
+          :data-umami-event-ad-book="metadata.title"
           :href="bookMeta.amazonRefUrl"
           rel="noopener noreferrer"
           target="_blank"

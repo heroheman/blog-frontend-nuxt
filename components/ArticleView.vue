@@ -15,7 +15,11 @@
           </h6>
         </div>
 
-        <nuxt-link v-if="!detail" :to="`/blog/${post.attributes.slug}`" class="unami--click--index-article-title">
+        <nuxt-link
+          v-if="!detail"
+          :to="`/blog/${post.attributes.slug}`"
+          class="unami--click--index-article-title"
+        >
           <h2 class="article-title title">
             {{ post.attributes.title }}
           </h2>
@@ -50,7 +54,7 @@
       class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block unami--click--index-article-readmore"
       :to="`/blog/${post.attributes.slug}`"
       data-umami-event="article-read-more"
-      data-umami-event-article="{{ post.attributes.title }}"
+      :data-umami-event-article="post.attributes.title"
     >
       Weiterlesen
     </nuxt-link>
