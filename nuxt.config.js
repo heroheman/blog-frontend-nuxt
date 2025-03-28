@@ -83,6 +83,14 @@ export default {
         rel: 'me',
         href: 'https://github.com/heroheman',
       },
+      {
+        rel: 'webmention',
+        href: 'https://webmention.io/flore.nz/webmention',
+      },
+      // {
+      //   rel: 'webmention',
+      //   href: 'https://webmention.io/flore.nz/webmention',
+      // }
     ], // ? Imports the font 'Karla' and is optimized by the netlify plugin 'Subfont'
 
     script: [

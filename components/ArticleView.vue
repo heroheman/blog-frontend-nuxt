@@ -3,7 +3,7 @@
   <article
     v-if="post !== undefined"
     role="article"
-    class="text-left articleview-main"
+    class="text-left articleview-main h-entry"
     :class="{ 'articleview--detail': detail }"
   >
     <div class="flex flex-col mb-4">
@@ -44,7 +44,7 @@
     </div>
 
     <div
-      class="relative mb-4 article-text lg:max-w-3xl"
+      class="relative mb-4 article-text lg:max-w-3xl e-content"
       :class="[getRatingClass]"
       v-html="`${$md.render(parsedBody)}`"
     />
@@ -103,6 +103,12 @@
       class="w-full mt-16 mb-8 lg:max-w-3xl"
       :ad-data="advertisement"
     /> -->
+    <!-- webmention -->
+    <a
+      class="u-bridgy-fed"
+      href="https://fed.brid.gy/"
+      hidden="from-humans"
+    ></a>
   </article>
 </template>
 
