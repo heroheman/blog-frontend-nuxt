@@ -20,7 +20,7 @@
           :to="`/blog/${post.attributes.slug}`"
           class="unami--click--index-article-title"
         >
-          <h2 class="article-title title">
+          <h2 class="article-title title mb-0">
             {{ post.attributes.title }}
           </h2>
         </nuxt-link>
@@ -49,15 +49,24 @@
       v-html="`${$md.render(parsedBody)}`"
     />
 
-    <nuxt-link
-      v-if="!detail && hasExcerpt"
-      class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block unami--click--index-article-readmore"
-      :to="`/blog/${post.attributes.slug}`"
-      data-umami-event="article-read-more"
-      :data-umami-event-article="post.attributes.title"
-    >
-      Weiterlesen
-    </nuxt-link>
+    <div v-if="!detail && hasExcerpt">
+      <nuxt-link
+        class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block unami--click--index-article-readmore mb-4"
+        :to="`/blog/${post.attributes.slug}`"
+        data-umami-event="article-read-more"
+        :data-umami-event-article="post.attributes.title"
+      >
+        Weiterlesen
+      </nuxt-link>
+      <div>
+        <internal-book-linking
+          :date="post.attributes.display_published_date"
+          :author="post.attributes.author.data"
+          :series="post.attributes.bookseries.data"
+          :bookgenre="post.attributes.genre_books.data"
+        />
+      </div>
+    </div>
 
     <!-- : Single Song List -->
     <song
