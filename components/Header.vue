@@ -45,11 +45,16 @@
 
     <ul class="header__nav">
       <li class="">
-        <nuxt-link data-umami-event="nav-click-article-index" to="/blog">Artikel</nuxt-link>
+        <nuxt-link data-umami-event="nav-click-article-index" to="/blog"
+          >Artikel</nuxt-link
+        >
       </li>
       <li class="">
-        <nuxt-link data-umami-event="nav-click-books-index" to="/category/buecher">
-          Gelesen 
+        <nuxt-link
+          data-umami-event="nav-click-books-index"
+          to="/category/buecher"
+        >
+          Gelesen
         </nuxt-link>
       </li>
       <li data-umami-event="nav-click-music-index">
@@ -58,15 +63,36 @@
       <!-- <li class=""> -->
       <!--   <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link> -->
       <!-- </li> -->
-      <li  data-umami-event="nav-click-about" class=" umami--click--nav-about">
+      <li data-umami-event="nav-click-about" class="umami--click--nav-about">
         <nuxt-link class="nav-link" to="/about">Über</nuxt-link>
       </li>
     </ul>
 
     <ul class="header__social">
       <li>
-        <a href="/feed.xml" target="_blank" title="RSS Feed" umami--click--nav-article>
+        <a
+          href="/feed.xml"
+          target="_blank"
+          title="RSS Feed"
+          umami--click--nav-article
+        >
           <font-awesome-icon icon="rss" :style="{ color: '#ee802f' }" />
+        </a>
+      </li>
+
+      <li>
+        <a
+          rel="me noopener noreferrer"
+          href="https://norden.social/@florenz"
+          target="_blank"
+          class="umami--click--social-mastodon"
+          data-umami-event="nav-click-sm-mastodon"
+          title="Mastodon"
+        >
+          <font-awesome-icon
+            :icon="['fab', 'mastodon']"
+            :style="{ color: '#0084b4' }"
+          />
         </a>
       </li>
       <!-- <li v-for="(sm, index) of settings.socialmedia" :key="index"> -->
@@ -111,13 +137,13 @@
           />
         </a>
       </li> -->
-      <li>
+      <!-- <li>
         <a
           rel="me noopener noreferrer"
           href="https://open.spotify.com/user/1121802350?si=96to6js2SQCDoiwpnMKLbw"
           target="_blank"
-           class="umami--click--social-spotify"
-           data-umami-event="nav-click-sm-spotify"
+          class="umami--click--social-spotify"
+          data-umami-event="nav-click-sm-spotify"
           title="Spotify"
         >
           <font-awesome-icon
@@ -126,17 +152,18 @@
           />
         </a>
       </li>
+      -->
       <li>
         <a
           rel="me noopener noreferrer"
-          href="https://norden.social/@florenz"
+          href="https://bsky.app/profile/flrnz.bsky.social"
           target="_blank"
-          class="umami--click--social-mastodon"
-          data-umami-event="nav-click-sm-mastodon"
-          title="Mastodon"
+          class="umami--click--social-bluesky"
+          data-umami-event="nav-click-sm-bluesky"
+          title="Bluesky @flrnz.bsky.social"
         >
           <font-awesome-icon
-            :icon="['fab', 'envelope']"
+            :icon="['fab', 'bluesky']"
             :style="{ color: '#0084b4' }"
           />
         </a>
