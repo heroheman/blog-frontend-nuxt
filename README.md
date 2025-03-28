@@ -18,3 +18,7 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## use with live
+- start local strapi with pnpm run dev-prod
+- `ssh flrnz@desdemonia.uberspace.de -L 5432:127.0.0.1:5432` with correct port
