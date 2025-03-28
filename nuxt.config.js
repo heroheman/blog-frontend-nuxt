@@ -79,7 +79,7 @@ export default {
         color: '#5bdad5',
       },
     ], // ? Imports the font 'Karla' and is optimized by the netlify plugin 'Subfont'
-    
+
     script: [
       {
         src: 'https://umami.florenz.dev/script.js',
@@ -151,6 +151,9 @@ export default {
         'faYoutube',
         'faInstagram',
         'faGoodreads',
+        'faBluesky',
+        'faMastodon',
+        'faGithub',
         'faAmazon',
       ],
       solid: ['faRss', 'faCompactDisc', 'faBookOpen', 'faEnvelope'],
