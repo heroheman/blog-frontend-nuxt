@@ -87,6 +87,14 @@ export default {
         rel: 'webmention',
         href: 'https://webmention.io/flore.nz/webmention',
       },
+      {
+        rel: 'authorization_endpoint',
+        href: 'https://indieauth.com/auth',
+      },
+      {
+        rel: 'token_endpoint',
+        href: 'https://tokens.indieauth.com/token',
+      }
       // {
       //   rel: 'webmention',
       //   href: 'https://webmention.io/flore.nz/webmention',
