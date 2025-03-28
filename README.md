@@ -26,6 +26,7 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 
 ## Todo
 - [ ] upgrade to nuxt 3
+- [ ] upgrade umami?
 - [ ] upgrade tailwind
-- [ ] mastodon auth
+- [x] mastodon auth
 - [ ] seo optim
