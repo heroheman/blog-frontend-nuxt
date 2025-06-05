@@ -282,8 +282,8 @@ export default {
             id: post.attributes.url,
             link: 'https://flore.nz/blog/' + post.attributes.slug,
             description: post.attributes.description,
-            // content: feedContentParsed(post.attributes),
-            content: post.attributes.body,
+            content: feedContentParsed(post.attributes),
+            // content: post.attributes.body,
           })
         })
 
