@@ -103,6 +103,12 @@ export default {
 
     script: [
       {
+        src: 'https://umami-umami.sbjjsm.easypanel.host/script.js',
+        async: true,
+        defer: true,
+        'data-website-id': '048efb93-8267-497b-b746-7a7abb79bc34'
+      },
+      {
         src: 'https://umami.florenz.dev/script.js',
         async: true,
         defer: true,
@@ -276,7 +282,8 @@ export default {
             id: post.attributes.url,
             link: 'https://flore.nz/blog/' + post.attributes.slug,
             description: post.attributes.description,
-            content: feedContentParsed(post.attributes),
+            // content: feedContentParsed(post.attributes),
+            content: post.attributes.body,
           })
         })
 
