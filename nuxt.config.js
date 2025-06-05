@@ -103,10 +103,10 @@ export default {
 
     script: [
       {
-        src: 'https://umami-umami.sbjjsm.easypanel.host/script.js',
+        src: 'http://umami-zskk8c804swsko0c0sowwwks.116.203.235.213.sslip.io/script.js',
         async: true,
         defer: true,
-        'data-website-id': '048efb93-8267-497b-b746-7a7abb79bc34'
+        'data-website-id': '63875107-1ca4-4f07-94b0-a075336f4bd4'
       },
       {
         src: 'https://umami.florenz.dev/script.js',
