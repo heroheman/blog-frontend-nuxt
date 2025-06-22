@@ -40,37 +40,37 @@ export default {
   },
   fetchOnServer: true,
   head() {
-    // const article = this.article[0].attributes
+    // const article = this.article[0]
 
     return {
-      title: this.article.length ? this.article[0].attributes.title : '',
+      title: this.article.length ? this.article[0].title : '',
       meta: [
         {
           hid: 'description_post',
           name: 'description',
           content: this.article.length
             ? `${
-                this.article[0].attributes.description
-              } - ${createExcerptFromText(this.article[0].attributes.body, 30)}`
+                this.article[0].description
+              } - ${createExcerptFromText(this.article[0].body, 30)}`
             : '',
         },
         {
           hid: 'tags_post',
           name: 'keywords',
-          content: this.article.length ? this.article[0].attributes.tags : '',
+          content: this.article.length ? this.article[0].tags : '',
         },
         {
           hid: 'og:title_post',
           property: 'og:title_post',
-          content: this.article.length ? this.article[0].attributes.title : '',
+          content: this.article.length ? this.article[0].title : '',
         },
         {
           hid: 'og:description_post',
           property: 'og:description',
           content: this.article.length
             ? `${
-                this.article[0].attributes.description
-              } - ${createExcerptFromText(this.article[0].attributes.body, 30)}`
+                this.article[0].description
+              } - ${createExcerptFromText(this.article[0].body, 30)}`
             : '',
         },
         {
@@ -78,28 +78,28 @@ export default {
           property: 'og:image',
           content:
             this.article.length &&
-            this.article[0].attributes.cover !== undefined &&
-            this.article[0].attributes.cover.data !== null &&
-            this.article[0].attributes.cover !== null
-              ? this.article[0].attributes.cover.data.attributes.formats.medium
-                ? this.article[0].attributes.cover.data.attributes.formats
+            this.article[0].cover !== undefined &&
+            this.article[0].cover.data !== null &&
+            this.article[0].cover !== null
+              ? this.article[0].cover.data.formats.medium
+                ? this.article[0].cover.data.formats
                     .medium.url
-                : this.article[0].attributes.cover.data.attributes.formats
+                : this.article[0].cover.data.formats
                     .thumbnail.url
               : '',
         },
         {
           hid: 'twitter:title_post',
           name: 'twitter:title',
-          content: this.article.length ? this.article[0].attributes.title : '',
+          content: this.article.length ? this.article[0].title : '',
         },
         {
           hid: 'twitter:description_post',
           name: 'twitter:description',
           content: this.article.length
             ? `${
-                this.article[0].attributes.description
-              } - ${createExcerptFromText(this.article[0].attributes.body, 30)}`
+                this.article[0].description
+              } - ${createExcerptFromText(this.article[0].body, 30)}`
             : '',
         },
         {
@@ -110,9 +110,9 @@ export default {
             this.article[0].cover !== undefined &&
             this.article[0].cover.data !== null &&
             this.article[0].cover !== null
-              ? this.article[0].cover.data.attributes.formats.medium
-                ? this.article[0].cover.data.attributes.formats.medium.url
-                : this.article[0].cover.data.attributes.formats.thumbnail.url
+              ? this.article[0].cover.data.formats.medium
+                ? this.article[0].cover.data.formats.medium.url
+                : this.article[0].cover.data.formats.thumbnail.url
               : '',
         },
       ],

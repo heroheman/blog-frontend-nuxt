@@ -10,18 +10,18 @@
       <!-- Startpage -->
       <template v-if="!detail">
         <div>
-          <h6 v-if="post.attributes.display_published_date" class="mb-8 date">
-            {{ formatDate(post.attributes.display_published_date) }}
+          <h6 v-if="post.display_published_date" class="mb-8 date">
+            {{ formatDate(post.display_published_date) }}
           </h6>
         </div>
 
         <nuxt-link
           v-if="!detail"
-          :to="`/blog/${post.attributes.slug}`"
+          :to="`/blog/${post.slug}`"
           class="unami--click--index-article-title"
         >
           <h2 class="article-title title mb-0">
-            {{ post.attributes.title }}
+            {{ post.title }}
           </h2>
         </nuxt-link>
       </template>
@@ -29,15 +29,15 @@
       <!-- Articleview -->
       <template v-else>
         <h2 class="mb-8 italic article-title title">
-          {{ post.attributes.title }}
+          {{ post.title }}
         </h2>
 
         <div>
           <internal-book-linking
-            :date="post.attributes.display_published_date"
-            :author="post.attributes.author.data"
-            :series="post.attributes.bookseries.data"
-            :bookgenre="post.attributes.genre_books.data"
+            :date="post.display_published_date"
+            :author="post.author.data"
+            :series="post.bookseries.data"
+            :bookgenre="post.genre_books.data"
           />
         </div>
       </template>
@@ -52,18 +52,18 @@
     <div v-if="!detail && hasExcerpt">
       <nuxt-link
         class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block unami--click--index-article-readmore mb-4"
-        :to="`/blog/${post.attributes.slug}`"
+        :to="`/blog/${post.slug}`"
         data-umami-event="article-read-more"
-        :data-umami-event-article="post.attributes.title"
+        :data-umami-event-article="post.title"
       >
         Weiterlesen
       </nuxt-link>
       <div>
         <internal-book-linking
-          :date="post.attributes.display_published_date"
-          :author="post.attributes.author.data"
-          :series="post.attributes.bookseries.data"
-          :bookgenre="post.attributes.genre_books.data"
+          :date="post.display_published_date"
+          :author="post.author.data"
+          :series="post.bookseries.data"
+          :bookgenre="post.genre_books.data"
         />
       </div>
     </div>
@@ -130,7 +130,7 @@ export default {
   computed: {
     hasExcerpt() {
       const dividerStr = '<!--more-->'
-      const content = this.post.attributes.body.split(dividerStr)
+      const content = this.post.body.split(dividerStr)
       // if excerpt available
       if (content.length > 1) {
         return true
@@ -149,7 +149,7 @@ export default {
 
       // excerpt handling
       let content
-      const tmp = this.post.attributes.body.split(dividerStr)
+      const tmp = this.post.body.split(dividerStr)
       if (!this.detail) {
         // if excerpt available
         if (tmp.length > 1) {
@@ -169,8 +169,8 @@ export default {
       return content
     },
     rating() {
-      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
-        return this.post.attributes.additional.filter(
+      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
+        return this.post.additional.filter(
           (addi) => addi.__component === 'content.rating'
         )[0]
       } else {
@@ -189,8 +189,8 @@ export default {
       }
     },
     // isbn() {
-    //   if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length && this.detail) {
-    //     return this.post.attributes.additional.filter(
+    //   if (hasProperty(this.post, 'additional') && this.post.additional.length && this.detail) {
+    //     return this.post.additional.filter(
     //       (addi) => addi.__component === 'external-api.open-library-isbn'
     //     )[0]
     //   } else {
@@ -198,15 +198,15 @@ export default {
     //   }
     // },
     isbnWrapped() {
-      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
+      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
         if (this.hasExcerpt && !this.detail) {
           return false
         } else if (
-          this.post.attributes.additional.filter(
+          this.post.additional.filter(
             (addi) => addi.__component === 'external-api.book-container'
           ).length
         ) {
-          return this.post.attributes.additional.filter(
+          return this.post.additional.filter(
             (addi) => addi.__component === 'external-api.book-container'
           )
         }
@@ -215,11 +215,11 @@ export default {
       }
     },
     songs() {
-      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
+      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
         if (this.hasExcerpt && !this.detail) {
           return false
         } else {
-          return this.post.attributes.additional.filter(
+          return this.post.additional.filter(
             (addi) => addi.__component === 'content.track'
           )
         }
@@ -228,15 +228,15 @@ export default {
       }
     },
     songsWrapped() {
-      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
+      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
         if (this.hasExcerpt && !this.detail) {
           return false
         } else if (
-          this.post.attributes.additional.filter(
+          this.post.additional.filter(
             (addi) => addi.__component === 'content.track-container'
           ).length
         ) {
-          return this.post.attributes.additional.filter(
+          return this.post.additional.filter(
             (addi) => addi.__component === 'content.track-container'
           )
         }
@@ -245,8 +245,8 @@ export default {
       }
     },
     advertisement() {
-      if (hasProperty(this.post.attributes, 'additional') && this.post.attributes.additional.length) {
-        return this.post.attributes.additional.filter(
+      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
+        return this.post.additional.filter(
           (addi) => addi.__component === 'content.advertisement'
         )[0]
       } else {
@@ -254,7 +254,7 @@ export default {
       }
     },
     bodyText() {
-      const text = this.post.attributes.body.split('<!--more-->')
+      const text = this.post.body.split('<!--more-->')
       return text
     },
   },

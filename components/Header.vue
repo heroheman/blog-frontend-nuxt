@@ -21,7 +21,7 @@
               </figure> -->
               {{ settings.sitetitle }}
             </h1>
-            <div class="brand__slogan" v-if="settings.Phrases.length">
+            <div class="brand__slogan" v-if="settings.Phrases && settings.Phrases.length">
               <span v-if="randomHeadNumber < 2">
                 {{ settings.Phrases[0].phrase }}
               </span>

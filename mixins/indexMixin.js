@@ -20,16 +20,16 @@ export default {
     }
   },
   async fetch() {
-    const payload = await this.$strapi.find('articles', {
-      populate: '*', // populate all relations';
-      sort: 'display_published_date:DESC',
-      pagination: {
-        start: this.page * this.per_page,
-        limit: this.per_page,
+    const payload = await this.$strapi.get('/articles', {
+      params: {
+        populate: '*', // populate all relations
+        sort: 'display_published_date:DESC',
+        'pagination[start]': this.page * this.per_page,
+        'pagination[limit]': this.per_page,
       },
     })
     this.articles = payload.data
-    this.articlesCount = await payload.meta.pagination.total
+    this.articlesCount = payload.meta.pagination.total
   },
   fetchOnServer: true,
 }

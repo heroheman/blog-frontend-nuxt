@@ -5,15 +5,14 @@ module.exports = {
     node: true,
   },
   parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module',
     parser: '@babel/eslint-parser',
     requireConfigFile: false
   },
   extends: [
-    '@nuxtjs',
-    'plugin:prettier/recommended',
-    'plugin:nuxt/recommended',
+    '@nuxtjs'
   ],
   plugins: [],
-  // add your custom rules here
   rules: {},
 }

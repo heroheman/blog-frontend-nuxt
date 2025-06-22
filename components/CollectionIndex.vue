@@ -20,19 +20,19 @@
           <div class="collection-item__title">
             <h3 class="title title--index">
               <nuxt-link
-                :to="`${linkPath}/${item.attributes.slug}`"
+                :to="`${linkPath}/${item.slug}`"
                 class="inline-block mb-2 collection--clickable unami--click--collection-title"
                 data-umami-event="index-click-collection"
                 :data-umami-event-title="
-                  item.attributes.title || item.attributes.name
+                  item.title || item.name
                 "
-                data-umami-event-url="`${linkPath}/${item.attributes.slug}`"
+                data-umami-event-url="`${linkPath}/${item.slug}`"
               >
-                {{ item.attributes.title || item.attributes.name }}
+                {{ item.title || item.name }}
               </nuxt-link>
               <span class="collection-item__counter">
                 <span>
-                  {{ item.attributes.articles.data.length }}
+                  {{ item.articles.data.length }}
                 </span>
               </span>
             </h3>
@@ -68,7 +68,7 @@ export default {
   methods: {
     formatDate,
     isSingleCollection(item) {
-      return item.attributes.articles.data.length === 1
+      return item.articles.data.length === 1
     },
   },
 }

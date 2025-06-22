@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto">
     <div class="flex flex-wrap px-10 mx-auto md:px-20">
-      <Header class="w-full" :settings="settings.data.attributes" />
+      <Header class="w-full" :settings="settings" />
       <div class="flex-auto w-full">
         <nuxt :settings="settings" />
       </div>

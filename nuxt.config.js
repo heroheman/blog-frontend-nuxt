@@ -10,7 +10,7 @@ import axios from 'axios'
 import { feedContentParsed } from './utils/helper'
 
 // TODO: env file to uberspace... somehow
-const BLOG_EP = process.env.STRAPI_URL || 'https://strapi.flore.nz'
+const BLOG_EP = process.env.STRAPI_URL || 'https://flrnz.strapi.florenz.dev'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
@@ -153,12 +153,12 @@ export default {
     '@nuxtjs/sitemap',
   ],
 
-  // strapi: {
-  // baseURL: process.env.NUXT_ENV_STRAPI_EP,
-  // url: process.env.STRAPI_URL || http://localhost:1337
-  // url: BLOG_EP,
-  // entities: ['articles', 'pages'],
-  // },
+  strapi: {
+    // baseURL: process.env.NUXT_ENV_STRAPI_EP,
+    // url: process.env.STRAPI_URL || http://localhost:1337
+    url: BLOG_EP,
+    version: 'v5',
+  },
 
   router: {
     scrollBehavior(to, from, savedPosition) {
@@ -248,7 +248,6 @@ export default {
           },
         },
       ],
-      'markdown-it-image-lazy-loading',
     ],
   },
 
@@ -277,13 +276,12 @@ export default {
 
         posts.data.data.forEach((post) => {
           feed.addItem({
-            title: post.attributes.title,
-            date: new Date(post.attributes.display_published_date),
-            id: post.attributes.url,
-            link: 'https://flore.nz/blog/' + post.attributes.slug,
-            description: post.attributes.description,
-            content: feedContentParsed(post.attributes),
-            // content: post.attributes.body,
+            title: post.title,
+            date: new Date(post.display_published_date),
+            id: post.url,
+            link: 'https://flore.nz/blog/' + post.slug,
+            description: post.description,
+            content: feedContentParsed(post),
           })
         })
 
@@ -313,16 +311,16 @@ export default {
     },
     routes: () => {
       const articles = axios
-        .get('http://strapi.flore.nz/api/articles?populate=deep,3')
+        .get(`${BLOG_EP}/api/articles?populate=deep,3`)
         // .then(res => { console.log(res); return res;})
         .then((res) => {
           return res.data.data.map((article) => {
-            return '/blog/' + article.attributes.slug
+            return '/blog/' + article.slug
           })
         })
 
       const pagiIndex = axios
-        .get('https://strapi.flore.nz/api/articles')
+        .get(`${BLOG_EP}/api/articles`)
         .then((res) => {
           const pArray = []
           let n = 0
@@ -335,42 +333,42 @@ export default {
         })
 
       const pages = axios
-        .get('http://strapi.flore.nz/api/pages')
+        .get(`${BLOG_EP}/api/pages`)
         .then((res) => {
           return res.data.data.map((page) => {
-            return '/' + page.attributes.slug
+            return '/' + page.slug
           })
         })
 
       const categories = axios
-        .get('http://strapi.flore.nz/api/categories')
+        .get(`${BLOG_EP}/api/categories`)
         .then((res) => {
           return res.data.data.map((page) => {
-            return '/category/' + page.attributes.slug
+            return '/category/' + page.slug
           })
         })
 
       const bookSeries = axios
-        .get('http://strapi.flore.nz/api/bookseries')
+        .get(`${BLOG_EP}/api/bookseries`)
         .then((res) => {
           return res.data.data.map((page) => {
-            return '/series/' + page.attributes.slug
+            return '/series/' + page.slug
           })
         })
 
       const genreBooks = axios
-        .get('http://strapi.flore.nz/api/genre-books')
+        .get(`${BLOG_EP}/api/genre-books`)
         .then((res) => {
           return res.data.data.map((page) => {
-            return '/genre/book/' + page.attributes.slug
+            return '/genre/book/' + page.slug
           })
         })
 
       const bookAuthors = axios
-        .get('http://strapi.flore.nz/api/authors')
+        .get(`${BLOG_EP}/api/authors`)
         .then((res) => {
           return res.data.data.map((page) => {
-            return '/author/' + page.attributes.slug
+            return '/author/' + page.slug
           })
         })
 
@@ -395,8 +393,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // baseURL: 'https://flrnz-blog-backend.herokuapp.com',
-    baseURL: 'https://strapi.flore.nz',
+    baseURL: BLOG_EP,
   },
 
   // apollo: {

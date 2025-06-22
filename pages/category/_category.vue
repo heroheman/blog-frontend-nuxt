@@ -71,14 +71,14 @@ export default {
       this.showDescription = true
     }
 
-    this.showDescription = tmp[0].attributes.showDescriptionInIndex
-    this.title = tmp[0].attributes.title
-    this.description = tmp[0].attributes.description
+    this.showDescription = tmp[0].showDescriptionInIndex
+    this.title = tmp[0].title
+    this.description = tmp[0].description
 
-    this.articles = tmp[0].attributes.articles.data.sort(function (a, b) {
+    this.articles = tmp[0].articles.data.sort(function (a, b) {
       return (
-        new Date(b.attributes.display_published_date).getTime() -
-        new Date(a.attributes.display_published_date).getTime()
+        new Date(b.display_published_date).getTime() -
+        new Date(a.display_published_date).getTime()
       )
     })
 

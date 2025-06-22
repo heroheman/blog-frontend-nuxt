@@ -9,26 +9,26 @@
         <div class="article-item">
           <div class="article-item__title">
             <span
-              v-if="article.attributes.display_published_date"
+              v-if="article.display_published_date"
               class="article-item__date"
             >
-              {{ formatDate(article.attributes.display_published_date, true) }}
+              {{ formatDate(article.display_published_date, true) }}
               <span class="hidden mx-1 sm:inline-block"> &ndash; </span>
             </span>
 
             <h3 class="title title--index">
               <nuxt-link
-                :to="`/blog/${article.attributes.slug}`"
+                :to="`/blog/${article.slug}`"
                 data-umami-event="index-click-article"
-                :data-umami-event-title="article.attributes.title"
-                data-umami-event-url="`/blog/${article.attributes.slug}`"
+                :data-umami-event-title="article.title"
+                data-umami-event-url="`/blog/${article.slug}`"
                 class="inline-block mb-2 article article--clickable unami--click--index-list-title"
               >
-                {{ article.attributes.title }}
+                {{ article.title }}
               </nuxt-link>
             </h3>
             <p v-if="showDescription" class="article-item__body">
-              {{ article.attributes.description }}
+              {{ article.description }}
             </p>
           </div>
           <!-- <tags -->
@@ -47,32 +47,32 @@
         class="article-index__thumbitem"
       >
         <figure class="article-item">
-          <!-- attributes.cover.data.attributes.formats.small -->
+          <!-- cover.data.formats.small -->
           <img
-            v-if="article.attributes.cover && article.attributes.cover.data"
-            :srcset="`${article.attributes.cover.data.attributes.formats.small.url} ${article.attributes.cover.data.attributes.formats.small.width}w,
-                    ${article.attributes.cover.data.attributes.formats.thumbnail.url} ${article.attributes.cover.data.attributes.formats.thumbnail.width}w
-                    ${article.attributes.cover.data.attributes.formats.medium.url} ${article.attributes.cover.data.attributes.formats.medium.width}w
-                    ${article.attributes.cover.data.attributes.formats.large.url} ${article.attributes.cover.data.attributes.formats.large.width}w`"
+            v-if="article.cover && article.cover.data"
+            :srcset="`${article.cover.data.formats.small.url} ${article.cover.data.formats.small.width}w,
+                    ${article.cover.data.formats.thumbnail.url} ${article.cover.data.formats.thumbnail.width}w
+                    ${article.cover.data.formats.medium.url} ${article.cover.data.formats.medium.width}w
+                    ${article.cover.data.formats.large.url} ${article.cover.data.formats.large.width}w`"
             sizes="(max-width: 600px) 480px,
                     800px"
-            :src="article.attributes.cover.data.attributes.formats.small.url"
-            :alt="article.attributes.title"
+            :src="article.cover.data.formats.small.url"
+            :alt="article.title"
           />
           <figcaption class="article-item__title">
             <span
-              v-if="article.attributes.display_published_date"
+              v-if="article.display_published_date"
               class="article-item__date"
             >
-              {{ formatDate(article.attributes.display_published_date, true) }}
+              {{ formatDate(article.display_published_date, true) }}
             </span>
 
             <h3 class="title title--index">
               <nuxt-link
-                :to="`/blog/${article.attributes.slug}`"
+                :to="`/blog/${article.slug}`"
                 class="inline-block mb-2 article article--clickable unami--click--index-thumb-title"
               >
-                {{ article.attributes.title }}
+                {{ article.title }}
               </nuxt-link>
             </h3>
             <!-- <p class="article-item__body" v-if="showDescription"> -->
