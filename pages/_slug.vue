@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     content() {
-      return this.pages[0].attributes
+      return this.pages[0]
     },
   },
   fetchOnServer: true,

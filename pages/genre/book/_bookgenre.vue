@@ -29,7 +29,7 @@ export default {
       },
     })
 
-    const tmp = payload.data[0].attributes
+    const tmp = payload.data[0]
 
     this.articles = tmp.articles.data.sort(function (a, b) {
       return (

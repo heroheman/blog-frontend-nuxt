@@ -42,7 +42,7 @@ export default {
       },
     })
 
-    const tmp = payload.data[0].attributes
+    const tmp = payload.data[0]
 
     this.title = tmp.title
     this.description = tmp.description

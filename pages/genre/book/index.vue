@@ -18,13 +18,6 @@ export default {
     }
   },
   async fetch() {
-    // const tmp = await this.$strapi.find('genre-books')
-    // const payload = await this.$strapi.find('bookseries', {
-    //   populate: 'deep,3', // populate all relations
-    // })
-
-    // const tmp = payload.data[0].attributes
-    // this.items = tmp
     const payload = await this.$strapi.find('genre-books', {
       populate: '*', // populate all relations
     })

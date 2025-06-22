@@ -22,11 +22,6 @@ export default {
       article: [],
     }
   },
-  // async fetch() {
-  // const url = `https://svl.florenz.dev/api/pages?filters[slug][$eq]=${this.$route.params.slug}&populate=*`
-  // const tmp = await this.$axios.$get(url)
-  // this.article = tmp.data[0].attributes
-  // },
   async fetch() {
     const payload = await this.$strapi.find('articles', {
       populate: 'deep,3',

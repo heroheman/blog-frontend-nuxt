@@ -7,8 +7,35 @@
   },
   "parserOptions": {
     "ecmaVersion": 2020,
-    "sourceType": "module"
+    "sourceType": "module",
+    "parser": "@babel/eslint-parser",
+    "requireConfigFile": false
   },
-  "extends": ["eslint:recommended"],
-  "rules": {}
+  "extends": [
+    "eslint:recommended"
+  ],
+  "overrides": [
+    {
+      "files": ["*.vue"],
+      "parser": "vue-eslint-parser",
+      "parserOptions": {
+        "parser": "@babel/eslint-parser",
+        "ecmaVersion": 2020,
+        "sourceType": "module",
+        "requireConfigFile": false
+      },
+      "extends": [
+        "eslint:recommended",
+        "plugin:vue/recommended"
+      ],
+      "rules": {
+        "vue/multi-word-component-names": "off",
+        "vue/no-v-html": "off"
+      }
+    }
+  ],
+  "rules": {
+    "no-unused-vars": ["error", { "args": "none" }],
+    "no-console": "off"
+  }
 }
