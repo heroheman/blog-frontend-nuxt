@@ -186,56 +186,31 @@
   </header>
 </template>
 
-<script>
-export default {
-  name: 'HeaderGlobal',
-  props: {
-    // eslint-disable-next-line vue/require-default-prop
-    settings: {
-      type: Object,
-      value: () => {},
-    },
-  },
-  data() {
-    return {
-      randomHeadNumber: Math.floor(Math.random() * 10),
-    }
-  },
-  computed: {
-    isPost() {
-      return this.$route.name === 'blog-post'
-    },
-    isCategory() {
-      if (
-        this.$route.name === 'category-category' ||
-        this.$route.name === 'series-series' ||
-        this.$route.name === 'category' ||
-        this.$route.name === 'genre-book' ||
-        this.$route.name === 'genre-book-bookgenre' ||
-        this.$route.name === 'author-author' ||
-        this.$route.name === 'author'
-      ) {
-        return true
-      } else {
-        return false
-      }
-    },
-    isBlogIndexCompact() {
-      return this.$route.name === 'blog'
-    },
-  },
-  methods: {
-    getSocialIcon(name) {
-      return `['fab', '${name}']`
-    },
-    getSocialColor(color) {
-      return `{ color: ${color} }`
-    },
-  },
-}
-// grid-template-areas: 'nav social' 'brand brand';
-// grid-template-rows: 1fr 2fr;
-// grid-template-columns: 1fr 1fr;
+<script setup>
+const route = useRoute()
+
+// Inject settings from the layout
+const settings = inject('settings', () => reactive({
+  sitetitle: 'flore.nz',
+  sitedescription: 'The personal website of Florenz',
+  Phrases: []
+}), true)
+
+// Reactive data
+const randomHeadNumber = ref(Math.floor(Math.random() * 10))
+
+// Computed properties
+const isPost = computed(() => route.name === 'blog-post')
+
+const isCategory = computed(() => {
+  return ['category-category', 'series-series', 'category', 'genre-book', 'genre-book-bookgenre', 'author-author', 'author'].includes(route.name)
+})
+
+const isBlogIndexCompact = computed(() => route.name === 'blog')
+
+// Methods
+const getSocialIcon = (name) => `['fab', '${name}']`
+const getSocialColor = (color) => `{ color: ${color} }`
 </script>
 
 <style lang="postcss" scoped>

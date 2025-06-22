@@ -1,22 +1,34 @@
 <template>
   <div class="container mx-auto">
     <div class="flex flex-wrap px-10 mx-auto md:px-20">
-      <Header class="w-full" :settings="settings" />
+      <Header class="w-full" />
       <div class="flex-auto w-full">
-        <nuxt :settings="settings" />
+        <slot />
       </div>
       <Footer class="w-full mx-auto" />
     </div>
   </div>
 </template>
 
-<script>
-import settingsMixin from '@/mixins/settingsMixin.js'
+<script setup>
+const { public: { strapiUrl } } = useRuntimeConfig()
 
-export default {
-  name: 'DefaultLayout',
-  mixins: [settingsMixin],
-}
+// Fetch global settings
+const { data: response } = await useFetch('/api/global', {
+  baseURL: strapiUrl,
+  query: {
+    populate: '*'
+  }
+})
+
+const settings = computed(() => response.value?.data || {
+  sitetitle: 'flore.nz',
+  sitedescription: 'The personal website of Florenz',
+  Phrases: []
+})
+
+// Make settings available to child components
+provide('settings', settings)
 </script>
 
 <style lang="postcss">

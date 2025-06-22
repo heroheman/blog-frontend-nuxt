@@ -10,65 +10,43 @@
   </main>
 </template>
 
-<script>
+<script setup>
 import { formatDate } from '@/utils/helper.js'
 
-export default {
-  name: 'BlogIndex',
-  data() {
-    return {
-      articles: [],
-      hasTag: false,
-    }
-  },
-  async fetch() {
-    try {
-      const response = await fetch('https://flrnz.strapi.florenz.dev/api/articles?populate=*&sort=display_published_date:DESC&pagination[pageSize]=200')
-      const payload = await response.json()
-      this.articles = payload.data
-    } catch (error) {
-      console.error('Error fetching articles:', error)
-      this.articles = []
-    }
-  },
-  computed: {
-    items() {
-      if (this.hasTag) {
-        return this.filteredArticles
-      } else {
-        return this.articles
-      }
-    },
-    filteredArticles() {
-      return this.articles.filter((post) => {
-        const tags = post.tags.split(',')
-        return tags.includes((p) => {
-          return p === this.$route.query.tag
-        })
-      })
-    },
-  },
-  fetchOnServer: true,
-  watch: {
-    '$route.query.tag'() {
-      if (this.$route.query.tag) {
-        this.hasTag = true
-      } else {
-        this.hasTag = false
-      }
-    },
-  },
-  mounted() {
-    if (this.$route.query.tag) {
-      this.hasTag = true
-    } else {
-      this.hasTag = false
-    }
-  },
-  methods: {
-    formatDate,
-  },
-}
+const route = useRoute()
+const { public: { strapiUrl } } = useRuntimeConfig()
+
+// Reactive state
+const hasTag = ref(false)
+
+// Watch for route query changes
+watch(() => route.query.tag, (newTag) => {
+  hasTag.value = !!newTag
+}, { immediate: true })
+
+// Fetch articles data
+const { data: response } = await useFetch('/api/articles', {
+  baseURL: strapiUrl,
+  query: {
+    populate: '*',
+    sort: 'display_published_date:DESC',
+    'pagination[pageSize]': 200
+  }
+})
+
+const articles = computed(() => response.value?.data || [])
+
+// Computed items with filtering
+const items = computed(() => {
+  if (hasTag.value && route.query.tag) {
+    return articles.value.filter((post) => {
+      if (!post.tags) return false
+      const tags = post.tags.split(',').map(tag => tag.trim())
+      return tags.includes(route.query.tag)
+    })
+  }
+  return articles.value
+})
 </script>
 
 <style lang="postcss" scoped>

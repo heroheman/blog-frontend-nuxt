@@ -19,12 +19,37 @@
   </main>
 </template>
 
-<script>
-import indexMixin from '@/mixins/indexMixin.js'
-export default {
-  name: 'RootIndex',
-  mixins: [indexMixin],
-}
+<script setup>
+const route = useRoute()
+const { public: { strapiUrl } } = useRuntimeConfig()
+
+// Reactive state
+const page = ref(route.params.page ? parseInt(route.params.page) - 1 : 0)
+const per_page = 10
+
+// Watch for route changes
+watch(() => route.params.page, (newPage) => {
+  if (newPage) {
+    page.value = parseInt(newPage) - 1
+  }
+})
+
+// Compute pagination start
+const start = computed(() => page.value * per_page)
+
+// Fetch articles data
+const { data: response, pending } = await useFetch('/api/articles', {
+  baseURL: strapiUrl,
+  query: {
+    populate: '*',
+    sort: 'display_published_date:DESC',
+    'pagination[start]': start,
+    'pagination[limit]': per_page
+  }
+})
+
+const articles = computed(() => response.value?.data || [])
+const articlesCount = computed(() => response.value?.meta?.pagination?.total || 0)
 </script>
 
 <style lang="postcss">

@@ -9,7 +9,7 @@
       <div
         v-if="song.description !== '' && song.description !== null"
         class="relative text-sm"
-        v-html="$md.render(song.description)"
+        v-html="renderMarkdown(song.description)"
       />
 
       <div class="mb-4">
@@ -77,26 +77,26 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'SongList',
-  props: {
-    songs: {
-      type: Array,
-      default: () => [],
-    },
+<script setup>
+import { renderMarkdown } from '~/utils/helper'
+
+defineProps({
+  songs: {
+    type: Array,
+    default: () => [],
   },
-  methods: {
-    hasSongwhip(songObj) {
-      return songObj.songwhip_url && Reflect.has(songObj, 'songwhip_url')
-    },
-    hasYoutube(songObj) {
-      return songObj.youtube_url && Reflect.has(songObj, 'youtube_url')
-    },
-    hasSpotify(songObj) {
-      return songObj.spotify_url && Reflect.has(songObj, 'spotify_url')
-    },
-  },
+})
+
+const hasSongwhip = (songObj) => {
+  return songObj.songwhip_url && Reflect.has(songObj, 'songwhip_url')
+}
+
+const hasYoutube = (songObj) => {
+  return songObj.youtube_url && Reflect.has(songObj, 'youtube_url')
+}
+
+const hasSpotify = (songObj) => {
+  return songObj.spotify_url && Reflect.has(songObj, 'spotify_url')
 }
 </script>
 

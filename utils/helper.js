@@ -1,4 +1,10 @@
-const md = require('markdown-it')().use(require('markdown-it-footnote'))
+import { marked } from 'marked'
+
+// Configure marked options
+marked.setOptions({
+  breaks: true,
+  gfm: true
+})
 
 // check of objec has a property
 export const hasProperty = (obj, prop) => {
@@ -30,7 +36,7 @@ export const songsAsMarkup = (songArray) => {
     .map(
       (i) =>
         `<h4>${i.title}</h4><p>${
-          i.description ? md.render(i.description) : ''
+          i.description ? marked(i.description) : ''
         }</p><ul><li><a href="${
           i.spotify_url ? i.spotify_url : ''
         }">Spotify</a></li><li><a href="${
@@ -50,7 +56,7 @@ export const getTracks = (data) => {
 
 export const feedContentParsed = (post) => {
   const tracks = getTracks(post)
-  const mdcontent = md.render(post.body)
+  const mdcontent = marked(post.body)
   if (tracks.length) {
     const mdtracks = songsAsMarkup(tracks)
     return mdcontent + mdtracks

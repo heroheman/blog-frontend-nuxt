@@ -46,7 +46,7 @@
     <div
       class="relative mb-4 article-text lg:max-w-3xl e-content"
       :class="[getRatingClass]"
-      v-html="`${$md.render(parsedBody)}`"
+      v-html="renderedBody"
     />
 
     <div v-if="!detail && hasExcerpt">
@@ -112,163 +112,137 @@
   </article>
 </template>
 
-<script>
-/* eslint-disable */
+<script setup>
+import { computed } from 'vue'
+import { marked } from 'marked'
 import { formatDate, hasProperty } from '@/utils/helper.js'
-export default {
-  name: 'ArticleView',
-  props: {
-    post: {
-      type: Object,
-      default: () => {},
-    },
-    detail: {
-      type: [Boolean],
-      default: false,
-    },
-  },
-  computed: {
-    hasExcerpt() {
-      const dividerStr = '<!--more-->'
-      const content = this.post.body.split(dividerStr)
-      // if excerpt available
-      if (content.length > 1) {
-        return true
-      } else {
-        return false
-      }
-    },
-    parsedBody() {
-      // PARSE IMAGES thorught cloudinary
-      // const imageRegex =
-      //  /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<optionalpart>\".*\")?\)/g
-      const imgUrlRegex = /https?:\/\/.*\.(?:png|jpg|gif)/i
-      const dividerStr = '<!--more-->'
-      const cloudinaryUrl =
-        'https://res.cloudinary.com/dlsll9dkn/image/fetch/c_limit,w_768,f_auto,q_auto:low/'
 
-      // excerpt handling
-      let content
-      const tmp = this.post.body.split(dividerStr)
-      if (!this.detail) {
-        // if excerpt available
-        if (tmp.length > 1) {
-          content = tmp[0]
-        } else {
-          content = tmp.join('')
-        }
-      } else {
-        content = tmp.join('')
-      }
+const props = defineProps({
+  post: {
+    type: Object,
+    default: () => {},
+  },
+  detail: {
+    type: Boolean,
+    default: false,
+  },
+})
 
-      //cloudinary links
-      content = content.replace(imgUrlRegex, function (a, b, c) {
-        return cloudinaryUrl + a
-      })
+const hasExcerpt = computed(() => {
+  const dividerStr = '<!--more-->'
+  const content = props.post.body.split(dividerStr)
+  return content.length > 1
+})
 
-      return content
-    },
-    rating() {
-      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
-        return this.post.additional.filter(
-          (addi) => addi.__component === 'content.rating'
-        )[0]
-      } else {
-        return false
-      }
-    },
-    getRatingClass() {
-      if (this.rating) {
-        if (this.hasExcerpt && !this.detail) {
-          return 'no-rating'
-        } else {
-          return `star-rating star-rating-${this.rating.ratingnumber}`
-        }
-      } else {
-        return 'no-rating'
-      }
-    },
-    // isbn() {
-    //   if (hasProperty(this.post, 'additional') && this.post.additional.length && this.detail) {
-    //     return this.post.additional.filter(
-    //       (addi) => addi.__component === 'external-api.open-library-isbn'
-    //     )[0]
-    //   } else {
-    //     return false
-    //   }
-    // },
-    isbnWrapped() {
-      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
-        if (this.hasExcerpt && !this.detail) {
-          return false
-        } else if (
-          this.post.additional.filter(
-            (addi) => addi.__component === 'external-api.book-container'
-          ).length
-        ) {
-          return this.post.additional.filter(
-            (addi) => addi.__component === 'external-api.book-container'
-          )
-        }
-      } else {
-        return false
-      }
-    },
-    songs() {
-      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
-        if (this.hasExcerpt && !this.detail) {
-          return false
-        } else {
-          return this.post.additional.filter(
-            (addi) => addi.__component === 'content.track'
-          )
-        }
-      } else {
-        return false
-      }
-    },
-    songsWrapped() {
-      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
-        if (this.hasExcerpt && !this.detail) {
-          return false
-        } else if (
-          this.post.additional.filter(
-            (addi) => addi.__component === 'content.track-container'
-          ).length
-        ) {
-          return this.post.additional.filter(
-            (addi) => addi.__component === 'content.track-container'
-          )
-        }
-      } else {
-        return false
-      }
-    },
-    advertisement() {
-      if (hasProperty(this.post, 'additional') && this.post.additional.length) {
-        return this.post.additional.filter(
-          (addi) => addi.__component === 'content.advertisement'
-        )[0]
-      } else {
-        return false
-      }
-    },
-    bodyText() {
-      const text = this.post.body.split('<!--more-->')
-      return text
-    },
-  },
-  methods: {
-    formatDate,
-  },
-  mounted() {
-    // Debug logging to see what data we have
-    console.log('ArticleView mounted with post:', this.post)
-    console.log('Post additional:', this.post?.additional)
-    console.log('Songs computed:', this.songs)
-    console.log('SongsWrapped computed:', this.songsWrapped)
-  },
-}
+const parsedBody = computed(() => {
+  const imgUrlRegex = /https?:\/\/.*\.(?:png|jpg|gif)/i
+  const dividerStr = '<!--more-->'
+  const cloudinaryUrl = 'https://res.cloudinary.com/dlsll9dkn/image/fetch/c_limit,w_768,f_auto,q_auto:low/'
+
+  let content
+  const tmp = props.post.body.split(dividerStr)
+  if (!props.detail) {
+    if (tmp.length > 1) {
+      content = tmp[0]
+    } else {
+      content = tmp.join('')
+    }
+  } else {
+    content = tmp.join('')
+  }
+
+  content = content.replace(imgUrlRegex, function (a, b, c) {
+    return cloudinaryUrl + a
+  })
+
+  return content
+})
+
+const renderedBody = computed(() => {
+  return marked(parsedBody.value)
+})
+
+const rating = computed(() => {
+  if (hasProperty(props.post, 'additional') && props.post.additional.length) {
+    return props.post.additional.filter(
+      (addi) => addi.__component === 'content.rating'
+    )[0]
+  }
+  return false
+})
+
+const getRatingClass = computed(() => {
+  if (rating.value) {
+    if (hasExcerpt.value && !props.detail) {
+      return 'no-rating'
+    } else {
+      return `star-rating star-rating-${rating.value.ratingnumber}`
+    }
+  } else {
+    return 'no-rating'
+  }
+})
+
+const isbnWrapped = computed(() => {
+  if (hasProperty(props.post, 'additional') && props.post.additional.length) {
+    if (hasExcerpt.value && !props.detail) {
+      return false
+    } else if (
+      props.post.additional.filter(
+        (addi) => addi.__component === 'external-api.book-container'
+      ).length
+    ) {
+      return props.post.additional.filter(
+        (addi) => addi.__component === 'external-api.book-container'
+      )
+    }
+  }
+  return false
+})
+
+const songs = computed(() => {
+  if (hasProperty(props.post, 'additional') && props.post.additional.length) {
+    if (hasExcerpt.value && !props.detail) {
+      return false
+    } else {
+      return props.post.additional.filter(
+        (addi) => addi.__component === 'content.track'
+      )
+    }
+  }
+  return false
+})
+
+const songsWrapped = computed(() => {
+  if (hasProperty(props.post, 'additional') && props.post.additional.length) {
+    if (hasExcerpt.value && !props.detail) {
+      return false
+    } else if (
+      props.post.additional.filter(
+        (addi) => addi.__component === 'content.track-container'
+      ).length
+    ) {
+      return props.post.additional.filter(
+        (addi) => addi.__component === 'content.track-container'
+      )
+    }
+  }
+  return false
+})
+
+const advertisement = computed(() => {
+  if (hasProperty(props.post, 'additional') && props.post.additional.length) {
+    return props.post.additional.filter(
+      (addi) => addi.__component === 'content.advertisement'
+    )[0]
+  }
+  return false
+})
+
+const bodyText = computed(() => {
+  const text = props.post.body.split('<!--more-->')
+  return text
+})
 </script>
 
 <style lang="postcss">

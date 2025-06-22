@@ -38,98 +38,61 @@
   </main>
 </template>
 
-<script>
-export default {
-  name: 'IndexCategory',
-  data() {
-    return {
-      showDescription: false,
-      title: '',
-      description: '',
-      articles: [],
-      series: [],
-      genre: [],
-      authors: [],
-      loading: true,
-    }
-  },
-  async fetch() {
+<script setup>
+const route = useRoute()
+const { public: { strapiUrl } } = useRuntimeConfig()
+
+// Reactive state
+const showDescription = ref(false)
+const title = ref('')
+const description = ref('')
+const articles = ref([])
+const series = ref({ data: [] })
+const genre = ref({ data: [] })
+const authors = ref({ data: [] })
+
+// Fetch category data
+const { data: categoryResponse } = await useFetch('/api/categories', {
+  baseURL: strapiUrl,
+  query: {
+    populate: '*',
+    'filters[slug][$eq]': route.params.category
+  }
+})
+
+// Process category data
+if (categoryResponse.value?.data && categoryResponse.value.data.length > 0) {
+  const category = categoryResponse.value.data[0]
+  
+  if (route.params.category === 'musik') {
+    showDescription.value = true
+  }
+  
+  showDescription.value = category.showDescriptionInIndex
+  title.value = category.title
+  description.value = category.description
+  
+  // Sort articles by date
+  articles.value = category.articles ? category.articles.sort((a, b) => {
+    return new Date(b.display_published_date).getTime() - new Date(a.display_published_date).getTime()
+  }) : []
+  
+  // Fetch related collections for book category
+  if (route.params.category === 'buecher') {
     try {
-      // Fetch category data
-      const categoryResponse = await fetch(`https://flrnz.strapi.florenz.dev/api/categories?populate=*&filters[slug][$eq]=${this.$route.params.category}`)
-      const categoryPayload = await categoryResponse.json()
-
-      if (categoryPayload.data && categoryPayload.data.length > 0) {
-        const category = categoryPayload.data[0]
-
-        if (this.$route.params.category === 'musik') {
-          this.showDescription = true
-        }
-
-        this.showDescription = category.showDescriptionInIndex
-        this.title = category.title
-        this.description = category.description
-
-        // In Strapi v5, articles should be directly available, not wrapped in .data
-        this.articles = category.articles ? category.articles.sort(function (a, b) {
-          return (
-            new Date(b.display_published_date).getTime() -
-            new Date(a.display_published_date).getTime()
-          )
-        }) : []
-
-        // Fetch related collections for book category
-        if (this.$route.params.category === 'buecher') {
-          try {
-            const [seriesResponse, genreResponse, authorResponse] = await Promise.all([
-              fetch('https://flrnz.strapi.florenz.dev/api/bookseries?populate=*'),
-              fetch('https://flrnz.strapi.florenz.dev/api/genre-books?populate=*'),
-              fetch('https://flrnz.strapi.florenz.dev/api/authors?populate=*')
-            ])
-
-            const seriesData = await seriesResponse.json()
-            const genreData = await genreResponse.json()
-            const authorData = await authorResponse.json()
-
-            // Ensure proper structure with data property
-            this.series = seriesData || { data: [] }
-            this.genre = genreData || { data: [] }
-            this.authors = authorData || { data: [] }
-
-            console.log('Series data:', this.series)
-            console.log('Genre data:', this.genre)
-            console.log('Authors data:', this.authors)
-          } catch (error) {
-            console.error('Error fetching book collections:', error)
-            this.series = { data: [] }
-            this.genre = { data: [] }
-            this.authors = { data: [] }
-          }
-        } else {
-          // Initialize with empty arrays for non-book categories
-          this.series = { data: [] }
-          this.genre = { data: [] }
-          this.authors = { data: [] }
-        }
-      } else {
-        this.title = ''
-        this.description = ''
-        this.articles = []
-        this.series = { data: [] }
-        this.genre = { data: [] }
-        this.authors = { data: [] }
-      }
+      const [seriesData, genreData, authorData] = await Promise.all([
+        $fetch('/api/bookseries?populate=*', { baseURL: strapiUrl }),
+        $fetch('/api/genre-books?populate=*', { baseURL: strapiUrl }),
+        $fetch('/api/authors?populate=*', { baseURL: strapiUrl })
+      ])
+      
+      series.value = seriesData || { data: [] }
+      genre.value = genreData || { data: [] }
+      authors.value = authorData || { data: [] }
     } catch (error) {
-      console.error('Error fetching category:', error)
-      this.title = ''
-      this.description = ''
-      this.articles = []
-      this.series = { data: [] }
-      this.genre = { data: [] }
-      this.authors = { data: [] }
+      console.error('Error fetching book collections:', error)
     }
-  },
-  fetchOnServer: true,
+  }
 }
 </script>
 
