@@ -21,7 +21,7 @@ export default {
     //   slug: this.$route.params.author,
     // })
     const payload = await this.$strapi.find('authors', {
-      populate: 'deep,3', // populate all relations
+      populate: '*', // populate all relations
       filters: {
         slug: {
           $eq: this.$route.params.author,

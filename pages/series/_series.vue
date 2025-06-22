@@ -34,7 +34,7 @@ export default {
     //   slug: this.$route.params.series,
     // })
     const payload = await this.$strapi.find('bookseries', {
-      populate: 'deep,3', // populate all relations
+      populate: '*', // populate all relations
       filters: {
         slug: {
           $eq: this.$route.params.series,

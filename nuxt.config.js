@@ -311,7 +311,7 @@ export default {
     },
     routes: () => {
       const articles = axios
-        .get(`${BLOG_EP}/api/articles?populate=deep,3`)
+        .get(`${BLOG_EP}/api/articles?populate=*`)
         // .then(res => { console.log(res); return res;})
         .then((res) => {
           return res.data.data.map((article) => {
