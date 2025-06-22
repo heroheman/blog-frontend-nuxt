@@ -34,17 +34,14 @@ export default {
     }
   },
   async fetch() {
-    // this.pages = await this.$strapi.find('pages', {
-    //   slug: this.$route.params.slug.toString(),
-    // })
-    const payload = await this.$strapi.find('pages', {
-      filters: {
-        slug: {
-          $eq: this.$route.params.slug.toString(),
-        },
-      },
-    })
-    this.pages = payload.data
+    try {
+      const response = await fetch(`https://flrnz.strapi.florenz.dev/api/pages?filters[slug][$eq]=${this.$route.params.slug.toString()}`)
+      const payload = await response.json()
+      this.pages = payload.data
+    } catch (error) {
+      console.error('Error fetching page:', error)
+      this.pages = []
+    }
   },
   computed: {
     content() {

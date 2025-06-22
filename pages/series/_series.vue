@@ -30,29 +30,31 @@ export default {
     }
   },
   async fetch() {
-    // const tmp = await this.$strapi.find('bookseries', {
-    //   slug: this.$route.params.series,
-    // })
-    const payload = await this.$strapi.find('bookseries', {
-      populate: '*', // populate all relations
-      filters: {
-        slug: {
-          $eq: this.$route.params.series,
-        },
-      },
-    })
+    try {
+      const response = await fetch(`https://flrnz.strapi.florenz.dev/api/bookseries?populate=*&filters[slug][$eq]=${this.$route.params.series}`)
+      const payload = await response.json()
 
-    const tmp = payload.data[0]
-
-    this.title = tmp.title
-    this.description = tmp.description
-
-    this.articles = tmp.articles.data.sort(function (a, b) {
-      return (
-        new Date(b.display_published_date).getTime() -
-        new Date(a.display_published_date).getTime()
-      )
-    })
+      if (payload.data && payload.data.length > 0) {
+        const series = payload.data[0]
+        this.title = series.title
+        this.description = series.description
+        this.articles = series.articles ? series.articles.sort(function (a, b) {
+          return (
+            new Date(b.display_published_date).getTime() -
+            new Date(a.display_published_date).getTime()
+          )
+        }) : []
+      } else {
+        this.title = ''
+        this.description = ''
+        this.articles = []
+      }
+    } catch (error) {
+      console.error('Error fetching series:', error)
+      this.title = ''
+      this.description = ''
+      this.articles = []
+    }
   },
   fetchOnServer: true,
 }

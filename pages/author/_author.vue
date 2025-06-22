@@ -17,26 +17,25 @@ export default {
     }
   },
   async fetch() {
-    // const tmp = await this.$strapi.find('authors', {
-    //   slug: this.$route.params.author,
-    // })
-    const payload = await this.$strapi.find('authors', {
-      populate: '*', // populate all relations
-      filters: {
-        slug: {
-          $eq: this.$route.params.author,
-        },
-      },
-    })
+    try {
+      const response = await fetch(`https://flrnz.strapi.florenz.dev/api/authors?populate=*&filters[slug][$eq]=${this.$route.params.author}`)
+      const payload = await response.json()
 
-    const tmp = payload.data[0]
-
-    this.articles = tmp.articles.data.sort(function (a, b) {
-      return (
-        new Date(b.display_published_date).getTime() -
-        new Date(a.display_published_date).getTime()
-      )
-    })
+      if (payload.data && payload.data.length > 0) {
+        const author = payload.data[0]
+        this.articles = author.articles ? author.articles.sort(function (a, b) {
+          return (
+            new Date(b.display_published_date).getTime() -
+            new Date(a.display_published_date).getTime()
+          )
+        }) : []
+      } else {
+        this.articles = []
+      }
+    } catch (error) {
+      console.error('Error fetching author:', error)
+      this.articles = []
+    }
   },
   fetchOnServer: true,
 }

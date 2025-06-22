@@ -54,42 +54,58 @@ export default {
     }
   },
   async fetch() {
-    const payload = await this.$strapi.find('categories', {
-      populate: '*', // populate all relations';
-      // sort: 'display_published_date:DESC',
-      // slug: this.$route.params.category,
-      filters: {
-        slug: {
-          $eq: this.$route.params.category,
-        },
-      },
-    })
+    try {
+      // Fetch category data
+      const categoryResponse = await fetch(`https://flrnz.strapi.florenz.dev/api/categories?populate=*&filters[slug][$eq]=${this.$route.params.category}`)
+      const categoryPayload = await categoryResponse.json()
 
-    const tmp = payload.data
+      if (categoryPayload.data && categoryPayload.data.length > 0) {
+        const category = categoryPayload.data[0]
 
-    if (this.$route.params.category === 'musik') {
-      this.showDescription = true
+        if (this.$route.params.category === 'musik') {
+          this.showDescription = true
+        }
+
+        this.showDescription = category.showDescriptionInIndex
+        this.title = category.title
+        this.description = category.description
+
+        this.articles = category.articles ? category.articles.sort(function (a, b) {
+          return (
+            new Date(b.display_published_date).getTime() -
+            new Date(a.display_published_date).getTime()
+          )
+        }) : []
+
+        // Fetch related collections for book category
+        if (this.$route.params.category === 'buecher') {
+          const [seriesResponse, genreResponse, authorResponse] = await Promise.all([
+            fetch('https://flrnz.strapi.florenz.dev/api/bookseries?populate=*'),
+            fetch('https://flrnz.strapi.florenz.dev/api/genre-books?populate=*'),
+            fetch('https://flrnz.strapi.florenz.dev/api/authors?populate=*')
+          ])
+
+          this.series = await seriesResponse.json()
+          this.genre = await genreResponse.json()
+          this.authors = await authorResponse.json()
+        }
+      } else {
+        this.title = ''
+        this.description = ''
+        this.articles = []
+        this.series = { data: [] }
+        this.genre = { data: [] }
+        this.authors = { data: [] }
+      }
+    } catch (error) {
+      console.error('Error fetching category:', error)
+      this.title = ''
+      this.description = ''
+      this.articles = []
+      this.series = { data: [] }
+      this.genre = { data: [] }
+      this.authors = { data: [] }
     }
-
-    this.showDescription = tmp[0].showDescriptionInIndex
-    this.title = tmp[0].title
-    this.description = tmp[0].description
-
-    this.articles = tmp[0].articles.data.sort(function (a, b) {
-      return (
-        new Date(b.display_published_date).getTime() -
-        new Date(a.display_published_date).getTime()
-      )
-    })
-
-    const series = await this.$strapi.find('bookseries', { populate: '*' })
-    this.series = series
-
-    const genre = await this.$strapi.find('genre-books', { populate: '*' })
-    this.genre = genre
-
-    const author = await this.$strapi.find('authors', { populate: '*' })
-    this.authors = author
   },
   fetchOnServer: true,
 }

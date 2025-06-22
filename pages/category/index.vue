@@ -19,15 +19,14 @@ export default {
     }
   },
   async fetch() {
-    // const tmp = await this.$strapi.find('categories')
-    const payload = await this.$strapi.find('categories', {
-      populate: '*', // populate all relations
-      pagination: {
-        pageSize: 200,
-      },
-    })
-
-    this.items = payload
+    try {
+      const response = await fetch('https://flrnz.strapi.florenz.dev/api/categories?populate=*&pagination[pageSize]=200')
+      const payload = await response.json()
+      this.items = payload
+    } catch (error) {
+      console.error('Error fetching categories:', error)
+      this.items = { data: [] }
+    }
   },
   fetchOnServer: true,
 }

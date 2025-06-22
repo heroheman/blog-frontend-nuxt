@@ -6,9 +6,10 @@ export default {
   },
   async fetch() {
     try {
-      const response = await this.$strapi.get('/global?populate=*')
+      const response = await fetch('https://flrnz.strapi.florenz.dev/api/global?populate=*')
+      const payload = await response.json()
       // Use Strapi v5 structure directly - no more fake v4 structure
-      this.settings = response.data
+      this.settings = payload.data
     } catch (error) {
       console.error('Error fetching global settings:', error)
       // Fallback settings to prevent errors

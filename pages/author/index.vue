@@ -18,14 +18,14 @@ export default {
     }
   },
   async fetch() {
-    const payload = await this.$strapi.find('authors', {
-      populate: '*', // populate all relations
-      pagination: {
-        pageSize: 200,
-      },
-    })
-
-    this.items = payload
+    try {
+      const response = await fetch('https://flrnz.strapi.florenz.dev/api/authors?populate=*&pagination[pageSize]=200')
+      const payload = await response.json()
+      this.items = payload
+    } catch (error) {
+      console.error('Error fetching authors:', error)
+      this.items = { data: [] }
+    }
   },
   fetchOnServer: true,
 }

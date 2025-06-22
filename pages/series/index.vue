@@ -18,16 +18,14 @@ export default {
     }
   },
   async fetch() {
-    // const tmp = await this.$strapi.find('bookseries')
-    // this.items = tmp
-    const payload = await this.$strapi.find('bookseries', {
-      populate: '*', // populate all relations
-      pagination: {
-        pageSize: 200,
-      },
-    })
-
-    this.items = payload
+    try {
+      const response = await fetch('https://flrnz.strapi.florenz.dev/api/bookseries?populate=*&pagination[pageSize]=200')
+      const payload = await response.json()
+      this.items = payload
+    } catch (error) {
+      console.error('Error fetching series:', error)
+      this.items = { data: [] }
+    }
   },
   fetchOnServer: true,
 }

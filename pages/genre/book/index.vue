@@ -18,11 +18,14 @@ export default {
     }
   },
   async fetch() {
-    const payload = await this.$strapi.find('genre-books', {
-      populate: '*', // populate all relations
-    })
-
-    this.items = payload
+    try {
+      const response = await fetch('https://flrnz.strapi.florenz.dev/api/genre-books?populate=*')
+      const payload = await response.json()
+      this.items = payload
+    } catch (error) {
+      console.error('Error fetching genres:', error)
+      this.items = { data: [] }
+    }
   },
   fetchOnServer: true,
 }

@@ -17,26 +17,25 @@ export default {
     }
   },
   async fetch() {
-    // const tmp = await this.$strapi.find('genre-books', {
-    //   slug: this.$route.params.bookgenre,
-    // })
-    const payload = await this.$strapi.find('genre-books', {
-      populate: '*', // populate all relations
-      filters: {
-        slug: {
-          $eq: this.$route.params.bookgenre,
-        },
-      },
-    })
+    try {
+      const response = await fetch(`https://flrnz.strapi.florenz.dev/api/genre-books?populate=*&filters[slug][$eq]=${this.$route.params.bookgenre}`)
+      const payload = await response.json()
 
-    const tmp = payload.data[0]
-
-    this.articles = tmp.articles.data.sort(function (a, b) {
-      return (
-        new Date(b.display_published_date).getTime() -
-        new Date(a.display_published_date).getTime()
-      )
-    })
+      if (payload.data && payload.data.length > 0) {
+        const genre = payload.data[0]
+        this.articles = genre.articles ? genre.articles.sort(function (a, b) {
+          return (
+            new Date(b.display_published_date).getTime() -
+            new Date(a.display_published_date).getTime()
+          )
+        }) : []
+      } else {
+        this.articles = []
+      }
+    } catch (error) {
+      console.error('Error fetching genre:', error)
+      this.articles = []
+    }
   },
   fetchOnServer: true,
 }

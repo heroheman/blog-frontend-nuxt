@@ -23,15 +23,14 @@ export default {
     }
   },
   async fetch() {
-    const payload = await this.$strapi.find('articles', {
-      populate: '*',
-      filters: {
-        slug: {
-          $eq: this.$route.params.post,
-        },
-      },
-    })
-    this.article = payload.data
+    try {
+      const response = await fetch(`https://flrnz.strapi.florenz.dev/api/articles?populate=*&filters[slug][$eq]=${this.$route.params.post}`)
+      const payload = await response.json()
+      this.article = payload.data
+    } catch (error) {
+      console.error('Error fetching article:', error)
+      this.article = []
+    }
   },
   fetchOnServer: true,
   head() {
@@ -73,14 +72,9 @@ export default {
           property: 'og:image',
           content:
             this.article.length &&
-            this.article[0].cover !== undefined &&
-            this.article[0].cover.data !== null &&
-            this.article[0].cover !== null
-              ? this.article[0].cover.data.formats.medium
-                ? this.article[0].cover.data.formats
-                    .medium.url
-                : this.article[0].cover.data.formats
-                    .thumbnail.url
+            this.article[0].cover &&
+            this.article[0].cover.url
+              ? this.article[0].cover.url
               : '',
         },
         {
@@ -102,12 +96,9 @@ export default {
           property: 'twitter:image',
           content:
             this.article.length &&
-            this.article[0].cover !== undefined &&
-            this.article[0].cover.data !== null &&
-            this.article[0].cover !== null
-              ? this.article[0].cover.data.formats.medium
-                ? this.article[0].cover.data.formats.medium.url
-                : this.article[0].cover.data.formats.thumbnail.url
+            this.article[0].cover &&
+            this.article[0].cover.url
+              ? this.article[0].cover.url
               : '',
         },
       ],

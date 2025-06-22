@@ -20,16 +20,17 @@ export default {
     }
   },
   async fetch() {
-    const payload = await this.$strapi.get('/articles', {
-      params: {
-        populate: '*', // populate all relations
-        sort: 'display_published_date:DESC',
-        'pagination[start]': this.page * this.per_page,
-        'pagination[limit]': this.per_page,
-      },
-    })
-    this.articles = payload.data
-    this.articlesCount = payload.meta.pagination.total
+    try {
+      const start = this.page * this.per_page
+      const response = await fetch(`https://flrnz.strapi.florenz.dev/api/articles?populate=*&sort=display_published_date:DESC&pagination[start]=${start}&pagination[limit]=${this.per_page}`)
+      const payload = await response.json()
+      this.articles = payload.data
+      this.articlesCount = payload.meta.pagination.total
+    } catch (error) {
+      console.error('Error fetching articles:', error)
+      this.articles = []
+      this.articlesCount = 0
+    }
   },
   fetchOnServer: true,
 }

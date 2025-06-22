@@ -22,16 +22,14 @@ export default {
     }
   },
   async fetch() {
-    // TODO: Increase max Result list
-    // https://forum.strapi.io/t/this-should-be-an-easy-one-how-do-i-get-strapi-query-to-return-all-entries-in-version-v4/21339
-    const payload = await this.$strapi.find('articles', {
-      populate: '*', // populate all relations';
-      sort: 'display_published_date:DESC',
-      pagination: {
-        pageSize: 200,
-      },
-    })
-    this.articles = payload.data
+    try {
+      const response = await fetch('https://flrnz.strapi.florenz.dev/api/articles?populate=*&sort=display_published_date:DESC&pagination[pageSize]=200')
+      const payload = await response.json()
+      this.articles = payload.data
+    } catch (error) {
+      console.error('Error fetching articles:', error)
+      this.articles = []
+    }
   },
   computed: {
     items() {
