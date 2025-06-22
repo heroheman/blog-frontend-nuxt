@@ -76,7 +76,7 @@
           title="RSS Feed"
           umami--click--nav-article
         >
-          <font-awesome-icon icon="rss" :style="{ color: '#ee802f' }" />
+          <SimpleIcon name="rss" size="20" class="text-orange-500" />
         </a>
       </li>
 
@@ -89,10 +89,7 @@
           data-umami-event="nav-click-sm-mastodon"
           title="Mastodon"
         >
-          <font-awesome-icon
-            :icon="['fab', 'mastodon']"
-            :style="{ color: '#0084b4' }"
-          />
+          <SimpleIcon name="mastodon" size="20" class="text-blue-500" />
         </a>
       </li>
       <!-- <li v-for="(sm, index) of settings.socialmedia" :key="index"> -->
@@ -116,10 +113,7 @@
           data-umami-event="nav-click-sm-goodreads"
           title="Goodreads"
         >
-          <font-awesome-icon
-            :icon="['fab', 'goodreads']"
-            :style="{ color: '#666666' }"
-          />
+          <SimpleIcon name="goodreads" size="20" class="text-gray-600" />
         </a>
       </li>
       <!-- <li>
@@ -162,10 +156,7 @@
           data-umami-event="nav-click-sm-bluesky"
           title="Bluesky @flrnz.bsky.social"
         >
-          <font-awesome-icon
-            :icon="['fab', 'bluesky']"
-            :style="{ color: '#0084b4' }"
-          />
+          <SimpleIcon name="bluesky" size="20" class="text-blue-500" />
         </a>
       </li>
       <!-- <li>

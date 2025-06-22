@@ -115,7 +115,7 @@
 <script setup>
 import { computed } from 'vue'
 import { marked } from 'marked'
-import { formatDate, hasProperty } from '@/utils/helper.js'
+import { formatDate, hasProperty } from '~/utils/helper'
 
 const props = defineProps({
   post: {

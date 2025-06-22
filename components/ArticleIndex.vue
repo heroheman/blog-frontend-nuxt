@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import { formatDate } from '@/utils/helper.js'
+import { formatDate } from '~/utils/helper'
 export default {
   name: 'ArticleIndex',
   props: {

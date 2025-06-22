@@ -87,6 +87,12 @@ export const cleanUpText = (str) => {
   )
 }
 
+// Render markdown to HTML
+export const renderMarkdown = (markdown) => {
+  if (!markdown) return ''
+  return marked(markdown)
+}
+
 // cleanup text and then create excerpt from string with length
 export const createExcerptFromText = (str, length) => {
   const cleaned = cleanUpText(str)

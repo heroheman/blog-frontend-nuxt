@@ -7,7 +7,7 @@ const BLOG_EP = process.env.STRAPI_URL || 'https://flrnz.strapi.florenz.dev'
 export default defineNuxtConfig({
   // Compatibility version
   compatibilityDate: '2025-06-22',
-  
+
   // Runtime config
   runtimeConfig: {
     public: {
@@ -92,13 +92,12 @@ export default defineNuxtConfig({
   // Global CSS
   css: [
     '@/assets/css/main.pcss',
-    '@fortawesome/fontawesome-svg-core/styles.css',
+    'lite-youtube-embed/src/lite-yt-embed.css'
   ],
 
   // Plugins
   plugins: [
-    '~/plugins/youtube.client.js',
-    '~/plugins/fontawesome.js'
+    '~/plugins/youtube.client.js'
   ],
 
   // Auto import components

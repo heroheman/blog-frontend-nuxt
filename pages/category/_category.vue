@@ -63,20 +63,20 @@ const { data: categoryResponse } = await useFetch('/api/categories', {
 // Process category data
 if (categoryResponse.value?.data && categoryResponse.value.data.length > 0) {
   const category = categoryResponse.value.data[0]
-  
+
   if (route.params.category === 'musik') {
     showDescription.value = true
   }
-  
+
   showDescription.value = category.showDescriptionInIndex
   title.value = category.title
   description.value = category.description
-  
+
   // Sort articles by date
   articles.value = category.articles ? category.articles.sort((a, b) => {
     return new Date(b.display_published_date).getTime() - new Date(a.display_published_date).getTime()
   }) : []
-  
+
   // Fetch related collections for book category
   if (route.params.category === 'buecher') {
     try {
@@ -85,7 +85,7 @@ if (categoryResponse.value?.data && categoryResponse.value.data.length > 0) {
         $fetch('/api/genre-books?populate=*', { baseURL: strapiUrl }),
         $fetch('/api/authors?populate=*', { baseURL: strapiUrl })
       ])
-      
+
       series.value = seriesData || { data: [] }
       genre.value = genreData || { data: [] }
       authors.value = authorData || { data: [] }

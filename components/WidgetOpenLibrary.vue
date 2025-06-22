@@ -51,10 +51,7 @@
           target="_blank"
           title="Dieses Buch bei Genialokal kaufen oder bei deinen lokalen Buchhändler bestellen und nach Hause liefern lassen"
         >
-          <font-awesome-icon
-            :icon="['fas', 'book-open']"
-            :style="{ color: '#a4c408' }"
-          />
+          <SimpleIcon name="book-open" size="16" class="text-lime-500 mr-2" />
           Genialokal
         </ui-button>
         <ui-button
@@ -68,13 +65,10 @@
           target="_blank"
           title="Dieses Buch bei Amazon kaufen"
         >
-          <font-awesome-icon
-            :icon="['fab', 'amazon']"
-            :style="{ color: '#ff9900' }"
-          />
+          <SimpleIcon name="amazon" size="16" class="text-yellow-500 mr-2" />
           Amazon
         </ui-button>
-        <p class="!mt-0 !mb-1 !text-xs text-[#aaaaaa] !mt-0">
+        <p class="!mt-0 !mb-1 !text-xs text-[#aaaaaa]">
           *Partnerlinks - Ich bekomme einen kleinen Prozentsatz von den Händlern
           und du bekommst ein Buch.
           <span v-if="bookMeta.showGenialokalRef">

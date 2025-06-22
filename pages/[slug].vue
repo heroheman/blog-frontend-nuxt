@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { formatDate } from '@/utils/helper.js'
+import { formatDate } from '~/utils/helper'
 import { marked } from 'marked'
 
 const route = useRoute()

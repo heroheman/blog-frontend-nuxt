@@ -27,10 +27,7 @@
         class="mb-4 unami--click--song-spotity"
         title="Auf Spotify anhöremr-2"
       >
-        <font-awesome-icon
-          :icon="['fab', 'spotify']"
-          :style="{ color: '#1DB954' }"
-        />
+        <SimpleIcon name="spotify" size="16" class="text-green-500 mr-2" />
         Auf Spotify
       </ui-button>
 
@@ -42,10 +39,7 @@
         target="_blank"
         title="Auf YouTube anhören"
       >
-        <font-awesome-icon
-          :icon="['fab', 'youtube']"
-          :style="{ color: '#FF0000' }"
-        />
+        <SimpleIcon name="youtube" size="16" class="text-red-500 mr-2" />
         Auf YouTube
       </ui-button>
 
@@ -57,10 +51,7 @@
         target="_blank"
         title="Songwhip"
       >
-        <font-awesome-icon
-          :icon="['fas', 'compact-disc']"
-          :style="{ color: '#5b5b5b' }"
-        />
+        <SimpleIcon name="compact-disc" size="16" class="text-gray-500 mr-2" />
         Alle Plattformen
       </ui-button>
     </div>

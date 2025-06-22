@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { formatDate } from '@/utils/helper.js'
+import { formatDate } from '~/utils/helper'
 
 const route = useRoute()
 const { public: { strapiUrl } } = useRuntimeConfig()

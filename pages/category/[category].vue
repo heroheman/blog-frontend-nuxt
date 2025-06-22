@@ -89,7 +89,7 @@ if (route.params.category === 'buecher') {
       $fetch('/api/genre-books?populate=*', { baseURL: strapiUrl }),
       $fetch('/api/authors?populate=*', { baseURL: strapiUrl })
     ])
-    
+
     series.value = seriesData || { data: [] }
     genre.value = genreData || { data: [] }
     authors.value = authorData || { data: [] }
