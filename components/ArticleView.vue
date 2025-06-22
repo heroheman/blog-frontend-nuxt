@@ -35,9 +35,9 @@
         <div>
           <internal-book-linking
             :date="post.display_published_date"
-            :author="post.author.data"
-            :series="post.bookseries.data"
-            :bookgenre="post.genre_books.data"
+            :author="post.author"
+            :series="post.bookseries"
+            :bookgenre="post.genre_books"
           />
         </div>
       </template>
@@ -61,9 +61,9 @@
       <div>
         <internal-book-linking
           :date="post.display_published_date"
-          :author="post.author.data"
-          :series="post.bookseries.data"
-          :bookgenre="post.genre_books.data"
+          :author="post.author"
+          :series="post.bookseries"
+          :bookgenre="post.genre_books"
         />
       </div>
     </div>
