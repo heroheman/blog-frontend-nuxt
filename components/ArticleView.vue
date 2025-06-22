@@ -261,6 +261,13 @@ export default {
   methods: {
     formatDate,
   },
+  mounted() {
+    // Debug logging to see what data we have
+    console.log('ArticleView mounted with post:', this.post)
+    console.log('Post additional:', this.post?.additional)
+    console.log('Songs computed:', this.songs)
+    console.log('SongsWrapped computed:', this.songsWrapped)
+  },
 }
 </script>
 

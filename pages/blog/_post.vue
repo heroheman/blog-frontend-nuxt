@@ -24,7 +24,7 @@ export default {
   },
   async fetch() {
     try {
-      const response = await fetch(`https://flrnz.strapi.florenz.dev/api/articles?populate=*&filters[slug][$eq]=${this.$route.params.post}`)
+      const response = await fetch(`https://flrnz.strapi.florenz.dev/api/articles?populate[additional][populate]=*&filters[slug][$eq]=${this.$route.params.post}`)
       const payload = await response.json()
       this.article = payload.data
     } catch (error) {

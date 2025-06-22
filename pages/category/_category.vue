@@ -18,19 +18,19 @@
     <div v-if="$route.params.category === 'buecher'" class="w-full md:w-1/4">
       <collection-index
         show-single-collections
-        :collection="genre.data"
+        :collection="genre.data || []"
         link-path="/genre/book"
         collection-title="Genre"
       />
       <collection-index
         show-single-collections
-        :collection="authors.data"
+        :collection="authors.data || []"
         link-path="/author"
         collection-title="Autoren"
       />
       <collection-index
         show-single-collections
-        :collection="series.data"
+        :collection="series.data || []"
         link-path="/series"
         collection-title="Buchserien"
       />
@@ -70,6 +70,7 @@ export default {
         this.title = category.title
         this.description = category.description
 
+        // In Strapi v5, articles should be directly available, not wrapped in .data
         this.articles = category.articles ? category.articles.sort(function (a, b) {
           return (
             new Date(b.display_published_date).getTime() -
@@ -79,15 +80,36 @@ export default {
 
         // Fetch related collections for book category
         if (this.$route.params.category === 'buecher') {
-          const [seriesResponse, genreResponse, authorResponse] = await Promise.all([
-            fetch('https://flrnz.strapi.florenz.dev/api/bookseries?populate=*'),
-            fetch('https://flrnz.strapi.florenz.dev/api/genre-books?populate=*'),
-            fetch('https://flrnz.strapi.florenz.dev/api/authors?populate=*')
-          ])
+          try {
+            const [seriesResponse, genreResponse, authorResponse] = await Promise.all([
+              fetch('https://flrnz.strapi.florenz.dev/api/bookseries?populate=*'),
+              fetch('https://flrnz.strapi.florenz.dev/api/genre-books?populate=*'),
+              fetch('https://flrnz.strapi.florenz.dev/api/authors?populate=*')
+            ])
 
-          this.series = await seriesResponse.json()
-          this.genre = await genreResponse.json()
-          this.authors = await authorResponse.json()
+            const seriesData = await seriesResponse.json()
+            const genreData = await genreResponse.json()
+            const authorData = await authorResponse.json()
+
+            // Ensure proper structure with data property
+            this.series = seriesData || { data: [] }
+            this.genre = genreData || { data: [] }
+            this.authors = authorData || { data: [] }
+
+            console.log('Series data:', this.series)
+            console.log('Genre data:', this.genre)
+            console.log('Authors data:', this.authors)
+          } catch (error) {
+            console.error('Error fetching book collections:', error)
+            this.series = { data: [] }
+            this.genre = { data: [] }
+            this.authors = { data: [] }
+          }
+        } else {
+          // Initialize with empty arrays for non-book categories
+          this.series = { data: [] }
+          this.genre = { data: [] }
+          this.authors = { data: [] }
         }
       } else {
         this.title = ''

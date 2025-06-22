@@ -32,7 +32,7 @@
               </nuxt-link>
               <span class="collection-item__counter">
                 <span>
-                  {{ item.articles.data.length }}
+                  {{ item.articles ? item.articles.length : 0 }}
                 </span>
               </span>
             </h3>
@@ -68,7 +68,7 @@ export default {
   methods: {
     formatDate,
     isSingleCollection(item) {
-      return item.articles.data.length === 1
+      return item.articles && item.articles.length === 1
     },
   },
 }
