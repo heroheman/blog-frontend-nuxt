@@ -6,6 +6,7 @@
     class="text-left articleview-main h-entry"
     :class="{ 'articleview--detail': detail }"
   >
+
     <div class="flex flex-col mb-4">
       <!-- Startpage -->
       <template v-if="!detail">
