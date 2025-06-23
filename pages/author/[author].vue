@@ -2,7 +2,10 @@
   <main class="w-full lg:max-w-3xl">
     <article-index v-if="articles" :articles="articles" />
     <p class="text-base">
-      <small> Zeige alle <nuxt-link to="/author">Autoren</nuxt-link></small>
+      <small> Zeige alle <nuxt-link to="/author"
+        data-umami-event="author-click-show-all"
+        :data-umami-event-from-author="$route.params.author"
+        >Autoren</nuxt-link></small>
     </p>
   </main>
 </template>

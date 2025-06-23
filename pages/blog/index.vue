@@ -2,6 +2,8 @@
   <main v-if="articles" class="w-full main">
     <div v-if="hasTag" class="mb-8 text-left">
       <nuxt-link class="items-start mb-8" to="/blog"
+        data-umami-event="blog-click-back-to-all"
+        :data-umami-event-from-tag="$route.query.tag"
         >&larr; Zurück zu allen Beiträgen</nuxt-link
       >
       &mdash; Alle <strong>{{ $route.query.tag }}</strong> Artikel

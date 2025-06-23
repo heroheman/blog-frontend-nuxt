@@ -13,7 +13,10 @@
     </div>
     <article-index v-if="articles" :articles="articles" view="thumbs" />
     <p class="text-base">
-      <small> Zeig alle <nuxt-link to="/series">Buchreihen</nuxt-link> </small>
+      <small> Zeig alle <nuxt-link to="/series"
+        data-umami-event="series-click-show-all"
+        :data-umami-event-from-series="$route.params.series"
+        >Buchreihen</nuxt-link> </small>
     </p>
   </main>
 </template>

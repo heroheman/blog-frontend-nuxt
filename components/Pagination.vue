@@ -2,8 +2,8 @@
   <ul class="mt-10 pagination">
     <li class="pagination__item pagination__item--symbol">
       <nuxt-link :to="{ name: 'page-page', params: { page: 1 } }"
-        data-umami-event="pagi-click"
-        data-umami-event-page="0"
+        data-umami-event="pagination-click-first"
+        data-umami-event-page="1"
       >
         ◂◂
       </nuxt-link>
@@ -11,9 +11,11 @@
     <li
       class="pagination__item pagination__item--symbol"
       :class="{ 'pagination__item--disabled': currentPage === 0 }"
-      data-umami-event="pagi-click"
     >
-      <nuxt-link :to="{ name: 'page-page', params: { page: currentPage - 1 } }">
+      <nuxt-link :to="{ name: 'page-page', params: { page: currentPage - 1 } }"
+        data-umami-event="pagination-click-prev"
+        :data-umami-event-page="currentPage - 1"
+      >
         ◂
       </nuxt-link>
     </li>
@@ -26,10 +28,15 @@
       <nuxt-link
         v-if="index !== 1"
         :to="{ name: 'page-page', params: { page: index } }"
+        data-umami-event="pagination-click-page"
+        :data-umami-event-page="index"
       >
         {{ index }}
       </nuxt-link>
-      <nuxt-link v-else :to="{ name: 'index' }">
+      <nuxt-link v-else :to="{ name: 'index' }"
+        data-umami-event="pagination-click-page"
+        :data-umami-event-page="1"
+      >
         {{ index }}
       </nuxt-link>
     </li>
@@ -40,7 +47,10 @@
         'pagination__item--disabled': currentPage === lastPage,
       }"
     >
-      <nuxt-link :to="{ name: 'page-page', params: { page: currentPage + 2 } }">
+      <nuxt-link :to="{ name: 'page-page', params: { page: currentPage + 2 } }"
+        data-umami-event="pagination-click-next"
+        :data-umami-event-page="currentPage + 2"
+      >
         ▸
       </nuxt-link>
     </li>
@@ -50,6 +60,8 @@
           name: 'page-page',
           params: { page: Math.round(articlesCount / perPage) },
         }"
+        data-umami-event="pagination-click-last"
+        :data-umami-event-page="Math.round(articlesCount / perPage)"
       >
         ▸▸
       </nuxt-link>

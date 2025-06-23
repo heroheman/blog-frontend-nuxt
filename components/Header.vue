@@ -8,6 +8,8 @@
     <!-- Mobile menu button -->
     <button
       @click="toggleMobileMenu"
+      data-umami-event="nav-click-mobile-menu-toggle"
+      :data-umami-event-state="isMobileMenuOpen ? 'close' : 'open'"
       class="md:hidden fixed top-4 right-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200"
       aria-label="Toggle menu"
     >
@@ -44,6 +46,7 @@
           </nuxt-link>
           <nuxt-link
             @click="closeMobileMenu"
+            data-umami-event="nav-click-music-index"
             class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
             to="/category/musik"
           >
@@ -51,6 +54,7 @@
           </nuxt-link>
           <nuxt-link
             @click="closeMobileMenu"
+            data-umami-event="nav-click-about"
             class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
             to="/about"
           >
@@ -63,6 +67,7 @@
             href="/feed.xml"
             target="_blank"
             title="RSS Feed"
+            data-umami-event="nav-click-mobile-rss"
             class="p-3 bg-orange-100 rounded-xl hover:bg-orange-200 transition-colors"
           >
             <SimpleIcon name="rss" size="24" class="text-orange-600" />
@@ -72,6 +77,7 @@
             href="https://norden.social/@florenz"
             target="_blank"
             title="Mastodon"
+            data-umami-event="nav-click-mobile-mastodon"
             class="p-3 bg-blue-100 rounded-xl hover:bg-blue-200 transition-colors"
           >
             <SimpleIcon name="mastodon" size="24" class="text-blue-600" />
@@ -81,6 +87,7 @@
             href="https://www.goodreads.com/user/show/64751703-florenz"
             target="_blank"
             title="Goodreads"
+            data-umami-event="nav-click-mobile-goodreads"
             class="p-3 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
           >
             <SimpleIcon name="goodreads" size="24" class="text-gray-600" />
@@ -90,6 +97,7 @@
             href="https://bsky.app/profile/flore.nz"
             target="_blank"
             title="Bluesky"
+            data-umami-event="nav-click-mobile-bluesky"
             class="p-3 bg-blue-100 rounded-xl hover:bg-blue-200 transition-colors"
           >
             <SimpleIcon name="bluesky" size="24" class="text-blue-600" />
@@ -156,6 +164,7 @@
             href="/feed.xml"
             target="_blank"
             title="RSS Feed"
+            data-umami-event="nav-click-rss"
             class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
             <SimpleIcon name="rss" size="20" class="text-orange-500 hover:text-orange-600 transition-colors" />
@@ -217,7 +226,7 @@
 
     <!-- Mobile Header Layout -->
     <div class="md:hidden text-center">
-      <nuxt-link data-umami-event="header-click-logo" to="/">
+      <nuxt-link data-umami-event="header-click-logo-mobile" to="/">
         <h1 class="font-head text-3xl italic leading-snug text-gray-900 mb-4">
           {{ settings.sitetitle }}
         </h1>

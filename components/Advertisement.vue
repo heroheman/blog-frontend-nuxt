@@ -7,6 +7,8 @@
           :href="adData.genialokalUrl"
           target="_blank"
           rel="noopener sponsored nofollow"
+          data-umami-event="ad-click-genial-text"
+          data-umami-event-source="advertisement-text"
           >Genialokal</a
         >
         oder bei
@@ -14,6 +16,8 @@
           :href="adData.amazonUrl"
           target="_blank"
           rel="noopener sponsored nofollow"
+          data-umami-event="ad-click-amazon-text"
+          data-umami-event-source="advertisement-text"
           >Amazon</a
         >, kauft.
         <br />
@@ -23,6 +27,8 @@
           href="https://www.awin1.com/cread.php?s=2518196&v=17358&q=376921&r=926729"
           target="_blank"
           rel="noopener sponsored nofollow"
+          data-umami-event="ad-click-genial-general"
+          data-umami-event-source="advertisement-general"
           >Genialokal</a
         >
         könnt ihr direkt bei einer lokalen Buchhandlung bestellen, abholen oder
@@ -42,6 +48,8 @@
           :href="adData.amazonUrl"
           target="_blank"
           rel="noopener nofollow sponsored"
+          data-umami-event="ad-click-amazon-only"
+          data-umami-event-source="advertisement-amazon-only"
           >Amazon</a
         >
         kauft.
@@ -56,6 +64,8 @@
           :href="adData.genialokalUrl"
           target="_blank"
           rel="noopener nofollow sponsored"
+          data-umami-event="ad-click-genial-only"
+          data-umami-event-source="advertisement-genial-only"
           >Genialokal</a
         >
         kauft.
