@@ -1,10 +1,10 @@
 <template>
-  <div class="books">
+  <div class="books-section">
     <widget-open-library
       v-for="(book, index) in books"
       :key="index"
       :book-meta="book"
-      class="mt-8 mb-4 article-text lg:max-w-3xl"
+      class="book-item"
     />
   </div>
 </template>
@@ -23,4 +23,19 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="postcss" scoped>
+.books-section {
+  @apply mt-8 space-y-6;
+}
+
+.book-item {
+  @apply w-full;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .books-section {
+    @apply mt-6 space-y-4;
+  }
+}
+</style>

@@ -9,6 +9,9 @@ module.exports = {
     './nuxt.config.{js,ts}',
     './app.vue'
   ],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+  ],
   theme: {
     screens: {
       xs: '475px',
@@ -16,9 +19,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        head: ['Playfair Display', ...defaultTheme.fontFamily.serif],
-        body: ['PT Serif', ...defaultTheme.fontFamily.serif],
-        meta: ['Open Sans', ...defaultTheme.fontFamily.sans],
+        head: ['Crimson Text', ...defaultTheme.fontFamily.serif],
+        body: ['Crimson Text', ...defaultTheme.fontFamily.serif],
+        meta: ['Inter', ...defaultTheme.fontFamily.sans],
         mono: [...defaultTheme.fontFamily.mono],
       },
       colors: {

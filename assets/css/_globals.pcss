@@ -4,10 +4,30 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   padding: env(safe-area-inset);
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--bg-secondary);
-  color: var(--text);
-  @apply transition-colors duration-200 ease-in-out;
+  @apply bg-white text-gray-900 transition-colors duration-200 ease-in-out;
+  font-feature-settings: "kern", "liga", "clig", "calt";
+  text-rendering: optimizeLegibility;
+}
+
+/* Selection styles */
+::selection {
+  @apply bg-gray-900 text-white;
+}
+
+::-moz-selection {
+  @apply bg-gray-900 text-white;
+}
+
+/* Focus styles */
+:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  @apply ring-2 ring-gray-400 ring-offset-2;
 }

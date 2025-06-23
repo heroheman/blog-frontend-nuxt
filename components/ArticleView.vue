@@ -3,112 +3,110 @@
   <article
     v-if="post !== undefined"
     role="article"
-    class="text-left articleview-main h-entry"
+    class="articleview h-entry"
     :class="{ 'articleview--detail': detail }"
   >
-
-    <div class="flex flex-col mb-4">
-      <!-- Startpage -->
-      <template v-if="!detail">
-        <div>
-          <h6 v-if="post.display_published_date" class="mb-8 date">
-            {{ formatDate(post.display_published_date) }}
-          </h6>
-        </div>
+    <!-- Startpage layout -->
+    <template v-if="!detail">
+      <header class="mb-6 sm:mb-8">
+        <time
+          v-if="post.display_published_date"
+          class="block text-sm sm:text-base text-gray-500 font-meta mb-2 sm:mb-3"
+          :datetime="post.display_published_date"
+        >
+          {{ formatDate(post.display_published_date) }}
+        </time>
 
         <nuxt-link
-          v-if="!detail"
           :to="`/blog/${post.slug}`"
           data-umami-event="index-click-article-title"
           :data-umami-event-title="post.title"
           :data-umami-event-url="`/blog/${post.slug}`"
+          class="block group"
         >
-          <h2 class="article-title title mb-0">
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-head font-normal leading-tight text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
             {{ post.title }}
           </h2>
         </nuxt-link>
-      </template>
 
-      <!-- Articleview -->
-      <template v-else>
-        <h2 class="mb-8 italic article-title title">
-          {{ post.title }}
-        </h2>
-
-        <div>
-          <internal-book-linking
-            :date="post.display_published_date"
-            :author="post.author"
-            :series="post.bookseries"
-            :bookgenre="post.genre_books"
-          />
-        </div>
-      </template>
-    </div>
-
-    <div
-      class="relative mb-4 article-text lg:max-w-3xl e-content"
-      :class="[getRatingClass]"
-      v-html="renderedBody"
-    />
-
-    <div v-if="!detail && hasExcerpt">
-      <nuxt-link
-        class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block mb-4"
-        :to="`/blog/${post.slug}`"
-        data-umami-event="article-read-more"
-        :data-umami-event-article="post.title"
-      >
-        Weiterlesen
-      </nuxt-link>
-      <div>
         <internal-book-linking
           :date="post.display_published_date"
           :author="post.author"
           :series="post.bookseries"
           :bookgenre="post.genre_books"
         />
-      </div>
+      </header>
+
+      <div
+        class="article-content max-w-none text-gray-700 leading-relaxed e-content"
+        :class="[getRatingClass]"
+        v-html="renderedBody"
+      />
+
+      <footer v-if="hasExcerpt" class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-100">
+        <nuxt-link
+          class="inline-flex items-center text-sm sm:text-base font-meta font-medium text-gray-900 hover:text-gray-600 transition-colors duration-200"
+          :to="`/blog/${post.slug}`"
+          data-umami-event="article-read-more"
+          :data-umami-event-article="post.title"
+        >
+          Weiterlesen
+          <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </nuxt-link>
+      </footer>
+    </template>
+
+    <!-- Detail page layout -->
+    <template v-else>
+      <header class="mb-8 sm:mb-12">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-head font-normal leading-tight text-gray-900 mb-6 sm:mb-8">
+          {{ post.title }}
+        </h1>
+
+        <internal-book-linking
+          :date="post.display_published_date"
+          :author="post.author"
+          :series="post.bookseries"
+          :bookgenre="post.genre_books"
+        />
+      </header>
+
+      <div
+        class="article-content max-w-none text-gray-700 leading-relaxed e-content"
+        :class="[getRatingClass]"
+        v-html="renderedBody"
+      />
+    </template>
+
+    <!-- Additional content -->
+    <div v-if="detail || !hasExcerpt" class="mt-8 sm:mt-12 space-y-8">
+      <!-- Songs -->
+      <song
+        v-if="!!songs"
+        :songs="songs"
+        class="article-content max-w-none"
+      />
+
+      <!-- Wrapped Songs -->
+      <song
+        v-if="!!songsWrapped"
+        :songs="songsWrapped[0].songs"
+        class="article-content max-w-none"
+      />
+
+      <!-- Books -->
+      <ClientOnly>
+        <widget-open-library-list
+          v-if="detail && isbnWrapped && isbnWrapped.length > 0 && isbnWrapped[0].bookmeta"
+          :books="isbnWrapped[0].bookmeta"
+          class="article-content max-w-none"
+        />
+      </ClientOnly>
     </div>
 
-    <!-- : Single Song List -->
-    <song
-      v-if="!!songs"
-      :songs="songs"
-      class="mt-8 mb-4 article-text lg:max-w-3xl"
-    />
-
-    <!-- Containered Song List -->
-    <song
-      v-if="!!songsWrapped"
-      :songs="songsWrapped[0].songs"
-      class="mt-8 mb-4 article-text lg:max-w-3xl"
-    />
-
-    <!-- <rating v-if="!!rating" class="w-full mb-8" :rating="rating.ratingnumber" /> -->
-
-    <!-- Single Book List (Legacy) -->
-    <!-- <widget-open-library
-      v-if="detail && !!isbn"
-      :bookMeta="isbn"
-      class="mt-8 mb-4 article-text lg:max-w-3xl"
-    /> -->
-
-    <!-- Containered Book List -->
-    <ClientOnly>
-      <widget-open-library-list
-        v-if="detail && isbnWrapped && isbnWrapped.length > 0 && isbnWrapped[0].bookmeta"
-        :books="isbnWrapped[0].bookmeta"
-        class="mt-8 mb-4 article-text lg:max-w-3xl"
-      />
-    </ClientOnly>
-
-    <!-- <advertisement
-      v-if="detail && !!advertisement"
-      class="w-full mt-16 mb-8 lg:max-w-3xl"
-      :ad-data="advertisement"
-    /> -->
-    <!-- webmention -->
+    <!-- Webmention -->
     <a
       class="u-bridgy-fed"
       href="https://fed.brid.gy/"
@@ -275,13 +273,17 @@ const bodyText = computed(() => {
 </script>
 
 <style lang="postcss">
-.articleview--detail {
-  margin-top: 2.5rem !important;
+.articleview {
+  &--detail {
+    @apply mt-8 sm:mt-12;
+  }
 }
+
 .star-rating {
   > p:last-of-type::after {
-    @apply block mt-4;
-    color: #ddb63e;
+    @apply block mt-6 text-2xl;
+    color: #fbbf24;
+    letter-spacing: 0.1em;
   }
   &-1 {
     > p:last-of-type::after {
@@ -306,6 +308,139 @@ const bodyText = computed(() => {
   &-5 {
     > p:last-of-type::after {
       content: '★ ★ ★ ★ ★';
+    }
+  }
+}
+
+/* Article content styles for readable typography */
+.article-content {
+  @apply text-gray-700 leading-relaxed;
+  font-size: 1.125rem;
+  line-height: 1.8;
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-head font-normal text-gray-900 mt-8 mb-4;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+  }
+
+  h1 { @apply text-3xl sm:text-4xl mt-12 mb-6; }
+  h2 { @apply text-2xl sm:text-3xl mt-10 mb-5; }
+  h3 { @apply text-xl sm:text-2xl mt-8 mb-4; }
+  h4 { @apply text-lg sm:text-xl mt-6 mb-3; }
+  h5 { @apply text-base sm:text-lg mt-6 mb-3; }
+  h6 { @apply text-sm sm:text-base mt-4 mb-2; }
+
+  p {
+    @apply mb-6 text-gray-700;
+    line-height: 1.8;
+  }
+
+  a {
+    @apply text-gray-900 underline decoration-gray-300 underline-offset-2 transition-colors duration-200;
+
+    &:hover {
+      @apply text-gray-600 decoration-gray-500;
+    }
+  }
+
+  strong {
+    @apply font-semibold text-gray-900;
+  }
+
+  em {
+    @apply italic;
+  }
+
+  blockquote {
+    @apply border-l-4 border-gray-200 pl-6 italic text-gray-600 my-8 bg-gray-50 py-4;
+
+    p {
+      @apply mb-0;
+    }
+  }
+
+  ul, ol {
+    @apply my-6 space-y-2 pl-6;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  li {
+    @apply text-gray-700 leading-relaxed;
+
+    p {
+      @apply mb-2;
+    }
+  }
+
+  img {
+    @apply rounded-lg my-8 w-full;
+    max-width: 100%;
+    height: auto;
+  }
+
+  figure {
+    @apply my-8;
+
+    figcaption {
+      @apply text-sm text-gray-500 text-center mt-2 italic;
+    }
+  }
+
+  code {
+    @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800;
+    font-size: 0.875em;
+  }
+
+  pre {
+    @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-6;
+
+    code {
+      @apply bg-transparent p-0 text-gray-800;
+    }
+  }
+
+  hr {
+    @apply border-0 border-t border-gray-200 my-8;
+  }
+
+  table {
+    @apply w-full my-6 border-collapse;
+
+    th, td {
+      @apply border border-gray-200 px-4 py-2 text-left;
+    }
+
+    th {
+      @apply bg-gray-50 font-semibold;
+    }
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .article-content {
+    font-size: 1rem;
+    line-height: 1.7;
+
+    h1 { @apply text-2xl mt-8 mb-4; }
+    h2 { @apply text-xl mt-6 mb-4; }
+    h3 { @apply text-lg mt-6 mb-3; }
+    h4 { @apply text-base mt-4 mb-3; }
+
+    blockquote {
+      @apply pl-4 my-6;
+    }
+
+    ul, ol {
+      @apply pl-4;
     }
   }
 }

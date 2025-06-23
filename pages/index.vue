@@ -1,16 +1,16 @@
 <template>
-  <main class="w-full">
-    <div>
-      <div
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="space-y-12 sm:space-y-16">
+      <article
         v-for="(post, index) in articles"
         :key="index"
-        class="pb-8 border-b border-gray-300 border-solid last:border-0"
+        class="group"
       >
         <article-view v-if="post.category !== 'Heavy Rotation'" :post="post" />
-      </div>
+      </article>
 
       <pagination
-        class="pl-0 mt-8 mb-6 mr-0 text-left"
+        class="mt-16 sm:mt-20"
         :articles-count="articlesCount"
         :per-page="per_page"
         :current-page="page"
@@ -52,8 +52,4 @@ const articles = computed(() => response.value?.data || [])
 const articlesCount = computed(() => response.value?.meta?.pagination?.total || 0)
 </script>
 
-<style lang="postcss">
-.articleview-main {
-  @apply my-20;
-}
-</style>
+

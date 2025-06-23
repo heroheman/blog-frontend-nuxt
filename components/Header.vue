@@ -107,7 +107,7 @@
     </div>
 
     <!-- Desktop Header Layout -->
-    <div class="hidden md:block">
+    <div class="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- First Row: Logo | Nav | Dynamic Space | Social -->
       <div class="flex items-center">
         <!-- Logo -->
@@ -225,7 +225,7 @@
     </div>
 
     <!-- Mobile Header Layout -->
-    <div class="md:hidden text-center">
+    <div class="md:hidden text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <nuxt-link data-umami-event="header-click-logo-mobile" to="/">
         <h1 class="font-head text-3xl italic leading-snug text-gray-900 mb-4">
           {{ settings.sitetitle }}

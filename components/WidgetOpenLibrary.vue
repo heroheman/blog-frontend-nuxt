@@ -1,81 +1,90 @@
 <template>
-  <div v-if="isLoaded" class="book">
-    <figure class="book__image w-full sm:w-1/4 lg:w-1/6">
-      <img
-        loading="lazy"
-        :src="getBookImage()"
-        :alt="`Cover: ${metadata.title}`"
-        :title="`Bookcover: ${metadata.title}`"
-        class="object-contain"
-      />
-    </figure>
-    <div class="book__detail w-full sm:w-3/4 lg:w-5/6">
-      <p
-        v-if="
-          Object.prototype.hasOwnProperty.call(metadata, 'authors') &&
-          metadata.authors.length
-        "
-        class="font-italic"
-      >
-        {{ metadata.authors[0].name }}
-      </p>
-      <p class="font-bold">{{ metadata.title }}</p>
-      <p v-if="Object.prototype.hasOwnProperty.call(metadata, 'publishers')">
-        {{ metadata.publishers[0].name }},
-      </p>
-      <p>
-        {{ metadata.publish_date }}<br />
-        {{ metadata.number_of_pages || metadata.pagination }} Seiten<br />
-      </p>
-      <p>
-        <small class="text-xs text-[#aaaaaa]">
-          {{ getIsbn() }}
-        </small>
-      </p>
+  <div v-if="isLoaded" class="book-widget">
+    <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:items-start p-4">
+      <div class="book-cover flex-shrink-0 w-36 !m-0">
+        <img
+        style="margin: 0 !important;"
+          loading="lazy"
+          :src="getBookImage()"
+          :alt="`Cover: ${metadata.title}`"
+          :title="`Bookcover: ${metadata.title}`"
+          class="w-auto sm:w-14 rounded object-cover shadow-sm m-0"
+        />
+      </div>
 
-      <div
-        class="mt-4 mb-2 refbuttons"
-        v-if="bookMeta.showAmazonRef || bookMeta.showGenialokalRef"
-      >
-        <p class="!mt-0 !mb-1 font-bold inline-block">
-          <small> Bestellen bei*: </small>
-        </p>
-        <ui-button
-          v-if="bookMeta.showGenialokalRef && bookMeta.genialokalRefUrl !== ''"
-          class="ref-button"
-          data-umami-event="article-click-ad"
-          data-umami-event-ad-type="geniallokal"
-          :data-umami-event-ad-book="metadata.title"
-          :href="bookMeta.genialokalRefUrl"
-          rel="noopener noreferrer"
-          target="_blank"
-          title="Dieses Buch bei Genialokal kaufen oder bei deinen lokalen Buchhändler bestellen und nach Hause liefern lassen"
+      <div class="book-details flex-1 min-w-0 pl-4">
+        <div class="mb-4">
+          <div class="!text-xl font-head font-medium text-gray-900 leading-tight !mb-2 font-bold">
+            {{ metadata.title }}
+          </div>
+          <div
+            v-if="
+              Object.prototype.hasOwnProperty.call(metadata, 'authors') &&
+              metadata.authors.length
+            "
+            class="text-xs text-gray-600 font-meta mb-2 leading-tight"
+          >
+            {{ metadata.authors[0].name }}
+          </div>
+          <div class="text-xxs text-gray-500 font-meta leading-tight space-y-0.5">
+            <!-- <p v-if="Object.prototype.hasOwnProperty.call(metadata, 'publishers')" class="text-xs">
+              {{ metadata.publishers[0].name }}
+            </p> -->
+            <p class="text-xs text-gray-400 leading-tight mb-0">
+              {{ metadata.publish_date }} • {{ metadata.number_of_pages || metadata.pagination }} Seiten • {{ getIsbn() }}
+            </p>
+
+            <p class="text-xs text-gray-400 leading-tight">
+            </p>
+          </div>
+        </div>
+
+        <div
+          v-if="bookMeta.showAmazonRef || bookMeta.showGenialokalRef"
+          class="book-purchase"
         >
-          <SimpleIcon name="book-open" size="16" class="text-lime-500 mr-2" />
-          Genialokal
-        </ui-button>
-        <ui-button
-          v-if="bookMeta.showAmazonRef && bookMeta.amazonRefUrl !== ''"
-          class="ref-button"
-          data-umami-event="article-click-ad"
-          data-umami-event-ad-type="amazon"
-          :data-umami-event-ad-book="metadata.title"
-          :href="bookMeta.amazonRefUrl"
-          rel="noopener noreferrer"
-          target="_blank"
-          title="Dieses Buch bei Amazon kaufen"
-        >
-          <SimpleIcon name="amazon" size="16" class="text-yellow-500 mr-2" />
-          Amazon
-        </ui-button>
-        <p class="!mt-0 !mb-1 !text-xs text-[#aaaaaa]">
-          *Partnerlinks - Ich bekomme einen kleinen Prozentsatz von den Händlern
-          und du bekommst ein Buch.
-          <span v-if="bookMeta.showGenialokalRef">
-            Mit Genialokal kannst du im übrigen direkt bei deiner Buchhandlung
-            um die Ecke bestellen und unterstützt den lokalen Handel.
-          </span>
-        </p>
+          <div class="text-xs font-meta font-medium text-gray-700 mb-2 leading-tight">
+            Bestellen bei*:
+          </div>
+          <div class="flex flex-wrap gap-1 mb-1">
+            <ui-button
+              v-if="bookMeta.showGenialokalRef && bookMeta.genialokalRefUrl !== ''"
+              class="purchase-btn purchase-btn--genial"
+              data-umami-event="article-click-ad"
+              data-umami-event-ad-type="geniallokal"
+              :data-umami-event-ad-book="metadata.title"
+              :href="bookMeta.genialokalRefUrl"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Dieses Buch bei Genialokal kaufen oder bei deinen lokalen Buchhändler bestellen und nach Hause liefern lassen"
+            >
+              <SimpleIcon name="book-open" size="10" class="text-green-600 mr-1" />
+              Genialokal
+            </ui-button>
+            <ui-button
+              v-if="bookMeta.showAmazonRef && bookMeta.amazonRefUrl !== ''"
+              class="purchase-btn purchase-btn--amazon"
+              data-umami-event="article-click-ad"
+              data-umami-event-ad-type="amazon"
+              :data-umami-event-ad-book="metadata.title"
+              :href="bookMeta.amazonRefUrl"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Dieses Buch bei Amazon kaufen"
+            >
+              <SimpleIcon name="amazon" size="10" class="text-orange-500 mr-1" />
+              Amazon
+            </ui-button>
+          </div>
+          <p class="text-xs text-gray-500 leading-tight">
+            *Partnerlinks - Ich bekomme einen kleinen Prozentsatz von den Händlern
+            und du bekommst ein Buch.
+            <span v-if="bookMeta.showGenialokalRef">
+              Mit Genialokal kannst du im übrigen direkt bei deiner Buchhandlung
+              um die Ecke bestellen und unterstützt den lokalen Handel.
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -142,13 +151,13 @@ export default {
         this.metadata.identifiers,
         'isbn_10'
       )
-        ? this.metadata.identifiers.isbn_10
+        ? this.metadata.identifiers.isbn_10[0]
         : 'Not Found'
       const isbn13 = Object.prototype.hasOwnProperty.call(
         this.metadata.identifiers,
-        'isbn_10'
+        'isbn_13'
       )
-        ? this.metadata.identifiers.isbn_10
+        ? this.metadata.identifiers.isbn_13[0]
         : 'Not Found'
 
       return `ISBN: ${isbn10} (ISBN-13: ${isbn13})`
@@ -186,34 +195,61 @@ export default {
 }
 </script>
 
-<style lang="postcss">
-.book {
-  @apply flex flex-wrap;
-  @apply my-4 py-4 pt-8 px-8 mb-10;
-  @apply border-t border-solid border-[#a2a2a2];
-  @apply bg-[#f6f6f6];
+<style lang="postcss" scoped>
+.book-widget {
+  @apply p-2 sm:p-3 bg-gray-50 rounded border border-gray-200 my-3;
+}
 
-  &__image {
-    @apply pr-4 !mt-0 !mb-0;
+.book-cover {
+  @apply flex-shrink-0;
+}
+
+.book-cover img {
+  @apply transition-transform duration-200;
+
+  &:hover {
+    @apply scale-105;
+  }
+}
+
+.book-details h3 {
+  @apply break-words;
+}
+
+.purchase-btn {
+  @apply inline-flex items-center px-1.5 py-0.5 text-xs font-meta font-medium;
+  @apply bg-white border border-gray-200 rounded;
+  @apply hover:bg-gray-50 hover:border-gray-300;
+  @apply transition-all duration-200 ease-in-out;
+  @apply focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-gray-300;
+  line-height: 1.2;
+
+  &--genial {
+    @apply hover:bg-green-50 hover:border-green-200;
+
+    &:focus {
+      @apply ring-green-300;
+    }
   }
 
-  &__detail {
-    p {
-      @apply italic leading-normal text-sm;
-      @apply mb-0;
+  &--amazon {
+    @apply hover:bg-orange-50 hover:border-orange-200;
+
+    &:focus {
+      @apply ring-orange-300;
     }
   }
 }
 
-.refbuttons svg {
-  height: 14px;
-}
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .book-widget {
+    @apply p-2;
+  }
 
-.ref-button {
-  padding: 0.3rem 0.8rem;
-  border: 0;
-  @apply !border-0;
-  @apply text-sm;
-  @apply hover:bg-[#f2f2f2];
+  .purchase-btn {
+    @apply px-1 py-0.5 text-xs;
+    line-height: 1.1;
+  }
 }
 </style>

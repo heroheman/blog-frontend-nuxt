@@ -1,51 +1,61 @@
 <template>
-  <ul class="mt-4 internal-linking">
-    <li>
-      <time datetime="date">
+  <div class="article-meta">
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 font-meta">
+      <time :datetime="date" class="font-medium">
         {{ formatDate(date) }}
       </time>
-    </li>
-    <!-- <li v-if="author && Object.prototype.hasOwnProperty.call(author, "slug");"> -->
-    <li v-if="author && author.constructor === Object">
-      <strong>| Autor:</strong>
-      <nuxt-link
-        :to="`/author/${author.slug}`"
-        data-umami-event="internal-link-author"
-        :data-umami-event-target="author.name"
-        :data-umami-event-url="`/author/${author.slug}`"
-      >
-        {{ author.name }}
-      </nuxt-link>
-    </li>
-    <li v-if="series.length">
-      <strong>| Buchreihe:</strong>
-      <span v-for="(s, i) in series" :key="i">
+
+      <div v-if="author && author.constructor === Object" class="flex items-center gap-1">
+        <span class="text-gray-400">•</span>
+        <span>Autor:</span>
         <nuxt-link
-          :to="`/series/${s.slug}`"
-          data-umami-event="internal-link-series"
-          :data-umami-event-target="s.title"
-          data-umami-event-url="`/series/${s.slug}`"
+          :to="`/author/${author.slug}`"
+          data-umami-event="internal-link-author"
+          :data-umami-event-target="author.name"
+          :data-umami-event-url="`/author/${author.slug}`"
+          class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200"
         >
-          {{ s.title }}
+          {{ author.name }}
         </nuxt-link>
-        <span v-if="i + 1 !== series.length">, </span>
-      </span>
-    </li>
-    <li v-if="bookgenre.length" class="mr-2">
-      <strong>| Genre:</strong>
-      <span v-for="(s, i) in bookgenre" :key="i">
-        <nuxt-link
-          :to="`/genre/book/${s.slug}`"
-          data-umami-event="internal-link-genre"
-          :data-umami-event-target="s.title"
-          data-umami-event-url="`/genre/book/${s.slug}`"
-        >
-          {{ s.title }}
-        </nuxt-link>
-        <span v-if="i + 1 !== bookgenre.length">, </span>
-      </span>
-    </li>
-  </ul>
+      </div>
+
+      <div v-if="series.length" class="flex items-center gap-1">
+        <span class="text-gray-400">•</span>
+        <span>Serie:</span>
+        <span class="flex flex-wrap gap-1">
+          <nuxt-link
+            v-for="(s, i) in series"
+            :key="i"
+            :to="`/series/${s.slug}`"
+            data-umami-event="internal-link-series"
+            :data-umami-event-target="s.title"
+            data-umami-event-url="`/series/${s.slug}`"
+            class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200"
+          >
+            {{ s.title }}<span v-if="i + 1 !== series.length" class="text-gray-400">,</span>
+          </nuxt-link>
+        </span>
+      </div>
+
+      <div v-if="bookgenre.length" class="flex items-center gap-1">
+        <span class="text-gray-400">•</span>
+        <span>Genre:</span>
+        <span class="flex flex-wrap gap-1">
+          <nuxt-link
+            v-for="(s, i) in bookgenre"
+            :key="i"
+            :to="`/genre/book/${s.slug}`"
+            data-umami-event="internal-link-genre"
+            :data-umami-event-target="s.title"
+            data-umami-event-url="`/genre/book/${s.slug}`"
+            class="text-gray-700 hover:text-gray-900 font-medium transition-colors duration-200"
+          >
+            {{ s.title }}<span v-if="i + 1 !== bookgenre.length" class="text-gray-400">,</span>
+          </nuxt-link>
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -82,16 +92,19 @@ export default {
 </script>
 
 <style lang="postcss" scoped>
-.internal-linking {
-  @apply pl-0 ml-0;
-  > li {
-    @apply pl-0 ml-0;
-    @apply inline-block;
-    list-style: none;
+.article-meta {
+  @apply mt-4;
+}
 
-    a {
-      @apply italic underline;
-      @apply font-normal;
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .article-meta {
+    .flex {
+      @apply flex-col items-start gap-y-1 gap-x-0;
+    }
+
+    .flex > div {
+      @apply flex-wrap;
     }
   }
 }
