@@ -1,14 +1,5 @@
 <template>
   <main class="w-full article-single">
-    <!-- DEBUG: Display route parameter -->
-    <div style="background: red; color: white; padding: 20px; margin: 20px; font-size: 20px; font-weight: bold; z-index: 9999; position: relative;">
-      <h1>🚨 DEBUG INFO 🚨</h1>
-      <p>route.params.slug: "{{ route.params.slug }}"</p>
-      <p>route.params.post: "{{ route.params.post }}"</p>
-      <p>route.params: {{ JSON.stringify(route.params) }}</p>
-      <p>route.path: {{ route.path }}</p>
-    </div>
-
     <article-view v-if="objIsNotEmpty(article)" detail :post="article[0]" />
     <!-- <article-view-music detail v-else :blog-post="post" /> -->
     <div v-else>
