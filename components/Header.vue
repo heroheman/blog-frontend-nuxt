@@ -125,7 +125,7 @@
             data-umami-event="nav-click-article-index"
             to="/blog"
             class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
-            :class="{ 'border-blue-600 text-blue-600': $route.path === '/blog' }"
+            :class="{ 'border-blue-600 text-blue-600': $route?.path === '/blog' }"
           >
             Artikel
           </nuxt-link>
@@ -133,7 +133,7 @@
             data-umami-event="nav-click-books-index"
             to="/category/buecher"
             class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
-            :class="{ 'border-blue-600 text-blue-600': $route.path.includes('/category/buecher') }"
+            :class="{ 'border-blue-600 text-blue-600': $route?.path?.includes('/category/buecher') }"
           >
             Gelesen
           </nuxt-link>
@@ -141,7 +141,7 @@
             to="/category/musik"
             data-umami-event="nav-click-music-index"
             class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
-            :class="{ 'border-blue-600 text-blue-600': $route.path.includes('/category/musik') }"
+            :class="{ 'border-blue-600 text-blue-600': $route?.path?.includes('/category/musik') }"
           >
             Gehört
           </nuxt-link>
@@ -149,7 +149,7 @@
             to="/about"
             data-umami-event="nav-click-about"
             class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
-            :class="{ 'border-blue-600 text-blue-600': $route.path === '/about' }"
+            :class="{ 'border-blue-600 text-blue-600': $route?.path === '/about' }"
           >
             Über
           </nuxt-link>
@@ -270,15 +270,15 @@ const isMobileMenuOpen = ref(false)
 const randomHeadNumber = ref(Math.floor(Math.random() * 10))
 
 // Computed properties
-const isPost = computed(() => route.name === 'blog-slug' || route.path.startsWith('/blog/') && route.params.slug)
+const isPost = computed(() => route?.name === 'blog-slug' || (route?.path?.startsWith('/blog/') && route?.params?.slug))
 
 const isCategory = computed(() => {
-  return ['category-category', 'series-series', 'category', 'genre-book', 'genre-book-bookgenre', 'author-author', 'author'].includes(route.name)
+  return route?.name && ['category-category', 'series-series', 'category', 'genre-book', 'genre-book-bookgenre', 'author-author', 'author'].includes(route.name)
 })
 
-const isBlogIndexCompact = computed(() => route.name === 'blog')
+const isBlogIndexCompact = computed(() => route?.name === 'blog')
 
-const isIndexPage = computed(() => route.name === 'index' || route.path === '/')
+const isIndexPage = computed(() => route?.name === 'index' || route?.path === '/')
 
 // Mobile menu methods
 const toggleMobileMenu = () => {
