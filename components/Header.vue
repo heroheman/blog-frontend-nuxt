@@ -28,9 +28,9 @@
     >
       <div class="flex flex-col h-full justify-center items-center space-y-8">
         <nav class="flex flex-col items-center space-y-6">
-          <nuxt-link 
+          <nuxt-link
             @click="closeMobileMenu"
-            data-umami-event="nav-click-article-index" 
+            data-umami-event="nav-click-article-index"
             to="/blog"
             class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
           >
@@ -44,22 +44,22 @@
           >
             Gelesen
           </nuxt-link>
-          <nuxt-link 
+          <nuxt-link
             @click="closeMobileMenu"
-            class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors" 
+            class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
             to="/category/musik"
           >
             Gehört
           </nuxt-link>
-          <nuxt-link 
+          <nuxt-link
             @click="closeMobileMenu"
-            class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors" 
+            class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
             to="/about"
           >
             Über
           </nuxt-link>
         </nav>
-        
+
         <div class="flex items-center space-x-6">
           <a
             href="/feed.xml"
@@ -121,8 +121,8 @@
     </div>
 
     <nav class="header__nav hidden md:flex">
-      <nuxt-link 
-        data-umami-event="nav-click-article-index" 
+      <nuxt-link
+        data-umami-event="nav-click-article-index"
         to="/blog"
         class="nav-link"
       >
@@ -135,15 +135,15 @@
       >
         Gelesen
       </nuxt-link>
-      <nuxt-link 
-        class="nav-link" 
+      <nuxt-link
+        class="nav-link"
         to="/category/musik"
         data-umami-event="nav-click-music-index"
       >
         Gehört
       </nuxt-link>
-      <nuxt-link 
-        class="nav-link" 
+      <nuxt-link
+        class="nav-link"
         to="/about"
         data-umami-event="nav-click-about"
       >
@@ -286,9 +286,9 @@ watch(() => route.path, () => {
     .header--blogpost & {
       @apply pt-0 text-left md:ml-4;
     }
-    
+
     @apply pt-4 pb-8 px-0 space-x-6;
-    
+
     .nav-link {
       @apply text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200;
       @apply font-head pb-1;
@@ -313,7 +313,7 @@ watch(() => route.path, () => {
   grid-template-areas: 'bname';
   grid-template-rows: 50px;
   grid-template-columns: 1fr;
-  
+
   &__name {
     grid-area: bname;
     @apply font-head text-4xl;
@@ -325,7 +325,7 @@ watch(() => route.path, () => {
       }
     }
   }
-  
+
   &__slogan {
     @apply text-xl italic;
 
