@@ -8,7 +8,6 @@
   >
     <!-- Mobile menu button -->
     <button
-      v-if="!isPost && !isCategory && !isBlogIndexCompact"
       @click="toggleMobileMenu"
       class="md:hidden fixed top-4 right-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200"
       aria-label="Toggle menu"
@@ -23,7 +22,7 @@
 
     <!-- Mobile menu overlay -->
     <div
-      v-if="isMobileMenuOpen && (!isPost && !isCategory && !isBlogIndexCompact)"
+      v-if="isMobileMenuOpen"
       class="md:hidden fixed inset-0 z-40 bg-white"
     >
       <div class="flex flex-col h-full justify-center items-center space-y-8">
@@ -80,6 +79,15 @@
           </a>
           <a
             rel="me noopener noreferrer"
+            href="https://www.goodreads.com/user/show/64751703-florenz"
+            target="_blank"
+            title="Goodreads"
+            class="p-3 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
+          >
+            <SimpleIcon name="goodreads" size="24" class="text-gray-600" />
+          </a>
+          <a
+            rel="me noopener noreferrer"
             href="https://bsky.app/profile/flore.nz"
             target="_blank"
             title="Bluesky"
@@ -121,34 +129,111 @@
     </div>
 
     <nav class="header__nav hidden md:flex">
-      <nuxt-link
-        data-umami-event="nav-click-article-index"
-        to="/blog"
-        class="nav-link"
-      >
-        Artikel
-      </nuxt-link>
-      <nuxt-link
-        data-umami-event="nav-click-books-index"
-        to="/category/buecher"
-        class="nav-link"
-      >
-        Gelesen
-      </nuxt-link>
-      <nuxt-link
-        class="nav-link"
-        to="/category/musik"
-        data-umami-event="nav-click-music-index"
-      >
-        Gehört
-      </nuxt-link>
-      <nuxt-link
-        class="nav-link"
-        to="/about"
-        data-umami-event="nav-click-about"
-      >
-        Über
-      </nuxt-link>
+      <!-- Navigation links for blogpost layout -->
+      <div class="flex space-x-6" v-if="isPost || isCategory || isBlogIndexCompact">
+        <nuxt-link
+          data-umami-event="nav-click-article-index"
+          to="/blog"
+          class="nav-link"
+        >
+          Artikel
+        </nuxt-link>
+        <nuxt-link
+          data-umami-event="nav-click-books-index"
+          to="/category/buecher"
+          class="nav-link"
+        >
+          Gelesen
+        </nuxt-link>
+        <nuxt-link
+          class="nav-link"
+          to="/category/musik"
+          data-umami-event="nav-click-music-index"
+        >
+          Gehört
+        </nuxt-link>
+        <nuxt-link
+          class="nav-link"
+          to="/about"
+          data-umami-event="nav-click-about"
+        >
+          Über
+        </nuxt-link>
+      </div>
+
+      <!-- Navigation links for index layout -->
+      <template v-else>
+        <nuxt-link
+          data-umami-event="nav-click-article-index"
+          to="/blog"
+          class="nav-link"
+        >
+          Artikel
+        </nuxt-link>
+        <nuxt-link
+          data-umami-event="nav-click-books-index"
+          to="/category/buecher"
+          class="nav-link"
+        >
+          Gelesen
+        </nuxt-link>
+        <nuxt-link
+          class="nav-link"
+          to="/category/musik"
+          data-umami-event="nav-click-music-index"
+        >
+          Gehört
+        </nuxt-link>
+        <nuxt-link
+          class="nav-link"
+          to="/about"
+          data-umami-event="nav-click-about"
+        >
+          Über
+        </nuxt-link>
+      </template>
+
+      <!-- Social icons integrated into nav for blogpost layout -->
+      <div class="flex items-center space-x-3" v-if="isPost || isCategory || isBlogIndexCompact">
+        <a
+          href="/feed.xml"
+          target="_blank"
+          title="RSS Feed"
+          class="social-link-inline"
+        >
+          <SimpleIcon name="rss" size="18" class="text-orange-500 hover:text-orange-600 transition-colors" />
+        </a>
+        <a
+          rel="me noopener noreferrer"
+          href="https://norden.social/@florenz"
+          target="_blank"
+          class="social-link-inline"
+          data-umami-event="nav-click-sm-mastodon"
+          title="Mastodon"
+        >
+          <SimpleIcon name="mastodon" size="18" class="text-blue-500 hover:text-blue-600 transition-colors" />
+        </a>
+        <a
+          rel="me noopener noreferrer"
+          href="https://www.goodreads.com/user/show/64751703-florenz"
+          target="_blank"
+          data-umami-event="nav-click-sm-goodreads"
+          title="Goodreads"
+          class="social-link-inline"
+        >
+          <SimpleIcon name="goodreads" size="18" class="text-gray-600 hover:text-gray-700 transition-colors" />
+        </a>
+        <a
+          rel="me noopener noreferrer"
+          href="https://bsky.app/profile/flore.nz"
+          target="_blank"
+          class="social-link-inline"
+          data-umami-event="nav-click-sm-bluesky"
+          title="Bluesky"
+        >
+          <SimpleIcon name="bluesky" size="18" class="text-blue-500 hover:text-blue-600 transition-colors" />
+        </a>
+      </div>
     </nav>
 
     <div class="header__social hidden md:flex">
@@ -284,7 +369,7 @@ watch(() => route.path, () => {
 
   &__nav {
     .header--blogpost & {
-      @apply pt-0 text-left md:ml-4;
+      @apply pt-0 text-left md:ml-4 md:flex md:justify-between md:items-center md:w-full;
     }
 
     @apply pt-4 pb-8 px-0 space-x-6;
@@ -302,10 +387,19 @@ watch(() => route.path, () => {
   &__social {
     @apply pt-4 pb-8 px-0 flex space-x-4;
 
+    .header--blogpost & {
+      display: none;
+    }
+
     .social-link {
       @apply p-2 rounded-lg hover:bg-gray-100 transition-colors;
     }
   }
+}
+
+/* Inline social links for blogpost layout */
+.social-link-inline {
+  @apply p-1.5 rounded-lg hover:bg-gray-100 transition-colors;
 }
 
 .brand {
