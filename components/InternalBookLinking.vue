@@ -12,8 +12,7 @@
         :to="`/author/${author.slug}`"
         data-umami-event="internal-link-author"
         :data-umami-event-target="author.name"
-        data-umami-event-url="`/author/${author.slug}`"
-        class="umami--click--internal-author"
+        :data-umami-event-url="`/author/${author.slug}`"
       >
         {{ author.name }}
       </nuxt-link>

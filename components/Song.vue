@@ -24,7 +24,9 @@
         :href="song.spotify_url"
         target="_blank"
         rel="noopener noreferrer"
-        class="mb-4 unami--click--song-spotity"
+        class="mb-4"
+        data-umami-event="song-click-spotify"
+        :data-umami-event-song="song.title"
         title="Auf Spotify anhöremr-2"
       >
         <SimpleIcon name="spotify" size="16" class="text-green-500 mr-2" />
@@ -34,9 +36,10 @@
       <ui-button
         v-if="hasYoutube(song)"
         :href="song.youtube_url"
-        class="unami--click--song-youtube"
         rel="noopener noreferrer"
         target="_blank"
+        data-umami-event="song-click-youtube"
+        :data-umami-event-song="song.title"
         title="Auf YouTube anhören"
       >
         <SimpleIcon name="youtube" size="16" class="text-red-500 mr-2" />
@@ -47,8 +50,9 @@
         v-if="hasSongwhip(song)"
         :href="song.songwhip_url"
         rel="noopener noreferrer"
-        class="unami--click--song-songwhip"
         target="_blank"
+        data-umami-event="song-click-songwhip"
+        :data-umami-event-song="song.title"
         title="Songwhip"
       >
         <SimpleIcon name="compact-disc" size="16" class="text-gray-500 mr-2" />
@@ -60,8 +64,8 @@
       <a
         href="https://open.spotify.com/playlist/6AL0K5kauc5GJRBnN1zZYi?si=8499ec9d18654a04"
         rel="noopener noreferrer"
-        class="unami--click--song-playlist"
         target="_blank"
+        data-umami-event="song-click-playlist"
         >Spotify Playlist</a
       >.
     </p>

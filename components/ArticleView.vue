@@ -19,7 +19,9 @@
         <nuxt-link
           v-if="!detail"
           :to="`/blog/${post.slug}`"
-          class="unami--click--index-article-title"
+          data-umami-event="index-click-article-title"
+          :data-umami-event-title="post.title"
+          :data-umami-event-url="`/blog/${post.slug}`"
         >
           <h2 class="article-title title mb-0">
             {{ post.title }}
@@ -52,7 +54,7 @@
 
     <div v-if="!detail && hasExcerpt">
       <nuxt-link
-        class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block unami--click--index-article-readmore mb-4"
+        class="block p-3 border border-black border-solid rounded btn md:w-auto md:inline-block mb-4"
         :to="`/blog/${post.slug}`"
         data-umami-event="article-read-more"
         :data-umami-event-article="post.title"

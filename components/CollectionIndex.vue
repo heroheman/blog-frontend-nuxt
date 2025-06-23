@@ -21,12 +21,12 @@
             <h3 class="title title--index">
               <nuxt-link
                 :to="`${linkPath}/${item.slug}`"
-                class="inline-block mb-2 collection--clickable unami--click--collection-title"
+                class="inline-block mb-2 collection--clickable"
                 data-umami-event="index-click-collection"
                 :data-umami-event-title="
                   item.title || item.name
                 "
-                data-umami-event-url="`${linkPath}/${item.slug}`"
+                :data-umami-event-url="`${linkPath}/${item.slug}`"
               >
                 {{ item.title || item.name }}
               </nuxt-link>

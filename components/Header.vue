@@ -222,7 +222,7 @@
           {{ settings.sitetitle }}
         </h1>
       </nuxt-link>
-      
+
       <div v-if="!(isPost || isCategory || isBlogIndexCompact) && settings.Phrases && settings.Phrases.length" class="text-lg italic text-gray-600">
         <span v-if="randomHeadNumber < 2">
           {{ settings.Phrases[0].phrase }}

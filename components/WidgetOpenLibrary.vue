@@ -42,7 +42,7 @@
         </p>
         <ui-button
           v-if="bookMeta.showGenialokalRef && bookMeta.genialokalRefUrl !== ''"
-          class="ref-button unami--click--ad-geniallokal"
+          class="ref-button"
           data-umami-event="article-click-ad"
           data-umami-event-ad-type="geniallokal"
           :data-umami-event-ad-book="metadata.title"
@@ -56,7 +56,7 @@
         </ui-button>
         <ui-button
           v-if="bookMeta.showAmazonRef && bookMeta.amazonRefUrl !== ''"
-          class="ref-button unami--click--ad-amazon"
+          class="ref-button"
           data-umami-event="article-click-ad"
           data-umami-event-ad-type="amazon"
           :data-umami-event-ad-book="metadata.title"

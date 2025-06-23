@@ -63,7 +63,7 @@
       <!-- <li class=""> -->
       <!--   <nuxt-link class="nav-link" to="/blog">Everything</nuxt-link> -->
       <!-- </li> -->
-      <li data-umami-event="nav-click-about" class="umami--click--nav-about">
+      <li data-umami-event="nav-click-about">
         <nuxt-link class="nav-link" to="/about">Über</nuxt-link>
       </li>
     </ul>
@@ -74,7 +74,7 @@
           href="/feed.xml"
           target="_blank"
           title="RSS Feed"
-          umami--click--nav-article
+          data-umami-event="nav-click-rss"
         >
           <SimpleIcon name="rss" size="20" class="text-orange-500" />
         </a>
@@ -85,7 +85,6 @@
           rel="me noopener noreferrer"
           href="https://norden.social/@florenz"
           target="_blank"
-          class="umami--click--social-mastodon"
           data-umami-event="nav-click-sm-mastodon"
           title="Mastodon"
         >
@@ -121,7 +120,6 @@
           rel="me noopener noreferrer"
           href="https://instagram.com/flrnz"
           target="_blank"
-           class="umami--click--social-instagram"
           data-umami-event="nav-click-sm-instagram"
           title="Instagram"
         >
@@ -136,7 +134,6 @@
           rel="me noopener noreferrer"
           href="https://open.spotify.com/user/1121802350?si=96to6js2SQCDoiwpnMKLbw"
           target="_blank"
-          class="umami--click--social-spotify"
           data-umami-event="nav-click-sm-spotify"
           title="Spotify"
         >
@@ -152,7 +149,6 @@
           rel="me noopener noreferrer"
           href="https://bsky.app/profile/flore.nz"
           target="_blank"
-          class="umami--click--social-bluesky"
           data-umami-event="nav-click-sm-bluesky"
           title="Bluesky @flrnz.bsky.social"
         >
@@ -164,7 +160,7 @@
           rel="me noopener noreferrer"
           href="https://twitter.com/StadtInItalien"
           target="_blank"
-           class="umami--click--social-twitter"
+          data-umami-event="nav-click-sm-twitter"
           title="Twitter"
         >
           <font-awesome-icon

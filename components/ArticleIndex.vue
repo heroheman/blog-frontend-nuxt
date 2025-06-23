@@ -21,8 +21,8 @@
                 :to="`/blog/${article.slug}`"
                 data-umami-event="index-click-article"
                 :data-umami-event-title="article.title"
-                data-umami-event-url="`/blog/${article.slug}`"
-                class="inline-block mb-2 article article--clickable unami--click--index-list-title"
+                :data-umami-event-url="`/blog/${article.slug}`"
+                class="inline-block mb-2 article article--clickable"
               >
                 {{ article.title }}
               </nuxt-link>
@@ -70,7 +70,10 @@
             <h3 class="title title--index">
               <nuxt-link
                 :to="`/blog/${article.slug}`"
-                class="inline-block mb-2 article article--clickable unami--click--index-thumb-title"
+                data-umami-event="index-click-article-thumb"
+                :data-umami-event-title="article.title"
+                :data-umami-event-url="`/blog/${article.slug}`"
+                class="inline-block mb-2 article article--clickable"
               >
                 {{ article.title }}
               </nuxt-link>
