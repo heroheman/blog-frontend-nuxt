@@ -116,6 +116,26 @@ export default {
       this.isLoaded = false
     }
   },
+  async mounted() {
+    const id = `ISBN:${this.bookMeta.isbn}`
+
+    try {
+      const tmp = await fetch(
+        `https://openlibrary.org/api/books?bibkeys=${id}&jscmd=data&format=json`
+      ).then((response) => response.json())
+
+      if (JSON.stringify(tmp) !== '{}') {
+        this.metadata = tmp[id]
+        this.isLoaded = true
+      } else {
+        this.isEmptyResponse = true
+        this.isLoaded = false
+      }
+    } catch (error) {
+      this.isEmptyResponse = true
+      this.isLoaded = false
+    }
+  },
   methods: {
     getIsbn() {
       const isbn10 = Object.prototype.hasOwnProperty.call(

@@ -95,11 +95,13 @@
     /> -->
 
     <!-- Containered Book List -->
-    <widget-open-library-list
-      v-if="detail && !!isbnWrapped"
-      :books="isbnWrapped[0].bookmeta"
-      class="mt-8 mb-4 article-text lg:max-w-3xl"
-    />
+    <ClientOnly>
+      <widget-open-library-list
+        v-if="detail && isbnWrapped && isbnWrapped.length > 0 && isbnWrapped[0].bookmeta"
+        :books="isbnWrapped[0].bookmeta"
+        class="mt-8 mb-4 article-text lg:max-w-3xl"
+      />
+    </ClientOnly>
 
     <!-- <advertisement
       v-if="detail && !!advertisement"
@@ -190,14 +192,38 @@ const isbnWrapped = computed(() => {
   if (hasProperty(props.post, 'additional') && props.post.additional.length) {
     if (hasExcerpt.value && !props.detail) {
       return false
-    } else if (
-      props.post.additional.filter(
-        (addi) => addi.__component === 'external-api.book-container'
-      ).length
-    ) {
-      return props.post.additional.filter(
-        (addi) => addi.__component === 'external-api.book-container'
+    } else {
+      // Look for both book container types
+      const bookComponents = props.post.additional.filter(
+        (addi) => addi.__component === 'external-api.book-container' ||
+                  addi.__component === 'external-api.open-library-isbn'
       )
+
+      if (bookComponents.length) {
+        // Transform components into a format that WidgetOpenLibraryList expects
+        const transformedBooks = []
+
+        bookComponents.forEach(component => {
+          if (component.__component === 'external-api.open-library-isbn') {
+            // Legacy components: wrap the ISBN data as individual book entries
+            transformedBooks.push({
+              __component: 'external-api.open-library-isbn',
+              isbn: component.isbn,
+              amazonRefUrl: component.amazonRefUrl,
+              genialokalRefUrl: component.genialokalRefUrl,
+              showAmazonRef: component.showAmazonRef,
+              showGenialokalRef: component.showGenialokalRef
+            })
+          } else if (component.__component === 'external-api.book-container' && component.bookmeta) {
+            // New container components: extract all books from bookmeta array
+            component.bookmeta.forEach(book => {
+              transformedBooks.push(book)
+            })
+          }
+        })
+
+        return transformedBooks.length > 0 ? [{ bookmeta: transformedBooks }] : false
+      }
     }
   }
   return false
