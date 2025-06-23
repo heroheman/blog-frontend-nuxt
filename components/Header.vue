@@ -1,9 +1,8 @@
 <template>
   <header
-    class="header"
+    class="pt-8 border-b border-solid border-gray-200 pb-4"
     :class="{
-      'header--blogpost': isPost || isCategory || isBlogIndexCompact,
-      'header--index': !isPost && !isCategory && !isBlogIndexCompact,
+      'border-b-0 pb-16 md:pb-2': isPost || isCategory || isBlogIndexCompact,
     }"
   >
     <!-- Mobile menu button -->
@@ -99,182 +98,148 @@
       </div>
     </div>
 
-    <div class="header__brand">
-      <nuxt-link data-umami-event="header-click-logo" to="/">
-        <div class="brand">
-          <div class="brand__name">
-            <h1 class="mb-2 lg:mb-4 italic leading-snug text-gray-900">
+    <!-- Desktop Header Layout -->
+    <div class="hidden md:block">
+      <!-- First Row: Logo | Nav | Dynamic Space | Social -->
+      <div class="flex items-center">
+        <!-- Logo -->
+        <div class="flex-shrink-0 mr-8">
+          <nuxt-link data-umami-event="header-click-logo" to="/">
+            <h1 class="font-head italic leading-snug text-gray-900" :class="isPost || isCategory || isBlogIndexCompact ? 'text-lg' : 'text-4xl'">
               {{ settings.sitetitle }}
             </h1>
-            <div class="brand__slogan" v-if="settings.Phrases && settings.Phrases.length">
-              <span v-if="randomHeadNumber < 2" class="text-gray-600">
-                {{ settings.Phrases[0].phrase }}
-              </span>
-              <span v-else-if="randomHeadNumber < 4" class="text-gray-600">
-                {{ settings.Phrases[1].phrase }}
-              </span>
-              <span v-else-if="randomHeadNumber < 6" class="text-gray-600">
-                {{ settings.Phrases[2].phrase }}
-              </span>
-              <span v-else-if="randomHeadNumber < 8" class="text-gray-600">
-                {{ settings.Phrases[3].phrase }}
-              </span>
-              <span v-else-if="randomHeadNumber < 10" class="text-gray-600">
-                {{ settings.Phrases[4].phrase }}
-              </span>
-            </div>
-          </div>
+          </nuxt-link>
         </div>
-      </nuxt-link>
+
+        <!-- Navigation (right next to logo) -->
+        <nav class="flex items-center space-x-6">
+          <nuxt-link
+            data-umami-event="nav-click-article-index"
+            to="/blog"
+            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
+            :class="{ 'border-blue-600 text-blue-600': $route.path === '/blog' }"
+          >
+            Artikel
+          </nuxt-link>
+          <nuxt-link
+            data-umami-event="nav-click-books-index"
+            to="/category/buecher"
+            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
+            :class="{ 'border-blue-600 text-blue-600': $route.path.includes('/category/buecher') }"
+          >
+            Gelesen
+          </nuxt-link>
+          <nuxt-link
+            to="/category/musik"
+            data-umami-event="nav-click-music-index"
+            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
+            :class="{ 'border-blue-600 text-blue-600': $route.path.includes('/category/musik') }"
+          >
+            Gehört
+          </nuxt-link>
+          <nuxt-link
+            to="/about"
+            data-umami-event="nav-click-about"
+            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
+            :class="{ 'border-blue-600 text-blue-600': $route.path === '/about' }"
+          >
+            Über
+          </nuxt-link>
+        </nav>
+
+        <!-- Dynamic Space -->
+        <div class="flex-grow"></div>
+
+        <!-- Social Media Icons (on the far right) -->
+        <div class="flex items-center space-x-3">
+          <a
+            href="/feed.xml"
+            target="_blank"
+            title="RSS Feed"
+            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <SimpleIcon name="rss" size="20" class="text-orange-500 hover:text-orange-600 transition-colors" />
+          </a>
+          <a
+            rel="me noopener noreferrer"
+            href="https://norden.social/@florenz"
+            target="_blank"
+            title="Mastodon"
+            data-umami-event="nav-click-sm-mastodon"
+            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <SimpleIcon name="mastodon" size="20" class="text-blue-500 hover:text-blue-600 transition-colors" />
+          </a>
+          <a
+            rel="me noopener noreferrer"
+            href="https://www.goodreads.com/user/show/64751703-florenz"
+            target="_blank"
+            data-umami-event="nav-click-sm-goodreads"
+            title="Goodreads"
+            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <SimpleIcon name="goodreads" size="20" class="text-gray-600 hover:text-gray-700 transition-colors" />
+          </a>
+          <a
+            rel="me noopener noreferrer"
+            href="https://bsky.app/profile/flore.nz"
+            target="_blank"
+            data-umami-event="nav-click-sm-bluesky"
+            title="Bluesky"
+            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <SimpleIcon name="bluesky" size="20" class="text-blue-500 hover:text-blue-600 transition-colors" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Second Row: Slogan (conditionally shown) -->
+      <div v-if="!(isPost || isCategory || isBlogIndexCompact) && settings.Phrases && settings.Phrases.length" class="mt-4">
+        <div class="text-xl italic text-gray-600">
+          <span v-if="randomHeadNumber < 2">
+            {{ settings.Phrases[0].phrase }}
+          </span>
+          <span v-else-if="randomHeadNumber < 4">
+            {{ settings.Phrases[1].phrase }}
+          </span>
+          <span v-else-if="randomHeadNumber < 6">
+            {{ settings.Phrases[2].phrase }}
+          </span>
+          <span v-else-if="randomHeadNumber < 8">
+            {{ settings.Phrases[3].phrase }}
+          </span>
+          <span v-else-if="randomHeadNumber < 10">
+            {{ settings.Phrases[4].phrase }}
+          </span>
+        </div>
+      </div>
     </div>
 
-    <nav class="header__nav hidden md:flex">
-      <!-- Navigation links for blogpost layout -->
-      <div class="flex space-x-6" v-if="isPost || isCategory || isBlogIndexCompact">
-        <nuxt-link
-          data-umami-event="nav-click-article-index"
-          to="/blog"
-          class="nav-link"
-        >
-          Artikel
-        </nuxt-link>
-        <nuxt-link
-          data-umami-event="nav-click-books-index"
-          to="/category/buecher"
-          class="nav-link"
-        >
-          Gelesen
-        </nuxt-link>
-        <nuxt-link
-          class="nav-link"
-          to="/category/musik"
-          data-umami-event="nav-click-music-index"
-        >
-          Gehört
-        </nuxt-link>
-        <nuxt-link
-          class="nav-link"
-          to="/about"
-          data-umami-event="nav-click-about"
-        >
-          Über
-        </nuxt-link>
+    <!-- Mobile Header Layout -->
+    <div class="md:hidden text-center">
+      <nuxt-link data-umami-event="header-click-logo" to="/">
+        <h1 class="font-head text-3xl italic leading-snug text-gray-900 mb-4">
+          {{ settings.sitetitle }}
+        </h1>
+      </nuxt-link>
+      
+      <div v-if="!(isPost || isCategory || isBlogIndexCompact) && settings.Phrases && settings.Phrases.length" class="text-lg italic text-gray-600">
+        <span v-if="randomHeadNumber < 2">
+          {{ settings.Phrases[0].phrase }}
+        </span>
+        <span v-else-if="randomHeadNumber < 4">
+          {{ settings.Phrases[1].phrase }}
+        </span>
+        <span v-else-if="randomHeadNumber < 6">
+          {{ settings.Phrases[2].phrase }}
+        </span>
+        <span v-else-if="randomHeadNumber < 8">
+          {{ settings.Phrases[3].phrase }}
+        </span>
+        <span v-else-if="randomHeadNumber < 10">
+          {{ settings.Phrases[4].phrase }}
+        </span>
       </div>
-
-      <!-- Navigation links for index layout -->
-      <template v-else>
-        <nuxt-link
-          data-umami-event="nav-click-article-index"
-          to="/blog"
-          class="nav-link"
-        >
-          Artikel
-        </nuxt-link>
-        <nuxt-link
-          data-umami-event="nav-click-books-index"
-          to="/category/buecher"
-          class="nav-link"
-        >
-          Gelesen
-        </nuxt-link>
-        <nuxt-link
-          class="nav-link"
-          to="/category/musik"
-          data-umami-event="nav-click-music-index"
-        >
-          Gehört
-        </nuxt-link>
-        <nuxt-link
-          class="nav-link"
-          to="/about"
-          data-umami-event="nav-click-about"
-        >
-          Über
-        </nuxt-link>
-      </template>
-
-      <!-- Social icons integrated into nav for blogpost layout -->
-      <div class="flex items-center space-x-3" v-if="isPost || isCategory || isBlogIndexCompact">
-        <a
-          href="/feed.xml"
-          target="_blank"
-          title="RSS Feed"
-          class="social-link-inline"
-        >
-          <SimpleIcon name="rss" size="18" class="text-orange-500 hover:text-orange-600 transition-colors" />
-        </a>
-        <a
-          rel="me noopener noreferrer"
-          href="https://norden.social/@florenz"
-          target="_blank"
-          class="social-link-inline"
-          data-umami-event="nav-click-sm-mastodon"
-          title="Mastodon"
-        >
-          <SimpleIcon name="mastodon" size="18" class="text-blue-500 hover:text-blue-600 transition-colors" />
-        </a>
-        <a
-          rel="me noopener noreferrer"
-          href="https://www.goodreads.com/user/show/64751703-florenz"
-          target="_blank"
-          data-umami-event="nav-click-sm-goodreads"
-          title="Goodreads"
-          class="social-link-inline"
-        >
-          <SimpleIcon name="goodreads" size="18" class="text-gray-600 hover:text-gray-700 transition-colors" />
-        </a>
-        <a
-          rel="me noopener noreferrer"
-          href="https://bsky.app/profile/flore.nz"
-          target="_blank"
-          class="social-link-inline"
-          data-umami-event="nav-click-sm-bluesky"
-          title="Bluesky"
-        >
-          <SimpleIcon name="bluesky" size="18" class="text-blue-500 hover:text-blue-600 transition-colors" />
-        </a>
-      </div>
-    </nav>
-
-    <div class="header__social hidden md:flex">
-      <a
-        href="/feed.xml"
-        target="_blank"
-        title="RSS Feed"
-        class="social-link"
-      >
-        <SimpleIcon name="rss" size="20" class="text-orange-500 hover:text-orange-600 transition-colors" />
-      </a>
-      <a
-        rel="me noopener noreferrer"
-        href="https://norden.social/@florenz"
-        target="_blank"
-        class="social-link"
-        data-umami-event="nav-click-sm-mastodon"
-        title="Mastodon"
-      >
-        <SimpleIcon name="mastodon" size="20" class="text-blue-500 hover:text-blue-600 transition-colors" />
-      </a>
-      <a
-        rel="me noopener noreferrer"
-        href="https://www.goodreads.com/user/show/64751703-florenz"
-        target="_blank"
-        data-umami-event="nav-click-sm-goodreads"
-        title="Goodreads"
-        class="social-link"
-      >
-        <SimpleIcon name="goodreads" size="20" class="text-gray-600 hover:text-gray-700 transition-colors" />
-      </a>
-      <a
-        rel="me noopener noreferrer"
-        href="https://bsky.app/profile/flore.nz"
-        target="_blank"
-        class="social-link"
-        data-umami-event="nav-click-sm-bluesky"
-        title="Bluesky"
-      >
-        <SimpleIcon name="bluesky" size="20" class="text-blue-500 hover:text-blue-600 transition-colors" />
-      </a>
     </div>
   </header>
 </template>
@@ -296,13 +261,15 @@ const isMobileMenuOpen = ref(false)
 const randomHeadNumber = ref(Math.floor(Math.random() * 10))
 
 // Computed properties
-const isPost = computed(() => route.name === 'blog-post')
+const isPost = computed(() => route.name === 'blog-slug' || route.path.startsWith('/blog/') && route.params.slug)
 
 const isCategory = computed(() => {
   return ['category-category', 'series-series', 'category', 'genre-book', 'genre-book-bookgenre', 'author-author', 'author'].includes(route.name)
 })
 
 const isBlogIndexCompact = computed(() => route.name === 'blog')
+
+const isIndexPage = computed(() => route.name === 'index' || route.path === '/')
 
 // Mobile menu methods
 const toggleMobileMenu = () => {
@@ -320,112 +287,5 @@ watch(() => route.path, () => {
 </script>
 
 <style lang="postcss" scoped>
-.header {
-  @apply pt-8;
-  display: grid;
-
-  &--index {
-    grid-template-areas: 'nav' 'brand' 'social';
-    grid-template-rows: 60px minmax(260px, auto) 60px;
-    grid-template-columns: 1fr;
-    @screen md {
-      grid-template-areas: 'nav' 'brand' 'social';
-      grid-template-rows: 80px minmax(150px, auto) 60px;
-      grid-template-columns: 1fr;
-    }
-  }
-
-  &--blogpost {
-    grid-template-areas: 'brand' 'nav';
-    grid-template-rows: 30px 20px;
-    grid-template-columns: 1fr;
-    @screen md {
-      grid-template-areas: 'brand nav';
-      grid-template-rows: 60px;
-      grid-template-columns: auto 1fr;
-    }
-  }
-
-  @apply border-b border-solid border-gray-200;
-  @apply pb-4;
-
-  &.header--blogpost {
-    @apply border-b-0 pb-16 md:pb-2;
-  }
-
-  &__brand {
-    grid-area: brand;
-  }
-  &__nav {
-    grid-area: nav;
-  }
-  &__social {
-    grid-area: social;
-    .header--blogpost & {
-      display: none;
-    }
-    @apply py-4 px-0;
-  }
-
-  &__nav {
-    .header--blogpost & {
-      @apply pt-0 text-left md:ml-4 md:flex md:justify-between md:items-center md:w-full;
-    }
-
-    @apply pt-4 pb-8 px-0 space-x-6;
-
-    .nav-link {
-      @apply text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200;
-      @apply font-head pb-1;
-
-      &.router-link-exact-active {
-        @apply border-b-2 border-solid border-blue-600 text-blue-600;
-      }
-    }
-  }
-
-  &__social {
-    @apply pt-4 pb-8 px-0 flex space-x-4;
-
-    .header--blogpost & {
-      display: none;
-    }
-
-    .social-link {
-      @apply p-2 rounded-lg hover:bg-gray-100 transition-colors;
-    }
-  }
-}
-
-/* Inline social links for blogpost layout */
-.social-link-inline {
-  @apply p-1.5 rounded-lg hover:bg-gray-100 transition-colors;
-}
-
-.brand {
-  display: grid;
-  grid-template-areas: 'bname';
-  grid-template-rows: 50px;
-  grid-template-columns: 1fr;
-
-  &__name {
-    grid-area: bname;
-    @apply font-head text-4xl;
-
-    .header--blogpost & {
-      @apply text-base md:text-lg;
-      @screen md {
-        margin-top: 2px;
-      }
-    }
-  }
-
-  &__slogan {
-    @apply text-xl italic;
-
-    .header--blogpost & {
-      display: none;
-    }
-  }
-}
+/* No complex CSS needed - everything is handled with Tailwind classes in the template */
 </style>
