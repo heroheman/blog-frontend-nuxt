@@ -8,6 +8,7 @@
 </template>
 
 <script setup>
+import qs from 'qs'
 import {
   formatDate,
   objIsNotEmpty,
@@ -17,13 +18,49 @@ import {
 const route = useRoute()
 const { public: { strapiUrl } } = useRuntimeConfig()
 
-const { data: response } = await useFetch(`/api/articles`, {
-  baseURL: strapiUrl,
-  query: {
-    'populate[additional][populate]': '*',
-    'filters[slug][$eq]': route.params.slug
+// Build correct query using official Strapi 5 syntax for deep population
+const queryObject = {
+  filters: {
+    slug: {
+      $eq: route.params.slug
+    }
+  },
+  populate: {
+    // Populate regular relations 2 levels deep
+    author: { populate: '*' },
+    bookseries: { populate: '*' },
+    genre_books: { populate: '*' },
+    cover: { populate: '*' },
+    category: { populate: '*' },
+    // Populate dynamic zone with nested components 2 levels deep
+    additional: {
+      on: {
+        'external-api.book-container': {
+          populate: {
+            bookmeta: { populate: '*' }
+          }
+        },
+        'content.rating': { populate: '*' },
+        'content.advertisement': { populate: '*' }
+      }
+    }
   }
+}
+
+const query = qs.stringify(queryObject, {
+  encodeValuesOnly: true
 })
+
+const queryUrl = `/api/articles?${query}`
+
+console.log('Query URL:', queryUrl)
+console.log('Query object:', JSON.stringify(queryObject, null, 2))
+
+const { data: response } = await useFetch(queryUrl, {
+  baseURL: strapiUrl
+})
+
+console.log('Response:', response.value?.data)
 
 const article = computed(() => response.value?.data || [])
 

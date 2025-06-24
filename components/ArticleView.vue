@@ -37,6 +37,7 @@
         />
       </header>
 
+
       <div
         class="article-content max-w-none text-gray-700 leading-relaxed e-content"
         :class="[getRatingClass]"
@@ -61,10 +62,11 @@
     <!-- Detail page layout -->
     <template v-else>
       <header class="mb-8 sm:mb-12">
-        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-head font-normal leading-tight text-gray-900 mb-6 sm:mb-8">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-head font-normal leading-tight text-gray-900 mb-6 sm:mb-8">
           {{ post.title }}
-        </h1>
+        </h2>
 
+      <!-- {{ post }} -->
         <internal-book-linking
           :date="post.display_published_date"
           :author="post.author"

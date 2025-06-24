@@ -1,90 +1,84 @@
 <template>
   <div class="article-index">
-    <ul v-if="view === 'list'" class="article-index__list">
-      <li
+    <div v-if="view === 'list'" class="article-index__list space-y-4">
+      <article
         v-for="(article, index) in articles"
         :key="index"
         class="article-index__listitem"
       >
-        <div class="article-item">
-          <div class="article-item__title">
-            <span
-              v-if="article.display_published_date"
-              class="article-item__date"
-            >
-              {{ formatDate(article.display_published_date, true) }}
-              <span class="hidden mx-1 sm:inline-block"> &ndash; </span>
-            </span>
-
-            <h3 class="title title--index">
-              <nuxt-link
-                :to="`/blog/${article.slug}`"
-                data-umami-event="index-click-article"
-                :data-umami-event-title="article.title"
-                :data-umami-event-url="`/blog/${article.slug}`"
-                class="inline-block mb-2 article article--clickable"
-              >
-                {{ article.title }}
-              </nuxt-link>
-            </h3>
-            <p v-if="showDescription" class="article-item__body">
-              {{ article.description }}
-            </p>
-          </div>
-          <!-- <tags -->
-          <!--   v-if="blogPost.tags" -->
-          <!--   class="w-full mb-2 md:self-end sm:w-full md:w-auto" -->
-          <!--   :tags="blogPost.tags" -->
-          <!-- /> -->
+        <div class="article-item group">
+          <nuxt-link
+            :to="`/blog/${article.slug}`"
+            class="block py-3 border-b border-gray-200 hover:border-gray-300 transition-colors duration-200"
+            data-umami-event="index-click-article"
+            :data-umami-event-title="article.title"
+            :data-umami-event-url="`/blog/${article.slug}`"
+          >
+            <div class="flex flex-col space-y-2">
+              <div class="flex items-start justify-between">
+                <h3 class="text-lg sm:text-xl font-head font-normal text-gray-900 group-hover:text-gray-700 transition-colors duration-200 flex-1 min-w-0 pr-4">
+                  {{ article.title }}
+                  &nbsp;
+                <time
+                  v-if="article.display_published_date"
+                  class="text-xs sm:text-sm text-gray-500 font-meta flex-shrink-0"
+                  :datetime="article.display_published_date"
+                >
+                  {{ formatDate(article.display_published_date, true) }}
+                </time>
+                </h3>
+              </div>
+              <p v-if="showDescription && article.description" class="text-sm text-gray-600 font-meta leading-relaxed">
+                {{ article.description }}
+              </p>
+            </div>
+          </nuxt-link>
         </div>
-      </li>
-    </ul>
+      </article>
+    </div>
 
-    <ul v-if="view === 'thumbs'" class="article-index__thumbs">
-      <li
+    <div v-if="view === 'thumbs'" class="article-index__thumbs grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+      <article
         v-for="(article, index) in articles"
         :key="index"
         class="article-index__thumbitem"
       >
-        <figure class="article-item">
-          <!-- cover.data.formats.small -->
-          <img
-            v-if="article.cover && article.cover.data"
-            :srcset="`${article.cover.data.formats.small.url} ${article.cover.data.formats.small.width}w,
-                    ${article.cover.data.formats.thumbnail.url} ${article.cover.data.formats.thumbnail.width}w
-                    ${article.cover.data.formats.medium.url} ${article.cover.data.formats.medium.width}w
-                    ${article.cover.data.formats.large.url} ${article.cover.data.formats.large.width}w`"
-            sizes="(max-width: 600px) 480px,
-                    800px"
-            :src="article.cover.data.formats.small.url"
-            :alt="article.title"
-          />
-          <figcaption class="article-item__title">
-            <span
-              v-if="article.display_published_date"
-              class="article-item__date"
-            >
-              {{ formatDate(article.display_published_date, true) }}
-            </span>
-
-            <h3 class="title title--index">
-              <nuxt-link
-                :to="`/blog/${article.slug}`"
-                data-umami-event="index-click-article-thumb"
-                :data-umami-event-title="article.title"
-                :data-umami-event-url="`/blog/${article.slug}`"
-                class="inline-block mb-2 article article--clickable"
-              >
+        <nuxt-link
+          :to="`/blog/${article.slug}`"
+          class="block group"
+          data-umami-event="index-click-article-thumb"
+          :data-umami-event-title="article.title"
+          :data-umami-event-url="`/blog/${article.slug}`"
+        >
+          <figure class="article-item">
+            <div v-if="article.cover && article.cover.data" class="aspect-w-4 aspect-h-3 mb-3 rounded overflow-hidden bg-gray-100">
+              <img
+                :srcset="`${article.cover.data.formats.small.url} ${article.cover.data.formats.small.width}w,
+                        ${article.cover.data.formats.thumbnail.url} ${article.cover.data.formats.thumbnail.width}w
+                        ${article.cover.data.formats.medium.url} ${article.cover.data.formats.medium.width}w
+                        ${article.cover.data.formats.large.url} ${article.cover.data.formats.large.width}w`"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                :src="article.cover.data.formats.small.url"
+                :alt="article.title"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+              />
+            </div>
+            <figcaption class="space-y-2">
+              <h3 class="text-base sm:text-lg font-head font-normal text-gray-900 group-hover:text-gray-700 transition-colors duration-200 leading-tight">
                 {{ article.title }}
-              </nuxt-link>
-            </h3>
-            <!-- <p class="article-item__body" v-if="showDescription"> -->
-            <!--   {{ article.description }} -->
-            <!-- </p> -->
-          </figcaption>
-        </figure>
-      </li>
-    </ul>
+              </h3>
+              <time
+                v-if="article.display_published_date"
+                class="text-xs text-gray-500 font-meta block"
+                :datetime="article.display_published_date"
+              >
+                {{ formatDate(article.display_published_date, true) }}
+              </time>
+            </figcaption>
+          </figure>
+        </nuxt-link>
+      </article>
+    </div>
   </div>
 </template>
 
@@ -114,72 +108,44 @@ export default {
 }
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .article-index {
-  &__list {
-    @apply list-none;
-    @apply flex flex-col pl-0;
-  }
-  &__listitem {
-    @apply flex flex-col;
-    &:not(:last-child) {
-      @apply border-b border-gray-200 border-solid;
-    }
-  }
+  @apply w-full;
+}
 
-  &__thumbs {
-    @apply flex flex-row flex-wrap pl-0;
-    @apply list-none;
+.article-index__list {
+  @apply w-full;
+}
 
-    figure.article-item {
-      @apply aspect-w-4 aspect-h-3;
-      @apply mb-0;
+.article-index__listitem {
+  @apply w-full;
+}
 
-      .article-item__date {
-        display: inline-block;
-        background: white;
-      }
-      .article-item__date,
-      .title {
-        @apply inline-block px-2 mx-4 my-2;
-        a {
-          display: inline;
-          background-color: #fff;
-          color: black;
-          box-shadow: 0 0 0 7px #fff, 0 0 0 7px #fff, 0 0 0 7px #fff;
-          box-decoration-break: clone;
-        }
-      }
+.article-index__thumbs {
+  @apply w-full;
+}
 
-      .article-item__title {
-        top: auto;
-        height: auto;
-      }
-      img {
-        @apply m-0;
-        border-radius: 5px;
-      }
-    }
-  }
-
-  &__thumbitem {
-    @apply w-full xs:w-1/2 md:w-1/2 lg:w-1/3 p-2;
-  }
+.article-index__thumbitem {
+  @apply w-full;
 }
 
 .article-item {
-  @apply flex flex-wrap text-left align-baseline font-meta;
+  @apply w-full;
+}
 
-  &__title {
-    @apply w-full pr-2 mb-2 sm:w-full font-meta;
-  }
+/* Ensure proper aspect ratio for thumbnails */
+.aspect-w-4 {
+  position: relative;
+  padding-bottom: 75%; /* 4:3 aspect ratio */
+}
 
-  &__date {
-    @apply block md:inline-block mb-2 text-sm text-left;
-  }
-
-  &__body {
-    @apply text-sm;
-  }
+.aspect-w-4 > img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 </style>

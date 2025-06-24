@@ -1,13 +1,50 @@
 <template>
-  <main class="flex flex-wrap">
+  <main class="main max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+  <div class="flex flex-wrap">
     <div class="w-full">
       <h2 class="article-title title">
         {{ title }}
       </h2>
       <p class="mb-8">{{ description }}</p>
     </div>
+  </div>
 
-    <div class="w-full md:w-3/4 md:pr-12">
+  <div class="flex flex-wrap">
+    <template v-if="$route.params.category === 'buecher'"
+    class="w-full md:w-6/12"
+    >
+    <div class="w-full md:w-full">
+      <collection-index
+        compact
+        show-single-collections
+        :collection="genre.data || []"
+        link-path="/genre/book"
+        collection-title="Genre"
+      />
+    </div>
+    <div class="w-full md:w-full">
+      <collection-index
+        compact
+        show-single-collections
+        :collection="authors.data || []"
+        link-path="/author"
+        collection-title="Autoren"
+      />
+    </div>
+    <div class="w-full md:w-full">
+      <collection-index
+        compact
+        show-single-collections
+        :collection="series.data || []"
+        link-path="/series"
+        collection-title="Serien"
+      />
+    </div>
+    </template>
+  </div>
+
+  <div class="flex flex-wrap">
+    <div class="w-full md:w-full">
       <article-index
         v-if="articles"
         :articles="articles"
@@ -15,26 +52,7 @@
         :show-description="showDescription"
       />
     </div>
-    <div v-if="$route.params.category === 'buecher'" class="w-full md:w-1/4">
-      <collection-index
-        show-single-collections
-        :collection="genre.data || []"
-        link-path="/genre/book"
-        collection-title="Genre"
-      />
-      <collection-index
-        show-single-collections
-        :collection="authors.data || []"
-        link-path="/author"
-        collection-title="Autoren"
-      />
-      <collection-index
-        show-single-collections
-        :collection="series.data || []"
-        link-path="/series"
-        collection-title="Serien"
-      />
-    </div>
+  </div>
   </main>
 </template>
 
@@ -59,7 +77,7 @@ const { data: categoryResponse } = await useFetch('/api/categories', {
   baseURL: strapiUrl,
   query: {
     'filters[slug][$eq]': route.params.category,
-    'populate': '*'
+    'populate': '*',
   }
 })
 
@@ -73,7 +91,9 @@ const { data: articlesResponse } = await useFetch('/api/articles', {
   query: {
     'filters[category][slug][$eq]': route.params.category,
     'populate': ['cover', 'category', 'author', 'bookseries', 'genre_books'],
-    'sort': 'display_published_date:desc'
+    'sort': 'display_published_date:desc',
+    // page size 100
+    'pagination[pageSize]': 100
   }
 })
 

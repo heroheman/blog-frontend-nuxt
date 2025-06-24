@@ -1,18 +1,18 @@
 <template>
   <div v-if="isLoaded" class="book-widget">
-    <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:items-start p-4">
-      <div class="book-cover flex-shrink-0 w-36 !m-0">
+    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-start p-4">
+      <div class="book-cover flex-shrink-0 sm:w-20 !m-0">
         <img
         style="margin: 0 !important;"
           loading="lazy"
           :src="getBookImage()"
           :alt="`Cover: ${metadata.title}`"
           :title="`Bookcover: ${metadata.title}`"
-          class="w-auto sm:w-14 rounded object-cover shadow-sm m-0"
+          class="w-20 h-auto sm:w-16 rounded object-cover shadow-sm m-0"
         />
       </div>
 
-      <div class="book-details flex-1 min-w-0 pl-4">
+      <div class="book-details flex-1 min-w-0 sm:pl-4">
         <div class="mb-4">
           <div class="!text-xl font-head font-medium text-gray-900 leading-tight !mb-2 font-bold">
             {{ metadata.title }}
@@ -244,12 +244,49 @@ export default {
 /* Mobile adjustments */
 @media (max-width: 640px) {
   .book-widget {
-    @apply p-2;
+    @apply p-3 my-4;
+  }
+
+  .book-cover {
+    @apply w-full mb-3 flex justify-center;
+    
+    img {
+      @apply w-20 h-auto;
+    }
+  }
+
+  .book-details {
+    @apply pl-0 text-center;
+    
+    .book-purchase {
+      @apply mt-4;
+      
+      .flex {
+        @apply justify-center;
+      }
+    }
   }
 
   .purchase-btn {
-    @apply px-1 py-0.5 text-xs;
-    line-height: 1.1;
+    @apply px-2 py-1.5 text-sm;
+    @apply min-h-[36px] min-w-[90px];
+    line-height: 1.2;
+    
+    /* Make buttons more touch-friendly */
+    &:active {
+      @apply scale-95;
+    }
+  }
+
+  /* Stack layout for very small screens */
+  @media (max-width: 480px) {
+    .flex.flex-wrap.gap-1 {
+      @apply flex-col space-y-2;
+    }
+    
+    .purchase-btn {
+      @apply w-full justify-center;
+    }
   }
 }
 </style>

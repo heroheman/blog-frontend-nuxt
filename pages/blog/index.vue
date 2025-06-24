@@ -1,5 +1,6 @@
 <template>
-  <main v-if="articles" class="w-full main">
+  <!-- <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12"> -->
+  <main v-if="articles" class="main max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
     <div v-if="hasTag" class="mb-8 text-left">
       <nuxt-link class="items-start mb-8" to="/blog"
         data-umami-event="blog-click-back-to-all"

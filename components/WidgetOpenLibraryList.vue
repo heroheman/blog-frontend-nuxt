@@ -35,7 +35,11 @@ export default {
 /* Mobile adjustments */
 @media (max-width: 640px) {
   .books-section {
-    @apply mt-6 space-y-4;
+    @apply mt-4 space-y-3;
+  }
+  
+  .book-item {
+    @apply shadow-sm; /* Add subtle shadow for better separation on mobile */
   }
 }
 </style>

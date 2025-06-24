@@ -1,6 +1,6 @@
 <template>
   <div class="article-meta">
-    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500 font-meta">
+    <div class="flex flex-wrap items-center gap-x-1 gap-y-2 text-sm text-gray-500 font-meta">
       <time :datetime="date" class="font-medium">
         {{ formatDate(date) }}
       </time>
@@ -99,13 +99,25 @@ export default {
 /* Mobile adjustments */
 @media (max-width: 640px) {
   .article-meta {
-    .flex {
-      @apply flex-col items-start gap-y-1 gap-x-0;
-    }
+    @apply mt-3;
+  }
+  
+  .article-meta .flex {
+    @apply text-xs gap-x-1 gap-y-1;
+  }
 
-    .flex > div {
-      @apply flex-wrap;
-    }
+  .article-meta .flex > div {
+    @apply text-xs;
+  }
+
+  /* Make links more touch-friendly but keep inline */
+  .article-meta a {
+    @apply py-1 px-1 -mx-1 rounded min-h-[32px] inline-flex items-center;
+  }
+
+  /* Reduce bullet spacing */
+  .article-meta .text-gray-400 {
+    @apply text-xs;
   }
 }
 </style>

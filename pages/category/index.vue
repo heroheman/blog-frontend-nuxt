@@ -1,5 +1,6 @@
 <template>
-  <main class="w-full lg:w-3/4">
+  <!-- <main class="w-full lg:w-3/4"> -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
     <collection-index
       show-single-collections
       :collection-title="title"
