@@ -2,7 +2,8 @@
 import { feedContentParsed } from './utils/helper'
 
 // TODO: env file to uberspace... somehow
-const BLOG_EP = process.env.STRAPI_URL || 'https://flrnz.strapi.florenz.dev'
+// const BLOG_EP = process.env.STRAPI_URL || 'https://flrnz.strapi.florenz.dev'
+const BLOG_EP = 'https://flrnz.strapi.florenz.dev'
 
 export default defineNuxtConfig({
   // Compatibility version
