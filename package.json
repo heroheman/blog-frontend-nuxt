@@ -32,6 +32,5 @@
     "nuxt-module-feed": "^1.1.4",
     "postcss": "^8.4.14",
     "prettier": "^2.4.1"
-  },
-  "packageManager": "pnpm@6.3.2"
+  }
 }
