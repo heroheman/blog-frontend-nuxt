@@ -116,6 +116,7 @@ export default defineNuxtConfig({
   // Modules
   modules: [
     '@nuxtjs/tailwindcss',
+    'nuxt-module-feed',
   ],
 
   /*
@@ -217,84 +218,18 @@ export default defineNuxtConfig({
       'postcss-import': {},
       autoprefixer: {},
     },
-  }
+  },
 
-  /*
-  // Feed config - Disabled for Nuxt 3 migration
-  feed: [
-    {
-      path: '/feed.xml',
-      async create(feed: any) {
-        feed.options = {
-          title: 'flore.nz RSS',
-          link: 'http://flore.nz/feed.xml',
-          description: 'RSS Feeds are not dead',
-        }
-
-        const posts = await $fetch(`${BLOG_EP}/api/articles?populate=*&sort%5B0%5D=createdAt:DESC`)
-
-        posts.data.forEach((post: any) => {
-          feed.addItem({
-            title: post.title,
-            date: new Date(post.display_published_date),
-            id: post.url,
-            link: 'https://flore.nz/blog/' + post.slug,
-            description: post.description,
-            content: feedContentParsed(post),
-          })
-        })
-
-        feed.addContributor({
-          name: 'Florenz heldermann',
-          email: 'moin@flore.nz',
-          link: 'https://flore.nz/',
-        })
-
-        feed.items.sort((a: any, b: any) => b.date - a.date)
-      },
-      type: 'rss2',
-    },
-  ],
-  */
-
-  /*
-  // Sitemap config - Disabled for Nuxt 3 migration
-  sitemap: {
-    hostname: 'https://flore.nz',
-    gzip: true,
-    defaults: {
-      changefreq: 'daily',
-      priority: 1,
-      lastmod: new Date(),
-    },
+  // Feed configuration
+  feed: {
     sources: [
-      async () => {
-        const articles = await $fetch(`${BLOG_EP}/api/articles?populate=*`)
-        return articles.data.map((article: any) => `/blog/${article.slug}`)
-      },
-      async () => {
-        const pages = await $fetch(`${BLOG_EP}/api/pages`)
-        return pages.data.map((page: any) => `/${page.slug}`)
-      },
-      async () => {
-        const categories = await $fetch(`${BLOG_EP}/api/categories`)
-        return categories.data.map((page: any) => `/category/${page.slug}`)
-      },
-      async () => {
-        const bookSeries = await $fetch(`${BLOG_EP}/api/bookseries`)
-        return bookSeries.data.map((page: any) => `/series/${page.slug}`)
-      },
-      async () => {
-        const genreBooks = await $fetch(`${BLOG_EP}/api/genre-books`)
-        return genreBooks.data.map((page: any) => `/genre/book/${page.slug}`)
-      },
-      async () => {
-        const bookAuthors = await $fetch(`${BLOG_EP}/api/authors`)
-        return bookAuthors.data.map((page: any) => `/author/${page.slug}`)
+      {
+        path: '/feed.xml',
+        type: 'rss2',
+        cacheTime: 60 * 15, // 15 minutes
       }
     ]
   },
-  */,
 
   devtools: {
     enabled: false
