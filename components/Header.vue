@@ -1,16 +1,11 @@
 <template>
-  <header
-    class="pt-8 border-b border-solid border-gray-200 pb-4"
-    :class="{
-      'border-b-0 pb-16 md:pb-2': isPost || isCategory || isBlogIndexCompact,
-    }"
-  >
-    <!-- Mobile menu button -->
+  <div class="relative sticky md:relative bg-white top-0">
+    <!-- Mobile menu button - moved outside header to ensure visibility -->
     <button
       @click="toggleMobileMenu"
       data-umami-event="nav-click-mobile-menu-toggle"
       :data-umami-event-state="isMobileMenuOpen ? 'close' : 'open'"
-      class="md:hidden fixed top-4 right-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200"
+      class="md:hidden absolute top-8 right-4 z-[9999] p-3 bg-white rounded-lgtransition-colors"
       aria-label="Toggle menu"
     >
       <svg v-if="!isMobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -106,6 +101,12 @@
       </div>
     </div>
 
+  <header
+    class="pt-8 border-b border-solid border-gray-200 pb-4"
+    :class="{
+      'border-b-0 pb-16 md:pb-2': isPost || isCategory || isBlogIndexCompact,
+    }"
+  >
     <!-- Desktop Header Layout -->
     <div class="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- First Row: Logo | Nav | Dynamic Space | Social -->
@@ -113,7 +114,8 @@
         <!-- Logo -->
         <div class="flex-shrink-0 mr-8">
           <nuxt-link data-umami-event="header-click-logo" to="/">
-            <h1 class="font-head italic leading-snug text-gray-900 mb-3" :class="isPost || isCategory || isBlogIndexCompact ? 'text-lg' : 'text-4xl'">
+            <h1 class="font-head italic leading-snug text-gray-900 mb-3 text-4xl" >
+<!-- :class="isPost || isCategory || isBlogIndexCompact ? 'text-lg' : 'text-4xl'" -->
               {{ settings.sitetitle }}
             </h1>
           </nuxt-link>
@@ -225,7 +227,7 @@
     </div>
 
     <!-- Mobile Header Layout -->
-    <div class="md:hidden text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="md:hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <nuxt-link data-umami-event="header-click-logo-mobile" to="/">
         <h1 class="font-head text-3xl italic leading-snug text-gray-900 mb-4">
           {{ settings.sitetitle }}
@@ -251,6 +253,7 @@
       </div>
     </div>
   </header>
+  </div>
 </template>
 
 <script setup>

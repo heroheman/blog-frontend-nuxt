@@ -31,9 +31,9 @@
                     {{ item.title || item.name }}
                   </h3>
                 </div>
-                <div class="flex-shrink-0 ml-4">
+                <div v-if="item.articles && item.articles.length > 1" class="flex-shrink-0 ml-4">
                   <span class="inline-flex items-center justify-center w-8 h-8 bg-gray-100 text-gray-600 text-xs font-meta font-medium rounded-full group-hover:bg-gray-200 transition-colors duration-200">
-                    {{ item.articles ? item.articles.length : 0 }}
+                    {{ item.articles.length }}
                   </span>
                 </div>
               </div>
@@ -49,15 +49,15 @@
           :to="`${linkPath}/${item.slug}`"
           class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 text-sm font-meta rounded-full transition-colors duration-200"
           :class="{
-            'is-hidden': (isSingleCollection(item) && !showSingleCollections) || (compact && isSingleCollection(item)),
+            'is-hidden': isSingleCollection(item) && !showSingleCollections,
           }"
           data-umami-event="index-click-collection-compact"
           :data-umami-event-title="item.title || item.name"
           :data-umami-event-url="`${linkPath}/${item.slug}`"
         >
           <span>{{ item.title || item.name }}</span>
-          <span class="inline-flex items-center justify-center w-5 h-5 bg-white text-gray-600 text-xs font-medium rounded-full">
-            {{ item.articles ? item.articles.length : 0 }}
+          <span v-if="!isSingleCollection(item)" class="inline-flex items-center justify-center w-5 h-5 bg-white text-gray-600 text-xs font-medium rounded-full">
+            {{ item.articles.length }}
           </span>
         </nuxt-link>
       </div>

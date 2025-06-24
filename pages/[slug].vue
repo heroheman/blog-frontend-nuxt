@@ -1,5 +1,6 @@
 <template>
-  <main class="w-full sm:max-w-3xl article-single">
+  <main class="main max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+  <!-- <main class="w-full sm:max-w-3xl article-single"> -->
     <div v-if="pages.length">
       <article role="article" class="text-left articleview-main">
         <div class="flex flex-col mb-4">

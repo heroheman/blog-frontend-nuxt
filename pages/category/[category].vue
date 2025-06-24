@@ -34,7 +34,6 @@
     <div class="w-full md:w-full">
       <collection-index
         compact
-        show-single-collections
         :collection="series.data || []"
         link-path="/series"
         collection-title="Serien"
@@ -45,7 +44,17 @@
 
   <div class="flex flex-wrap">
     <div class="w-full md:w-full">
+      <!-- Debug section - remove this after checking data -->
+      <!-- <div v-if="articles && articles.length > 0" class="mb-4 p-4 bg-gray-100 rounded text-xs">
+        <h4 class="font-bold mb-2">Debug: Props and Data</h4>
+        <p><strong>showSeries prop:</strong> true (hardcoded in template)</p>
+        <p><strong>First article bookseries:</strong> {{ JSON.stringify(articles[0].bookseries) }}</p>
+      </div> -->
+
       <article-index
+        show-ratings
+        show-genre
+        show-series
         v-if="articles"
         :articles="articles"
         :description="description"
@@ -57,6 +66,8 @@
 </template>
 
 <script setup>
+import qs from 'qs'
+
 const route = useRoute()
 const { public: { strapiUrl } } = useRuntimeConfig()
 
@@ -72,33 +83,70 @@ const title = computed(() => category.value?.title || '')
 const description = computed(() => category.value?.description || '')
 const showDescription = computed(() => category.value?.showDescriptionInIndex || false)
 
-// Fetch category data
-const { data: categoryResponse } = await useFetch('/api/categories', {
-  baseURL: strapiUrl,
-  query: {
-    'filters[slug][$eq]': route.params.category,
-    'populate': '*',
+// Fetch category data and build query for articles with deep population using qs
+const [categoryQueryObject, articlesQueryObject] = [
+  {
+    filters: { slug: { $eq: route.params.category } },
+    populate: '*'
+  },
+  {
+    filters: {
+      category: {
+        slug: { $eq: route.params.category }
+      }
+    },
+    populate: {
+      // Populate regular relations only 1 level deep (just populate: true)
+      author: true,
+      bookseries: true,
+      genre_books: true,
+      cover: true,
+      category: true,
+      // Populate dynamic zone with nested components 2 levels deep
+      additional: {
+        on: {
+          'external-api.book-container': {
+            populate: {
+              bookmeta: { populate: '*' }
+            }
+          },
+          'content.rating': { populate: '*' },
+          'content.advertisement': { populate: '*' }
+        }
+      }
+    },
+    sort: 'display_published_date:desc',
+    pagination: {
+      pageSize: 100
+    }
   }
-})
+]
+
+const categoryQuery = qs.stringify(categoryQueryObject, { encodeValuesOnly: true })
+const articlesQuery = qs.stringify(articlesQueryObject, { encodeValuesOnly: true })
+
+const categoryQueryUrl = `/api/categories?${categoryQuery}`
+const articlesQueryUrl = `/api/articles?${articlesQuery}`
+
+console.log('Category Query URL:', categoryQueryUrl)
+console.log('Articles Query URL:', articlesQueryUrl)
+
+// Fetch category and articles data
+const [{ data: categoryResponse }, { data: articlesResponse }] = await Promise.all([
+  useFetch(categoryQueryUrl, { baseURL: strapiUrl }),
+  useFetch(articlesQueryUrl, { baseURL: strapiUrl })
+])
 
 if (categoryResponse.value?.data?.[0]) {
   category.value = categoryResponse.value.data[0]
 }
 
-// Fetch articles in this category
-const { data: articlesResponse } = await useFetch('/api/articles', {
-  baseURL: strapiUrl,
-  query: {
-    'filters[category][slug][$eq]': route.params.category,
-    'populate': ['cover', 'category', 'author', 'bookseries', 'genre_books'],
-    'sort': 'display_published_date:desc',
-    // page size 100
-    'pagination[pageSize]': 100
-  }
-})
-
 if (articlesResponse.value?.data) {
   articles.value = articlesResponse.value.data
+  // Only log if we have articles and need to debug
+  if (articles.value.length > 0) {
+    console.log('First article bookseries data:', articles.value[0]?.bookseries)
+  }
 }
 
 // Fetch related collections for book category

@@ -1,5 +1,6 @@
 <template>
-  <main class="w-full lg:max-w-3xl">
+  <!-- <main class="w-full lg:max-w-3xl"> -->
+  <main class="main max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
     <article-index v-if="articles" :articles="articles" />
     <p class="text-base">
       <small> Zeige alle <nuxt-link to="/author"

@@ -249,7 +249,7 @@ export default {
 
   .book-cover {
     @apply w-full mb-3 flex justify-center;
-    
+
     img {
       @apply w-20 h-auto;
     }
@@ -257,10 +257,10 @@ export default {
 
   .book-details {
     @apply pl-0 text-center;
-    
+
     .book-purchase {
       @apply mt-4;
-      
+
       .flex {
         @apply justify-center;
       }
@@ -271,7 +271,7 @@ export default {
     @apply px-2 py-1.5 text-sm;
     @apply min-h-[36px] min-w-[90px];
     line-height: 1.2;
-    
+
     /* Make buttons more touch-friendly */
     &:active {
       @apply scale-95;
@@ -283,7 +283,7 @@ export default {
     .flex.flex-wrap.gap-1 {
       @apply flex-col space-y-2;
     }
-    
+
     .purchase-btn {
       @apply w-full justify-center;
     }

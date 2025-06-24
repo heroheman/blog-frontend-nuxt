@@ -37,7 +37,7 @@ export default {
   .books-section {
     @apply mt-4 space-y-3;
   }
-  
+
   .book-item {
     @apply shadow-sm; /* Add subtle shadow for better separation on mobile */
   }

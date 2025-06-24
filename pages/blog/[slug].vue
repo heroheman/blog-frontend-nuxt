@@ -27,11 +27,16 @@ const queryObject = {
   },
   populate: {
     // Populate regular relations 2 levels deep
-    author: { populate: '*' },
-    bookseries: { populate: '*' },
-    genre_books: { populate: '*' },
-    cover: { populate: '*' },
-    category: { populate: '*' },
+    // author: { populate: '*' },
+    // bookseries: { populate: '*' },
+    // genre_books: { populate: '*' },
+    // cover: { populate: '*' },
+    // category: { populate: '*' },
+      author: true,
+      bookseries: true,
+      genre_books: true,
+      cover: true,
+      category: true,
     // Populate dynamic zone with nested components 2 levels deep
     additional: {
       on: {

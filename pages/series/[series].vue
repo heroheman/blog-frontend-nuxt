@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <main class="w-full lg:max-w-3xl">
+  <!-- <main class="w-full lg:max-w-3xl"> -->
+  <main class="main max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
     <div class="w-full">
       <h2 class="article-title title">
         {{ title }}
@@ -35,7 +36,7 @@ const articles = ref([])
 const { data: response } = await useFetch('/api/bookseries', {
   baseURL: strapiUrl,
   query: {
-    'populate': '*',
+    'populate[articles][populate]': 'cover',
     'filters[slug][$eq]': route.params.series
   }
 })

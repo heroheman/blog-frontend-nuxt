@@ -101,7 +101,7 @@ export default {
   .article-meta {
     @apply mt-3;
   }
-  
+
   .article-meta .flex {
     @apply text-xs gap-x-1 gap-y-1;
   }

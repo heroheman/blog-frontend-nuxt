@@ -217,7 +217,7 @@ export default defineNuxtConfig({
       'postcss-import': {},
       autoprefixer: {},
     },
-  },
+  }
 
   /*
   // Feed config - Disabled for Nuxt 3 migration
@@ -294,5 +294,9 @@ export default defineNuxtConfig({
       }
     ]
   },
-  */
+  */,
+
+  devtools: {
+    enabled: false
+  }
 })
