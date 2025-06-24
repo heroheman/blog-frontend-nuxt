@@ -128,8 +128,8 @@ const articlesQuery = qs.stringify(articlesQueryObject, { encodeValuesOnly: true
 const categoryQueryUrl = `/api/categories?${categoryQuery}`
 const articlesQueryUrl = `/api/articles?${articlesQuery}`
 
-console.log('Category Query URL:', categoryQueryUrl)
-console.log('Articles Query URL:', articlesQueryUrl)
+// console.log('Category Query URL:', categoryQueryUrl)
+// console.log('Articles Query URL:', articlesQueryUrl)
 
 // Fetch category and articles data
 const [{ data: categoryResponse }, { data: articlesResponse }] = await Promise.all([
@@ -145,7 +145,7 @@ if (articlesResponse.value?.data) {
   articles.value = articlesResponse.value.data
   // Only log if we have articles and need to debug
   if (articles.value.length > 0) {
-    console.log('First article bookseries data:', articles.value[0]?.bookseries)
+    // console.log('First article bookseries data:', articles.value[0]?.bookseries)
   }
 }
 

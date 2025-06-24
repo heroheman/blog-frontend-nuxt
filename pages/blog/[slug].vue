@@ -58,14 +58,14 @@ const query = qs.stringify(queryObject, {
 
 const queryUrl = `/api/articles?${query}`
 
-console.log('Query URL:', queryUrl)
-console.log('Query object:', JSON.stringify(queryObject, null, 2))
+// console.log('Query URL:', queryUrl)
+// console.log('Query object:', JSON.stringify(queryObject, null, 2))
 
 const { data: response } = await useFetch(queryUrl, {
   baseURL: strapiUrl
 })
 
-console.log('Response:', response.value?.data)
+// console.log('Response:', response.value?.data)
 
 const article = computed(() => response.value?.data || [])
 

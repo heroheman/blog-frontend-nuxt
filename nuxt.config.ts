@@ -220,11 +220,11 @@ export default defineNuxtConfig({
     // Static pages
     '/': { prerender: true },
     // Disable prerendering for dynamic routes to prevent middleware conflicts
-    '/blog/**': { prerender: false },
-    '/category/**': { prerender: false },
-    '/author/**': { prerender: false },
-    '/series/**': { prerender: false },
-    '/genre/**': { prerender: false },
+    '/blog/**': { prerender: true },
+    '/category/**': { prerender: true },
+    '/author/**': { prerender: true },
+    '/series/**': { prerender: true },
+    '/genre/**': { prerender: true },
     // API routes
     '/api/**': { prerender: false }
   },

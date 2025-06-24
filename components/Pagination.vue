@@ -15,9 +15,9 @@
 
       <!-- Previous page -->
       <nuxt-link
-        :to="{ name: 'page-page', params: { page: currentPage - 1 } }"
+        :to="{ name: 'page-page', params: { page: Math.max(currentPage, 1) } }"
         data-umami-event="pagination-click-prev"
-        :data-umami-event-page="currentPage - 1"
+        :data-umami-event-page="Math.max(currentPage, 1)"
         class="pagination-btn pagination-btn--nav"
         :class="{ 'pagination-btn--disabled': currentPage === 0 }"
       >
@@ -28,7 +28,7 @@
       <!-- Page numbers -->
       <div class="flex items-center space-x-1">
         <nuxt-link
-          v-for="index in parseInt(articlesCount / perPage + 1)"
+          v-for="index in totalPages"
           :key="index"
           :to="index === 1 ? { name: 'index' } : { name: 'page-page', params: { page: index } }"
           data-umami-event="pagination-click-page"
@@ -42,9 +42,9 @@
 
       <!-- Next page -->
       <nuxt-link
-        :to="{ name: 'page-page', params: { page: currentPage + 2 } }"
+        :to="{ name: 'page-page', params: { page: Math.min(currentPage + 2, totalPages) } }"
         data-umami-event="pagination-click-next"
-        :data-umami-event-page="currentPage + 2"
+        :data-umami-event-page="Math.min(currentPage + 2, totalPages)"
         class="pagination-btn pagination-btn--nav"
         :class="{ 'pagination-btn--disabled': currentPage === lastPage }"
       >
@@ -54,9 +54,9 @@
 
       <!-- Last page -->
       <nuxt-link
-        :to="{ name: 'page-page', params: { page: Math.round(articlesCount / perPage) } }"
+        :to="{ name: 'page-page', params: { page: totalPages } }"
         data-umami-event="pagination-click-last"
-        :data-umami-event-page="Math.round(articlesCount / perPage)"
+        :data-umami-event-page="totalPages"
         class="pagination-btn pagination-btn--nav"
         :class="{ 'pagination-btn--disabled': currentPage === lastPage }"
       >
@@ -86,8 +86,11 @@ export default {
   },
   computed: {
     lastPage() {
-      return Math.round(this.articlesCount / this.perPage) - 1
+      return Math.max(Math.ceil(this.articlesCount / this.perPage) - 1, 0)
     },
+    totalPages() {
+      return Math.max(Math.ceil(this.articlesCount / this.perPage), 1)
+    }
   },
 }
 </script>
