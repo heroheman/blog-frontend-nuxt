@@ -113,7 +113,7 @@
         <!-- Logo -->
         <div class="flex-shrink-0 mr-8">
           <nuxt-link data-umami-event="header-click-logo" to="/">
-            <h1 class="font-head italic leading-snug text-gray-900" :class="isPost || isCategory || isBlogIndexCompact ? 'text-lg' : 'text-4xl'">
+            <h1 class="font-head italic leading-snug text-gray-900 mb-3" :class="isPost || isCategory || isBlogIndexCompact ? 'text-lg' : 'text-4xl'">
               {{ settings.sitetitle }}
             </h1>
           </nuxt-link>
