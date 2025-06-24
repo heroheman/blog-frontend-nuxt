@@ -79,7 +79,7 @@ export default defineNitroPlugin((nitroApp) => {
       link: 'https://flore.nz/feed.xml',
       description: 'RSS Feeds are not dead',
       id: 'https://flore.nz',
-      copyright: 'Florenz Heldermann',
+      copyright: 'Florenz',
       generator: 'Nuxt 3 with nuxt-module-feed',
       feedLinks: {
         rss2: 'https://flore.nz/feed.xml'
@@ -126,7 +126,7 @@ export default defineNitroPlugin((nitroApp) => {
 
     // Contributor hinzufügen
     feed.addContributor({
-      name: 'Florenz Heldermann',
+      name: 'Florenz',
       email: 'moin@flore.nz',
       link: 'https://flore.nz/',
     });

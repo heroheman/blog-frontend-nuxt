@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://flore.nz/sitemap.xml
+
+# Disallow certain paths (if any)
+# Disallow: /admin/
+# Disallow: /api/
+
+# Crawl delay (optional, in seconds)
+Crawl-delay: 1

@@ -29,12 +29,44 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'flore.nz',
+      titleTemplate: '%s | flore.nz',
+      htmlAttrs: {
+        lang: 'de',
+      },
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
-          content: 'description',
+          content: 'Persönlicher Blog mit Gedanken, Meinungen und Einblicken zu verschiedenen Themen des Lebens, der Technologie und mehr.',
+        },
+        {
+          name: 'author',
+          content: 'Florenz'
+        },
+        {
+          name: 'robots',
+          content: 'index, follow'
+        },
+        {
+          name: 'googlebot',
+          content: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1'
+        },
+        {
+          name: 'format-detection',
+          content: 'telephone=no'
+        },
+        {
+          property: 'og:site_name',
+          content: 'flore.nz'
+        },
+        {
+          property: 'og:type',
+          content: 'website'
+        },
+        {
+          property: 'og:locale',
+          content: 'de_DE'
         },
         {
           name: 'msapplication-TileColor',

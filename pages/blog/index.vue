@@ -50,6 +50,94 @@ const items = computed(() => {
   }
   return articles.value
 })
+
+// SEO Meta Data
+const currentTag = computed(() => route.query.tag)
+const pageTitle = computed(() => {
+  if (currentTag.value) {
+    return `${currentTag.value} Artikel - Blog | flore.nz`
+  }
+  return 'Blog - Gedanken, Meinungen und Einblicke | flore.nz'
+})
+
+const pageDescription = computed(() => {
+  if (currentTag.value) {
+    return `Entdecke alle Artikel zum Thema "${currentTag.value}" auf flore.nz. Persönliche Einblicke, Gedanken und Meinungen zu verschiedenen Themen.`
+  }
+  return 'Entdecke meinen persönlichen Blog mit Gedanken, Meinungen und Einblicken zu verschiedenen Themen des Lebens, der Technologie und mehr.'
+})
+
+const canonicalUrl = computed(() => {
+  const baseUrl = 'https://flore.nz'
+  if (currentTag.value) {
+    return `${baseUrl}/blog?tag=${encodeURIComponent(currentTag.value)}`
+  }
+  return `${baseUrl}/blog`
+})
+
+// Generate structured data for the blog listing
+const structuredData = computed(() => {
+  const baseStructure = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'flore.nz Blog',
+    description: pageDescription.value,
+    url: canonicalUrl.value,
+    author: {
+      '@type': 'Person',
+      name: 'Florenz',
+      url: 'https://flore.nz'
+    },
+    publisher: {
+      '@type': 'Person',
+      name: 'Florenz',
+      url: 'https://flore.nz'
+    }
+  }
+
+  if (items.value && items.value.length > 0) {
+    baseStructure.blogPost = items.value.slice(0, 10).map(article => ({
+      '@type': 'BlogPosting',
+      headline: article.title,
+      description: article.excerpt || article.content?.substring(0, 160) + '...',
+      url: `https://flore.nz/blog/${article.slug}`,
+      datePublished: article.display_published_date || article.published_at,
+      author: {
+        '@type': 'Person',
+        name: 'Florenz'
+      }
+    }))
+  }
+
+  return baseStructure
+})
+
+// Set SEO meta tags
+useSeoMeta({
+  title: pageTitle,
+  description: pageDescription,
+  ogTitle: pageTitle,
+  ogDescription: pageDescription,
+  ogType: 'website',
+  ogUrl: canonicalUrl,
+  ogImage: 'https://flore.nz/icon.png',
+  ogSiteName: 'flore.nz',
+
+  // Twitter - entfernt da kein Twitter Account vorhanden
+
+  robots: 'index, follow',
+  canonical: canonicalUrl
+})
+
+// Set structured data
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(structuredData.value)
+    }
+  ]
+})
 </script>
 
 <style lang="postcss" scoped>

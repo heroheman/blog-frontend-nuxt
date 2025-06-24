@@ -165,6 +165,141 @@ if (route.params.category === 'buecher') {
     console.error('Error fetching book collections:', error)
   }
 }
+
+// Enhanced SEO Meta Data
+const pageTitle = computed(() => {
+  if (!category.value?.title) {
+    return `Kategorie: ${route.params.category} | flore.nz`
+  }
+  return `${category.value.title} | flore.nz`
+})
+
+const pageDescription = computed(() => {
+  if (!category.value?.description) {
+    return `Alle Artikel in der Kategorie "${route.params.category}" auf flore.nz. Entdecke Gedanken, Meinungen und Einblicke.`
+  }
+  const articleCount = articles.value.length
+  return `${category.value.description} Entdecke ${articleCount} Artikel in der Kategorie "${category.value.title}" auf flore.nz.`
+})
+
+const canonicalUrl = computed(() => {
+  return `https://flore.nz/category/${route.params.category}`
+})
+
+// Generate structured data for the category page
+const structuredData = computed(() => {
+  if (!category.value?.title) return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: category.value.title,
+    description: category.value.description,
+    url: canonicalUrl.value,
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://flore.nz'
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Kategorien',
+          item: 'https://flore.nz/category'
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: category.value.title,
+          item: canonicalUrl.value
+        }
+      ]
+    }
+  }
+})
+
+// Articles structured data
+const articlesStructuredData = computed(() => {
+  if (!articles.value.length) return null
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${category.value?.title || route.params.category} Artikel`,
+    description: `Alle Artikel in der Kategorie ${category.value?.title || route.params.category}`,
+    numberOfItems: articles.value.length,
+    itemListElement: articles.value.slice(0, 20).map((article, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: {
+        '@type': 'BlogPosting',
+        headline: article.title,
+        description: article.excerpt || article.description,
+        url: `https://flore.nz/blog/${article.slug}`,
+        datePublished: article.display_published_date || article.published_at,
+        author: {
+          '@type': 'Person',
+          name: article.author?.name || 'Florenz'
+        },
+        articleSection: category.value?.title
+      }
+    }))
+  }
+})
+
+// Set enhanced SEO meta tags
+useSeoMeta({
+  title: pageTitle,
+  description: pageDescription,
+
+  // Open Graph
+  ogTitle: pageTitle,
+  ogDescription: pageDescription,
+  ogType: 'website',
+  ogUrl: canonicalUrl,
+  ogImage: 'https://flore.nz/icon.png',
+  ogSiteName: 'flore.nz',
+
+  // Twitter
+  twitterCard: 'summary_large_image',
+  twitterTitle: pageTitle,
+  twitterDescription: pageDescription,
+  twitterImage: 'https://flore.nz/icon.png',
+
+  // Additional meta
+  robots: 'index, follow',
+  canonical: canonicalUrl,
+
+  // Language and locale
+  'og:locale': 'de_DE'
+})
+
+// Set structured data
+useHead(() => {
+  const scripts = []
+
+  if (structuredData.value) {
+    scripts.push({
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(structuredData.value)
+    })
+  }
+
+  if (articlesStructuredData.value) {
+    scripts.push({
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify(articlesStructuredData.value)
+    })
+  }
+
+  return {
+    script: scripts
+  }
+})
 </script>
 
 <style lang="postcss">
