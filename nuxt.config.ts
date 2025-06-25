@@ -209,7 +209,8 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/sitemap.xml']
+      routes: ['/sitemap.xml', '/feed.xml']
+
     },
     experimental: {
       wasm: true
