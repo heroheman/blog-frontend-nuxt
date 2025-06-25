@@ -21,7 +21,8 @@
                   <Rating
                     v-if="showRatings && getRating(article)"
                     :rating="getRating(article)"
-                    class="inline-block ml-2 text-sm"
+                    :compact="true"
+                    class="inline-block ml-2"
                   />
                   &nbsp;
                 <time
@@ -84,7 +85,8 @@
                 <Rating
                   v-if="showRatings && getRating(article)"
                   :rating="getRating(article)"
-                  class="inline-block ml-2 text-xs"
+                  :compact="true"
+                  class="inline-block ml-2"
                 />
               </h3>
               <time
@@ -161,7 +163,7 @@ export default {
       )
 
       if (ratingComponent && ratingComponent.ratingnumber) {
-        return parseInt(ratingComponent.ratingnumber, 10)
+        return parseFloat(ratingComponent.ratingnumber)
       }
 
       return null
