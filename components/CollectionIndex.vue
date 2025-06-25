@@ -47,9 +47,11 @@
           v-for="(item, index) in props.collection"
           :key="index"
           :to="`${props.linkPath}/${item.slug}`"
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 hover:text-gray-900 text-sm font-meta rounded-full transition-colors duration-200"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-gray-700 hover:text-gray-900 text-sm font-meta rounded-full transition-colors duration-200"
           :class="{
             'is-hidden': isSingleCollection(item) && !props.showSingleCollections,
+            'bg-white hover:bg-gray-100 border border-gray-200': props.asTab,
+            'bg-gray-100 hover:bg-gray-200': !props.asTab
           }"
           data-umami-event="index-click-collection-compact"
           :data-umami-event-title="item.title || item.name"
