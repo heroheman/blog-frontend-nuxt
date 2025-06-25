@@ -1,67 +1,72 @@
 <template>
   <main class="main max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-  <div class="flex flex-wrap">
-    <div class="w-full">
-      <h2 class="article-title title">
-        {{ title }}
-      </h2>
-      <p class="mb-8">{{ description }}</p>
+    <div class="flex flex-wrap">
+      <div class="w-full">
+        <h2 class="article-title title">
+          {{ title }}
+        </h2>
+        <p class="mb-8">{{ description }}</p>
+      </div>
     </div>
-  </div>
 
-  <div class="flex flex-wrap">
-    <template v-if="$route.params.category === 'buecher'"
-    class="w-full md:w-6/12"
-    >
-    <div class="w-full md:w-full">
-      <collection-index
-        compact
-        show-single-collections
-        :collection="genre.data || []"
-        link-path="/genre/book"
-        collection-title="Genre"
-      />
+    <div class="flex flex-wrap">
+      <template v-if="$route.params.category === 'buecher'">
+        <div class="w-full">
+          <ClientOnly>
+            <TabWrapper>
+              <collection-index
+                compact
+                as-tab
+                show-single-collections
+                :collection="genre.data || []"
+                link-path="/genre/book"
+                collection-title="Genre"
+              />
+              <collection-index
+                compact
+                as-tab
+                show-single-collections
+                :collection="authors.data || []"
+                link-path="/author"
+                collection-title="Autoren"
+              />
+              <collection-index
+                compact
+                as-tab
+                :collection="series.data || []"
+                link-path="/series"
+                collection-title="Serien"
+              />
+            </TabWrapper>
+            <!-- Fallback for SSR -->
+            <template #fallback>
+              <div class="w-full h-32 bg-gray-100 rounded animate-pulse"></div>
+            </template>
+          </ClientOnly>
+        </div>
+      </template>
     </div>
-    <div class="w-full md:w-full">
-      <collection-index
-        compact
-        show-single-collections
-        :collection="authors.data || []"
-        link-path="/author"
-        collection-title="Autoren"
-      />
-    </div>
-    <div class="w-full md:w-full">
-      <collection-index
-        compact
-        :collection="series.data || []"
-        link-path="/series"
-        collection-title="Serien"
-      />
-    </div>
-    </template>
-  </div>
 
-  <div class="flex flex-wrap">
-    <div class="w-full md:w-full">
-      <!-- Debug section - remove this after checking data -->
-      <!-- <div v-if="articles && articles.length > 0" class="mb-4 p-4 bg-gray-100 rounded text-xs">
-        <h4 class="font-bold mb-2">Debug: Props and Data</h4>
-        <p><strong>showSeries prop:</strong> true (hardcoded in template)</p>
-        <p><strong>First article bookseries:</strong> {{ JSON.stringify(articles[0].bookseries) }}</p>
-      </div> -->
+    <div class="flex flex-wrap">
+      <div class="w-full md:w-full">
+        <!-- Debug section - remove this after checking data -->
+        <!-- <div v-if="articles && articles.length > 0" class="mb-4 p-4 bg-gray-100 rounded text-xs">
+          <h4 class="font-bold mb-2">Debug: Props and Data</h4>
+          <p><strong>showSeries prop:</strong> true (hardcoded in template)</p>
+          <p><strong>First article bookseries:</strong> {{ JSON.stringify(articles[0].bookseries) }}</p>
+        </div> -->
 
-      <article-index
-        show-ratings
-        show-genre
-        show-series
-        v-if="articles"
-        :articles="articles"
-        :description="description"
-        :show-description="showDescription"
-      />
+        <article-index
+          show-ratings
+          show-genre
+          show-series
+          v-if="articles"
+          :articles="articles"
+          :description="description"
+          :show-description="showDescription"
+        />
+      </div>
     </div>
-  </div>
   </main>
 </template>
 
