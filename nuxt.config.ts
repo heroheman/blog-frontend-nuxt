@@ -39,7 +39,7 @@ export default defineNuxtConfig({
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
-          content: 'Persönlicher Blog mit Gedanken, Meinungen und Einblicken zu verschiedenen Themen des Lebens, der Technologie und mehr.',
+          content: 'Dies Das, Ananas Pizza.',
         },
         {
           name: 'author',
