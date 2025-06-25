@@ -86,7 +86,7 @@ export default {
 }
 </script>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .referer {
   p {
     @apply p-4 border-4 border-solid border-[#fcdc4c] mb-0;

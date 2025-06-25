@@ -9,9 +9,6 @@ module.exports = {
     './nuxt.config.{js,ts}',
     './app.vue'
   ],
-  plugins: [
-    require('@tailwindcss/aspect-ratio'),
-  ],
   theme: {
     screens: {
       xs: '475px',
@@ -72,8 +69,8 @@ module.exports = {
       },
     },
   },
-  variants: {
-    extend: {},
-  },
-  plugins: [require('@tailwindcss/aspect-ratio')],
+  plugins: [
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography')
+  ],
 }

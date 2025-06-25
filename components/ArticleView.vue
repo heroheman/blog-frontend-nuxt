@@ -3,8 +3,8 @@
   <article
     v-if="post !== undefined"
     role="article"
-    class="articleview h-entry"
-    :class="{ 'articleview--detail': detail }"
+    class="h-entry"
+    :class="{ 'mt-8 sm:mt-12': detail }"
   >
     <!-- Startpage layout -->
     <template v-if="!detail">
@@ -39,10 +39,10 @@
 
 
       <div
-        class="article-content max-w-none text-gray-700 leading-relaxed e-content"
-        :class="[getRatingClass]"
+        class="prose sm:prose-lg max-w-none e-content"
         v-html="renderedBody"
       />
+      <Rating v-if="showRating" :rating="rating.ratingnumber" class="mt-6 block" />
 
       <footer v-if="hasExcerpt" class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-100">
         <nuxt-link
@@ -76,10 +76,10 @@
       </header>
 
       <div
-        class="article-content max-w-none text-gray-700 leading-relaxed e-content"
-        :class="[getRatingClass]"
+        class="prose sm:prose-lg max-w-none e-content"
         v-html="renderedBody"
       />
+      <Rating v-if="showRating" :rating="rating.ratingnumber" class="mt-6 block" />
     </template>
 
     <!-- Additional content -->
@@ -121,6 +121,7 @@
 import { computed } from 'vue'
 import { marked } from 'marked'
 import { formatDate, hasProperty } from '~/utils/helper'
+import Rating from '~/components/Rating.vue'
 
 const props = defineProps({
   post: {
@@ -176,16 +177,14 @@ const rating = computed(() => {
   return false
 })
 
-const getRatingClass = computed(() => {
+const showRating = computed(() => {
   if (rating.value) {
     if (hasExcerpt.value && !props.detail) {
-      return 'no-rating'
-    } else {
-      return `star-rating star-rating-${rating.value.ratingnumber}`
+      return false
     }
-  } else {
-    return 'no-rating'
+    return true
   }
+  return false
 })
 
 const isbnWrapped = computed(() => {
@@ -273,177 +272,3 @@ const bodyText = computed(() => {
   return text
 })
 </script>
-
-<style lang="postcss">
-.articleview {
-  &--detail {
-    @apply mt-8 sm:mt-12;
-  }
-}
-
-.star-rating {
-  > p:last-of-type::after {
-    @apply block mt-6 text-2xl;
-    color: #fbbf24;
-    letter-spacing: 0.1em;
-  }
-  &-1 {
-    > p:last-of-type::after {
-      content: '★ ☆ ☆ ☆ ☆';
-    }
-  }
-  &-2 {
-    > p:last-of-type::after {
-      content: '★ ★ ☆ ☆ ☆';
-    }
-  }
-  &-3 {
-    > p:last-of-type::after {
-      content: '★ ★ ★ ☆ ☆';
-    }
-  }
-  &-4 {
-    > p:last-of-type::after {
-      content: '★ ★ ★ ★ ☆';
-    }
-  }
-  &-5 {
-    > p:last-of-type::after {
-      content: '★ ★ ★ ★ ★';
-    }
-  }
-}
-
-/* Article content styles for readable typography */
-.article-content {
-  @apply text-gray-700 leading-relaxed;
-  font-size: 1.125rem;
-  line-height: 1.8;
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-head font-normal text-gray-900 mt-8 mb-4;
-    line-height: 1.3;
-    letter-spacing: -0.025em;
-  }
-
-  h1 { @apply text-3xl sm:text-4xl mt-12 mb-6; }
-  h2 { @apply text-2xl sm:text-3xl mt-10 mb-5; }
-  h3 { @apply text-xl sm:text-2xl mt-8 mb-4; }
-  h4 { @apply text-lg sm:text-xl mt-6 mb-3; }
-  h5 { @apply text-base sm:text-lg mt-6 mb-3; }
-  h6 { @apply text-sm sm:text-base mt-4 mb-2; }
-
-  p {
-    @apply mb-6 text-gray-700;
-    line-height: 1.8;
-  }
-
-  a {
-    @apply text-gray-900 underline decoration-gray-300 underline-offset-2 transition-colors duration-200;
-
-    &:hover {
-      @apply text-gray-600 decoration-gray-500;
-    }
-  }
-
-  strong {
-    @apply font-semibold text-gray-900;
-  }
-
-  em {
-    @apply italic;
-  }
-
-  blockquote {
-    @apply border-l-4 border-gray-200 pl-6 italic text-gray-600 my-8 bg-gray-50 py-4;
-
-    p {
-      @apply mb-0;
-    }
-  }
-
-  ul, ol {
-    @apply my-6 space-y-2 pl-6;
-  }
-
-  ul {
-    @apply list-disc;
-  }
-
-  ol {
-    @apply list-decimal;
-  }
-
-  li {
-    @apply text-gray-700 leading-relaxed;
-
-    p {
-      @apply mb-2;
-    }
-  }
-
-  img {
-    @apply rounded-lg my-8 w-full;
-    max-width: 100%;
-    height: auto;
-  }
-
-  figure {
-    @apply my-8;
-
-    figcaption {
-      @apply text-sm text-gray-500 text-center mt-2 italic;
-    }
-  }
-
-  code {
-    @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800;
-    font-size: 0.875em;
-  }
-
-  pre {
-    @apply bg-gray-100 p-4 rounded-lg overflow-x-auto my-6;
-
-    code {
-      @apply bg-transparent p-0 text-gray-800;
-    }
-  }
-
-  hr {
-    @apply border-0 border-t border-gray-200 my-8;
-  }
-
-  table {
-    @apply w-full my-6 border-collapse;
-
-    th, td {
-      @apply border border-gray-200 px-4 py-2 text-left;
-    }
-
-    th {
-      @apply bg-gray-50 font-semibold;
-    }
-  }
-}
-
-/* Mobile adjustments */
-@media (max-width: 640px) {
-  .article-content {
-    font-size: 1rem;
-    line-height: 1.7;
-
-    h1 { @apply text-2xl mt-8 mb-4; }
-    h2 { @apply text-xl mt-6 mb-4; }
-    h3 { @apply text-lg mt-6 mb-3; }
-    h4 { @apply text-base mt-4 mb-3; }
-
-    blockquote {
-      @apply pl-4 my-6;
-    }
-
-    ul, ol {
-      @apply pl-4;
-    }
-  }
-}
-</style>
