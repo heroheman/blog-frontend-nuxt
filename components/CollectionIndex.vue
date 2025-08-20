@@ -8,37 +8,31 @@
         </h2>
       </div>
 
-      <div v-if="!props.compact" class="space-y-4">
+      <div v-if="!props.compact" class="space-y-2">
         <div
-          v-for="(item, index) in props.collection"
+          v-for="(item, index) in sortedCollection"
           :key="index"
           class="collection-index__listitem"
           :class="{
             'is-hidden': isSingleCollection(item) && !props.showSingleCollections,
           }"
         >
-          <div class="collection-item group">
-            <nuxt-link
-              :to="`${props.linkPath}/${item.slug}`"
-              class="block py-3 border-b border-gray-200 hover:border-gray-300 transition-colors duration-200"
-              data-umami-event="index-click-collection"
-              :data-umami-event-title="item.title || item.name"
-              :data-umami-event-url="`${props.linkPath}/${item.slug}`"
-            >
-              <div class="flex items-center justify-between">
-                <div class="flex-1 min-w-0">
-                  <h3 class="text-lg sm:text-xl font-head font-normal text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
-                    {{ item.title || item.name }}
-                  </h3>
-                </div>
-                <div v-if="item.articles && item.articles.length > 1" class="flex-shrink-0 ml-4">
-                  <span class="inline-flex items-center justify-center w-8 h-8 bg-gray-100 text-gray-600 text-xs font-meta font-medium rounded-full group-hover:bg-gray-200 transition-colors duration-200">
-                    {{ item.articles.length }}
-                  </span>
-                </div>
-              </div>
-            </nuxt-link>
-          </div>
+          <nuxt-link
+            :to="`${props.linkPath}/${item.slug}`"
+            class="block hover:text-gray-700 transition-colors duration-200"
+            data-umami-event="index-click-collection"
+            :data-umami-event-title="item.title || item.name"
+            :data-umami-event-url="`${props.linkPath}/${item.slug}`"
+          >
+            <div class="flex items-baseline gap-1">
+              <span class="text-lg sm:text-xl font-head font-normal text-gray-900">
+                {{ item.title || item.name }}
+              </span>
+              <span v-if="item.articles && item.articles.length > 1" class="inline-flex items-center justify-center w-5 h-5 bg-gray-100 text-gray-600 text-xs font-meta font-medium rounded-full">
+                {{ item.articles.length }}
+              </span>
+            </div>
+          </nuxt-link>
         </div>
       </div>
 
@@ -114,6 +108,15 @@ const isActive = computed(() => {
     return selectedTab.value === props.collectionTitle
   }
   return false
+})
+
+const sortedCollection = computed(() => {
+  if (!props.collection) return []
+  return [...props.collection].sort((a, b) => {
+    const nameA = (a.title || a.name || '').toLowerCase()
+    const nameB = (b.title || b.name || '').toLowerCase()
+    return nameA.localeCompare(nameB)
+  })
 })
 </script>
 
