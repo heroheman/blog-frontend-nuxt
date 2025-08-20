@@ -49,18 +49,98 @@
 
     <div class="flex flex-wrap">
       <div class="w-full md:w-full">
-        <!-- Debug section - remove this after checking data -->
-        <!-- <div v-if="articles && articles.length > 0" class="mb-4 p-4 bg-gray-100 rounded text-xs">
-          <h4 class="font-bold mb-2">Debug: Props and Data</h4>
-          <p><strong>showSeries prop:</strong> true (hardcoded in template)</p>
-          <p><strong>First article bookseries:</strong> {{ JSON.stringify(articles[0].bookseries) }}</p>
-        </div> -->
+        <!-- Rating Filter - nur für Bücher-Kategorie -->
+        <template v-if="$route.params.category === 'buecher'">
+          <ClientOnly>
+            <div class="tab-wrapper rounded-lg bg-gray-50 mb-4">
+              <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-6 px-4 sm:px-6" aria-label="Rating Filter">
+                  <div class="whitespace-nowrap py-3 px-1 font-medium text-sm text-gray-900">
+                    Filter nach Bewertung
+                  </div>
+                </nav>
+              </div>
+              <div class="p-4 sm:p-6">
+                <div class="flex flex-wrap gap-2 sm:gap-3">
+                  <button
+                    @click="selectedRating = null"
+                    :class="[
+                      'inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-meta rounded-full transition-colors duration-200',
+                      selectedRating === null
+                        ? 'bg-gray-200 text-gray-900 border border-gray-300'
+                        : 'bg-white hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-gray-900'
+                    ]"
+                  >
+                    Alle
+                  </button>
 
+                  <button
+                    v-for="rating in [5, 4, 3, 2, 1]"
+                    :key="rating"
+                    @click="selectedRating = rating"
+                    :class="[
+                      'inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-meta rounded-full transition-colors duration-200',
+                      selectedRating === rating
+                        ? 'bg-gray-200 text-gray-900'
+                        : 'bg-white hover:bg-gray-100 text-gray-700 hover:text-gray-900'
+                    ]"
+                  >
+                    <div class="inline-flex items-center space-x-0.5">
+                      <svg
+                        v-for="i in rating"
+                        :key="i"
+                        class="h-3 w-3 text-gray-900"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                      </svg>
+                    </div>
+                    <span v-if="ratingCounts[rating] > 0" class="inline-flex items-center justify-center w-5 h-5 bg-white text-gray-600 text-xs font-medium rounded-full">
+                      {{ ratingCounts[rating] }}
+                    </span>
+                  </button>
+                </div>
+
+                <p v-if="selectedRating !== null" class="mt-4 text-sm text-gray-600">
+                  Zeige {{ filteredArticlesByRating.length }} von {{ articles.length }} Büchern mit {{ selectedRating }} Sternen
+                </p>
+              </div>
+            </div>
+
+            <!-- Gefilterte Liste -->
+            <article-index
+              v-if="selectedRating !== null"
+              show-ratings
+              show-genre
+              show-series
+              :articles="filteredArticlesByRating"
+              :description="description"
+              :show-description="showDescription"
+            />
+
+            <!-- Fallback für SSR -->
+            <template #fallback>
+              <div class="tab-wrapper rounded-lg bg-gray-50 mb-4">
+                <div class="border-b border-gray-200">
+                  <div class="px-4 sm:px-6 py-3">
+                    <div class="h-5 bg-gray-200 rounded animate-pulse w-32"></div>
+                  </div>
+                </div>
+                <div class="p-4 sm:p-6">
+                  <div class="h-8 bg-gray-200 rounded animate-pulse"></div>
+                </div>
+              </div>
+            </template>
+          </ClientOnly>
+        </template>
+
+        <!-- Original Liste für SEO (wird ausgeblendet wenn Filter aktiv) -->
         <article-index
+          v-if="$route.params.category !== 'buecher' || selectedRating === null"
           show-ratings
           show-genre
           show-series
-          v-if="articles"
           :articles="articles"
           :description="description"
           :show-description="showDescription"
@@ -83,10 +163,54 @@ const series = ref({ data: [] })
 const genre = ref({ data: [] })
 const authors = ref({ data: [] })
 
+// Rating filter state (clientside only)
+const selectedRating = ref(null)
+
 // Computed properties
 const title = computed(() => category.value?.title || '')
 const description = computed(() => category.value?.description || '')
 const showDescription = computed(() => category.value?.showDescriptionInIndex || false)
+
+// Filter function for ratings (rounds DOWN for filtering)
+const getRatingFromArticle = (article) => {
+  if (!article.additional || !Array.isArray(article.additional)) {
+    return null
+  }
+  const ratingComponent = article.additional.find(
+    component => component.__component === 'content.rating'
+  )
+  if (ratingComponent && ratingComponent.ratingnumber) {
+    // Runde nach unten für Filter: 4.5 wird zu 4
+    return Math.floor(parseFloat(ratingComponent.ratingnumber))
+  }
+  return null
+}
+
+// Computed filtered articles by rating
+const filteredArticlesByRating = computed(() => {
+  if (selectedRating.value === null) {
+    return articles.value
+  }
+
+  return articles.value.filter(article => {
+    const rating = getRatingFromArticle(article)
+    return rating === selectedRating.value
+  })
+})
+
+// Count articles per rating for button counters
+const ratingCounts = computed(() => {
+  const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+  
+  articles.value.forEach(article => {
+    const rating = getRatingFromArticle(article)
+    if (rating && rating >= 1 && rating <= 5) {
+      counts[rating]++
+    }
+  })
+  
+  return counts
+})
 
 // Fetch category data and build query for articles with deep population using qs
 const [categoryQueryObject, articlesQueryObject] = [

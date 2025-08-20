@@ -43,10 +43,10 @@
         v-html="renderedBody"
       />
       <Rating v-if="showRating" :rating="rating.ratingnumber" class="mt-6 block" />
-      
+
       <!-- Footnotes section positioned after Rating -->
-      <div 
-        v-if="footnotesSection && detail" 
+      <div
+        v-if="footnotesSection && detail"
         class="footnotes-container mt-6"
         v-html="footnotesSection"
       />
@@ -87,10 +87,10 @@
         v-html="renderedBody"
       />
       <Rating v-if="showRating" :rating="rating.ratingnumber" class="mt-6 block" />
-      
+
       <!-- Footnotes section positioned after Rating -->
-      <div 
-        v-if="footnotesSection && detail" 
+      <div
+        v-if="footnotesSection && detail"
         class="footnotes-container mt-6"
         v-html="footnotesSection"
       />
@@ -242,15 +242,15 @@ const parsedBody = computed(() => {
 
 const renderedBody = computed(() => {
   let html = marked.parse(parsedBody.value)
-  
+
   // Always remove footnotes section from the main content
   html = html.replace(/<section[^>]*class="[^"]*footnotes[^"]*"[^>]*>[\s\S]*?<\/section>/g, '')
-  
+
   // Add Umami events to footnote reference links
   if (!props.detail) {
     // For index view: Add events for links to detail page footnotes
     html = html.replace(
-      /<a([^>]*?)href="#footnote-([^"]+)"([^>]*?)>/g, 
+      /<a([^>]*?)href="#footnote-([^"]+)"([^>]*?)>/g,
       (match, beforeHref, footnoteId, afterHref) => {
         const newHref = `/blog/${props.post.slug}#footnote-${footnoteId}`
         return `<a${beforeHref}href="${newHref}"${afterHref} data-umami-event="footnote-click-to-detail" data-umami-event-footnote="${footnoteId}" data-umami-event-article="${props.post.title}">`
@@ -259,33 +259,33 @@ const renderedBody = computed(() => {
   } else {
     // For detail view: Add events for internal footnote navigation
     html = html.replace(
-      /<a([^>]*?)href="#footnote-([^"]+)"([^>]*?)>/g, 
+      /<a([^>]*?)href="#footnote-([^"]+)"([^>]*?)>/g,
       `<a$1href="#footnote-$2"$3 data-umami-event="footnote-click-internal" data-umami-event-footnote="$2" data-umami-event-article="${props.post.title}">`
     )
   }
-  
+
   return html
 })
 
 // Extract footnotes section for separate rendering
 const footnotesSection = computed(() => {
   if (!props.detail) return ''
-  
+
   let html = marked.parse(parsedBody.value)
   const footnotesMatch = html.match(/<section[^>]*class="[^"]*footnotes[^"]*"[^>]*>[\s\S]*?<\/section>/)
-  
+
   if (footnotesMatch) {
     let footnotesHtml = footnotesMatch[0]
-    
+
     // Add events to back reference links
     footnotesHtml = footnotesHtml.replace(
       /<a([^>]*?)href="#footnote-ref-([^"]+)"([^>]*?)data-footnote-backref([^>]*?)>/g,
       `<a$1href="#footnote-ref-$2"$3data-footnote-backref$4 data-umami-event="footnote-back-click" data-umami-event-footnote="$2" data-umami-event-article="${props.post.title}">`
     )
-    
+
     return footnotesHtml
   }
-  
+
   return ''
 })
 
