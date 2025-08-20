@@ -47,8 +47,9 @@
             Bestellen bei*:
           </div>
           <div class="flex flex-wrap gap-1 mb-1">
-            <ui-button
+            <a
               v-if="bookMeta.showGenialokalRef && bookMeta.genialokalRefUrl !== ''"
+              :to="bookMeta.showGenialokalRef"
               class="purchase-btn purchase-btn--genial"
               data-umami-event="article-click-ad"
               data-umami-event-ad-type="geniallokal"
@@ -60,8 +61,8 @@
             >
               <SimpleIcon name="book-open" size="10" class="text-green-600 mr-1" />
               Genialokal
-            </ui-button>
-            <ui-button
+            </a>
+            <a
               v-if="bookMeta.showAmazonRef && bookMeta.amazonRefUrl !== ''"
               class="purchase-btn purchase-btn--amazon"
               data-umami-event="article-click-ad"
@@ -74,7 +75,7 @@
             >
               <SimpleIcon name="amazon" size="10" class="text-orange-500 mr-1" />
               Amazon
-            </ui-button>
+            </a>
           </div>
           <p class="text-xs text-gray-500 leading-tight">
             *Partnerlinks - Ich bekomme einen kleinen Prozentsatz von den Händlern
