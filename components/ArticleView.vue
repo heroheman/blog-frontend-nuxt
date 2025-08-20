@@ -218,14 +218,18 @@ const parsedBody = computed(() => {
     // Reset regex to find all matches
     partnerLinkRegex.lastIndex = 0
 
-    // Replace partner links with footnote references
+    // Replace partner links with footnote references in markdown links
     content = content.replace(/(\[([^\]]*)\]\()(https?:\/\/)?(www\.)?(amazon\.de|amzn\.to|tidd\.ly)([^)]*)\)/gi, (match, linkStart, linkText, protocol, www, domain, path) => {
-      return `${linkStart}${protocol || 'https://'}${www || ''}${domain}${path})[^partnerlink]`
+      // Build the URL correctly, only add protocol if not present
+      const fullUrl = protocol ? `${protocol}${www || ''}${domain}${path}` : `https://${www || ''}${domain}${path}`
+      return `${linkStart}${fullUrl})[^partnerlink]`
     })
 
     // Also handle plain partner URLs that aren't in markdown link format
     content = content.replace(/(?<!\]\()(https?:\/\/)?(www\.)?(amazon\.de|amzn\.to|tidd\.ly)([^\s\)]*)/gi, (match, protocol, www, domain, path) => {
-      return `${protocol || 'https://'}${www || ''}${domain}${path}[^partnerlink]`
+      // Build the URL correctly, only add protocol if not present
+      const fullUrl = protocol ? `${protocol}${www || ''}${domain}${path}` : `https://${www || ''}${domain}${path}`
+      return `${fullUrl}[^partnerlink]`
     })
 
     // Add the partner link footnote definition
@@ -241,7 +245,7 @@ const parsedBody = computed(() => {
 })
 
 const renderedBody = computed(() => {
-  let html = marked.parse(parsedBody.value)
+  let html = cachedHtml.value
 
   // Always remove footnotes section from the main content
   html = html.replace(/<section[^>]*class="[^"]*footnotes[^"]*"[^>]*>[\s\S]*?<\/section>/g, '')
@@ -267,12 +271,14 @@ const renderedBody = computed(() => {
   return html
 })
 
+// Store the parsed HTML to avoid double parsing
+const cachedHtml = computed(() => marked.parse(parsedBody.value))
+
 // Extract footnotes section for separate rendering
 const footnotesSection = computed(() => {
   if (!props.detail) return ''
 
-  let html = marked.parse(parsedBody.value)
-  const footnotesMatch = html.match(/<section[^>]*class="[^"]*footnotes[^"]*"[^>]*>[\s\S]*?<\/section>/)
+  const footnotesMatch = cachedHtml.value.match(/<section[^>]*class="[^"]*footnotes[^"]*"[^>]*>[\s\S]*?<\/section>/)
 
   if (footnotesMatch) {
     let footnotesHtml = footnotesMatch[0]
