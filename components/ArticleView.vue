@@ -175,6 +175,15 @@ const parsedBody = computed(() => {
     return cloudinaryUrl + a
   })
 
+  // Check if we need a partner link footnote
+  let hasPartnerLink = false
+  const partnerLinkRegex = /(https?:\/\/)?(www\.)?(amazon\.de|amzn\.to|tidd\.ly)/gi
+
+  // Check if content contains Amazon or tidd.ly links
+  if (partnerLinkRegex.test(content)) {
+    hasPartnerLink = true
+  }
+
   // Convert inline footnotes ^[text] to GFM footnote syntax
   inlineFootnoteCounter = 0
   const footnoteDefinitions = []
@@ -189,6 +198,25 @@ const parsedBody = computed(() => {
     // Return the footnote reference
     return `[^${footnoteId}]`
   })
+
+  // Add partner link footnotes to all partner links
+  if (hasPartnerLink) {
+    // Reset regex to find all matches
+    partnerLinkRegex.lastIndex = 0
+
+    // Replace partner links with footnote references
+    content = content.replace(/(\[([^\]]*)\]\()(https?:\/\/)?(www\.)?(amazon\.de|amzn\.to|tidd\.ly)([^)]*)\)/gi, (match, linkStart, linkText, protocol, www, domain, path) => {
+      return `${linkStart}${protocol || 'https://'}${www || ''}${domain}${path})[^partnerlink]`
+    })
+
+    // Also handle plain partner URLs that aren't in markdown link format
+    content = content.replace(/(?<!\]\()(https?:\/\/)?(www\.)?(amazon\.de|amzn\.to|tidd\.ly)([^\s\)]*)/gi, (match, protocol, www, domain, path) => {
+      return `${protocol || 'https://'}${www || ''}${domain}${path}[^partnerlink]`
+    })
+
+    // Add the partner link footnote definition
+    footnoteDefinitions.push('[^partnerlink]: Partnerlink')
+  }
 
   // Add all footnote definitions at the end
   if (footnoteDefinitions.length > 0) {
