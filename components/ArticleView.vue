@@ -228,19 +228,34 @@ const parsedBody = computed(() => {
 
 const renderedBody = computed(() => {
   let html = marked.parse(parsedBody.value)
-  
-  // If we're not in detail view, modify footnote links to point to detail page
+
+  // Add Umami events to footnote reference links
   if (!props.detail) {
-    // Replace footnote reference links to point to detail page with footnote anchor
+    // For index view: Add events for links to detail page footnotes
     html = html.replace(
-      /href="#footnote-([^"]+)"/g, 
-      `href="/blog/${props.post.slug}#footnote-$1"`
+      /<a([^>]*?)href="#footnote-([^"]+)"([^>]*?)>/g,
+      (match, beforeHref, footnoteId, afterHref) => {
+        const newHref = `/blog/${props.post.slug}#footnote-${footnoteId}`
+        return `<a${beforeHref}href="${newHref}"${afterHref} data-umami-event="footnote-click-to-detail" data-umami-event-footnote="${footnoteId}" data-umami-event-article="${props.post.title}">`
+      }
     )
-    
+
     // Remove the footnotes section completely in index view
     html = html.replace(/<section[^>]*class="[^"]*footnotes[^"]*"[^>]*>[\s\S]*?<\/section>/g, '')
+  } else {
+    // For detail view: Add events for internal footnote navigation
+    html = html.replace(
+      /<a([^>]*?)href="#footnote-([^"]+)"([^>]*?)>/g,
+      `<a$1href="#footnote-$2"$3 data-umami-event="footnote-click-internal" data-umami-event-footnote="$2" data-umami-event-article="${props.post.title}">`
+    )
+
+    // Add events to back reference links
+    html = html.replace(
+      /<a([^>]*?)href="#footnote-ref-([^"]+)"([^>]*?)data-footnote-backref([^>]*?)>/g,
+      `<a$1href="#footnote-ref-$2"$3data-footnote-backref$4 data-umami-event="footnote-back-click" data-umami-event-footnote="$2" data-umami-event-article="${props.post.title}">`
+    )
   }
-  
+
   return html
 })
 
