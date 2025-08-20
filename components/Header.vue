@@ -104,7 +104,7 @@
   <header
     class="pt-8 border-b border-solid border-gray-200 pb-4"
     :class="{
-      'border-b-0 pb-16 md:pb-2': isPost || isCategory || isBlogIndexCompact,
+      'border-b-0 pb-16 md:pb-2': isPost || isCategory || isBlogIndexCompact || isIndex,
     }"
   >
     <!-- Desktop Header Layout -->
@@ -205,7 +205,7 @@
       </div>
 
       <!-- Second Row: Slogan (conditionally shown) -->
-      <div v-if="!(isPost || isCategory || isBlogIndexCompact) && settings.Phrases && settings.Phrases.length" class="mt-4">
+      <div v-if="!(isPost || isCategory || isBlogIndexCompact || isIndex) && settings.Phrases && settings.Phrases.length" class="mt-4">
         <div class="text-xl italic text-gray-600">
           <span v-if="randomHeadNumber < 2">
             {{ settings.Phrases[0].phrase }}
@@ -234,7 +234,7 @@
         </h1>
       </nuxt-link>
 
-      <div v-if="!(isPost || isCategory || isBlogIndexCompact) && settings.Phrases && settings.Phrases.length" class="text-lg italic text-gray-600">
+      <div v-if="!(isPost || isCategory || isBlogIndexCompact || isIndex) && settings.Phrases && settings.Phrases.length" class="text-lg italic text-gray-600">
         <span v-if="randomHeadNumber < 2">
           {{ settings.Phrases[0].phrase }}
         </span>
@@ -277,6 +277,10 @@ const isPost = computed(() => route?.name === 'blog-slug' || (route?.path?.start
 
 const isCategory = computed(() => {
   return route?.name && ['category-category', 'series-series', 'category', 'genre-book', 'genre-book-bookgenre', 'author-author', 'author'].includes(route.name)
+})
+
+const isIndex = computed(() => {
+  return route?.name && ['series-index', 'author-index', 'genre-book-index'].includes(route.name)
 })
 
 const isBlogIndexCompact = computed(() => route?.name === 'blog')
