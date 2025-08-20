@@ -214,7 +214,7 @@ p {
 
     li {
       @apply mb-4;
-
+      
       p {
         font-size: 12px;
         @apply mb-2;
@@ -235,7 +235,11 @@ p {
   }
 }
 
-ul,
+/* Hide footnotes section in article previews/index view */
+.article-preview .footnotes,
+.article-preview .footnotes-section {
+  display: none;
+}ul,
 ol {
   @apply pl-6;
   & li {

@@ -227,7 +227,21 @@ const parsedBody = computed(() => {
 })
 
 const renderedBody = computed(() => {
-  return marked.parse(parsedBody.value)
+  let html = marked.parse(parsedBody.value)
+  
+  // If we're not in detail view, modify footnote links to point to detail page
+  if (!props.detail) {
+    // Replace footnote reference links to point to detail page with footnote anchor
+    html = html.replace(
+      /href="#footnote-([^"]+)"/g, 
+      `href="/blog/${props.post.slug}#footnote-$1"`
+    )
+    
+    // Remove the footnotes section completely in index view
+    html = html.replace(/<section[^>]*class="[^"]*footnotes[^"]*"[^>]*>[\s\S]*?<\/section>/g, '')
+  }
+  
+  return html
 })
 
 const rating = computed(() => {
