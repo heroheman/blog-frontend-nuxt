@@ -176,25 +176,57 @@ p {
   font-style: normal;
 }
 
-.footnote-ref a {
+/* Footnote references in text */
+.footnote-ref a,
+[data-footnote-ref] {
   @apply text-xs italic relative;
   font-size: 10px;
   top: 0;
   font-weight: 400;
+  text-decoration: none;
+  color: inherit;
 }
 
+/* Footnotes separator */
 .footnotes-sep {
   @apply mb-4;
 }
 
-.footnotes {
-  @apply relative text-xs;
+/* Footnotes section */
+.footnotes,
+.footnotes-section {
+  @apply relative text-xs mt-8 pt-6;
+  border-top: 1px solid theme('colors.gray.300');
 
-  & ol {
+  /* Footnotes heading (sr-only by default) */
+  h2 {
+    @apply sr-only;
+  }
+
+  /* Footnotes list */
+  ol {
     list-style-type: decimal;
+    @apply pl-6;
 
-    & li p {
-      font-size: 12px;
+    li {
+      @apply mb-4;
+      
+      p {
+        font-size: 12px;
+        @apply mb-2;
+      }
+    }
+  }
+
+  /* Back reference links */
+  [data-footnote-backref] {
+    @apply ml-2 text-xs;
+    color: theme('colors.blue.600');
+    text-decoration: none;
+
+    &:hover {
+      color: theme('colors.blue.800');
+      text-decoration: underline;
     }
   }
 }

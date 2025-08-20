@@ -119,9 +119,23 @@
 
 <script setup>
 import { computed } from 'vue'
-import { marked } from 'marked'
+import { Marked } from 'marked'
+import markedFootnote from 'marked-footnote'
 import { formatDate, hasProperty } from '~/utils/helper'
 import Rating from '~/components/Rating.vue'
+
+// Create marked instance with footnote extension
+const marked = new Marked()
+  .use(markedFootnote({
+    prefixId: 'footnote-',
+    refMarkers: true, // Use square brackets around footnote references
+    footnoteDivider: false, // We handle the divider with CSS
+    sectionClass: 'footnotes', // Use your existing CSS class
+    headingClass: 'sr-only'
+  }))
+
+// Counter for inline footnotes
+let inlineFootnoteCounter = 0
 
 const props = defineProps({
   post: {
@@ -161,11 +175,31 @@ const parsedBody = computed(() => {
     return cloudinaryUrl + a
   })
 
+  // Convert inline footnotes ^[text] to GFM footnote syntax
+  inlineFootnoteCounter = 0
+  const footnoteDefinitions = []
+
+  content = content.replace(/\^\[([^\]]+)\]/g, (match, footnoteText) => {
+    inlineFootnoteCounter++
+    const footnoteId = `inline${inlineFootnoteCounter}`
+
+    // Collect footnote definitions
+    footnoteDefinitions.push(`[^${footnoteId}]: ${footnoteText}`)
+
+    // Return the footnote reference
+    return `[^${footnoteId}]`
+  })
+
+  // Add all footnote definitions at the end
+  if (footnoteDefinitions.length > 0) {
+    content += '\n\n' + footnoteDefinitions.join('\n\n')
+  }
+
   return content
 })
 
 const renderedBody = computed(() => {
-  return marked(parsedBody.value)
+  return marked.parse(parsedBody.value)
 })
 
 const rating = computed(() => {

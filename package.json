@@ -19,6 +19,7 @@
   "dependencies": {
     "lite-youtube-embed": "^0.2.0",
     "marked": "^15.0.12",
+    "marked-footnote": "^1.4.0",
     "nuxt": "^3.17.5",
     "qs": "^6.14.0"
   },
