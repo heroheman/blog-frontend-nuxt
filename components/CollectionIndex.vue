@@ -38,7 +38,7 @@
 
       <div v-else class="flex flex-wrap gap-2 sm:gap-3 mb-12">
         <nuxt-link
-          v-for="(item, index) in props.collection"
+          v-for="(item, index) in sortedCollection"
           :key="index"
           :to="`${props.linkPath}/${item.slug}`"
           class="inline-flex items-center gap-1.5 px-3 py-1.5 text-gray-700 hover:text-gray-900 text-sm font-meta rounded-full transition-colors duration-200"
