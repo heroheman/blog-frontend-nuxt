@@ -201,14 +201,14 @@ const filteredArticlesByRating = computed(() => {
 // Count articles per rating for button counters
 const ratingCounts = computed(() => {
   const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
-  
+
   articles.value.forEach(article => {
     const rating = getRatingFromArticle(article)
     if (rating && rating >= 1 && rating <= 5) {
       counts[rating]++
     }
   })
-  
+
   return counts
 })
 
@@ -246,7 +246,7 @@ const [categoryQueryObject, articlesQueryObject] = [
     },
     sort: 'display_published_date:desc',
     pagination: {
-      pageSize: 100
+      pageSize: 400
     }
   }
 ]
