@@ -20,9 +20,9 @@ book_genres:
   - Non-Fiktion
   - Natur
   - Kultur
-book_series: 
+book_series:
   - "Das Evangelium der Aale"
-book_author: 
+book_author:
   - "Markus Müller"
 isbn: "978-3-446-26792-0"
 amazon_url: "https://amzn.to/31oSxUN"
