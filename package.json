@@ -12,6 +12,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
+    "generate-markdown": "node scripts/generate-markdown.js",
     "lint:js": "echo 'ESLint temporarily disabled due to dependency conflicts. Site functionality is working correctly.'",
     "lint": "npm run lint:js",
     "generateFragments": "graphql-codegen"
