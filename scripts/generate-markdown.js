@@ -190,6 +190,32 @@ const generateMarkdownContent = (post) => {
   return frontmatter + body
 }
 
+// Helper function to sanitize category name for directory
+const sanitizeCategoryName = (categoryName) => {
+  if (!categoryName) return 'uncategorized'
+
+  // Handle category objects
+  let name = categoryName
+  if (typeof categoryName === 'object' && categoryName !== null) {
+    name = categoryName.name || categoryName.title || 'uncategorized'
+  }
+
+  // Ensure we have a string
+  name = String(name)
+
+  return name
+    .toLowerCase()
+    // Replace umlauts
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
+    // Replace other special characters
+    .replace(/[^a-z0-9\-_.]/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
 // Main function to generate markdown files
 const generateMarkdownFiles = async () => {
   const BLOG_EP = process.env.STRAPI_URL || 'https://flrnz.strapi.florenz.dev'
@@ -204,9 +230,7 @@ const generateMarkdownFiles = async () => {
     } catch {
       await fs.mkdir(contentDir, { recursive: true })
       console.log('📁 Created content directory')
-    }
-
-    // Fetch all articles from Strapi API
+    }    // Fetch all articles from Strapi API
     console.log('📡 Fetching articles from API...')
     const response = await fetch(`${BLOG_EP}/api/articles?populate=*&pagination[pageSize]=200&sort=display_published_date:DESC`)
 
@@ -226,6 +250,7 @@ const generateMarkdownFiles = async () => {
     // Generate markdown files
     let successCount = 0
     let errorCount = 0
+    const createdDirectories = new Set()
 
     for (const post of posts) {
       try {
@@ -234,22 +259,35 @@ const generateMarkdownFiles = async () => {
           continue
         }
 
+        // Determine category directory
+        const categoryName = sanitizeCategoryName(post.category?.name || post.category)
+        const categoryDir = path.join(contentDir, categoryName)
+
+        // Create category directory if it doesn't exist
+        if (!createdDirectories.has(categoryName)) {
+          try {
+            await fs.access(categoryDir)
+          } catch {
+            await fs.mkdir(categoryDir, { recursive: true })
+            console.log(`📁 Created category directory: ${categoryName}`)
+          }
+          createdDirectories.add(categoryName)
+        }
+
         const filename = `${sanitizeFilename(post.slug)}.md`
-        const filepath = path.join(contentDir, filename)
+        const filepath = path.join(categoryDir, filename)
         const content = generateMarkdownContent(post)
 
         await fs.writeFile(filepath, content, 'utf8')
 
-        console.log(`✅ Generated: ${filename}`)
+        console.log(`✅ Generated: ${categoryName}/${filename}`)
         successCount++
 
       } catch (error) {
         console.error(`❌ Error generating file for "${post.title}":`, error)
         errorCount++
       }
-    }
-
-    console.log('\n🎉 Markdown generation completed!')
+    }    console.log('\n🎉 Markdown generation completed!')
     console.log(`✅ Successfully generated: ${successCount} files`)
     if (errorCount > 0) {
       console.log(`❌ Errors: ${errorCount} files`)
