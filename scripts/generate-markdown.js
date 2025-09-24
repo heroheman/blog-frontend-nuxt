@@ -77,6 +77,7 @@ const generateFrontmatter = (post) => {
     createdAt: formatDateForFrontmatter(post.createdAt),
     updatedAt: formatDateForFrontmatter(post.updatedAt),
     display_published_date: formatDateForFrontmatter(post.display_published_date),
+    draft: true,
     tags: tags.length > 0 ? tags : null,
     cover_url: post.cover_url || null,
     category_id: post.category?.id || null,
@@ -216,7 +217,32 @@ const sanitizeCategoryName = (categoryName) => {
     .replace(/^-|-$/g, '')
 }
 
-// Main function to generate markdown files
+// Helper function to clean content directory
+const cleanContentDirectory = async (contentDir) => {
+  try {
+    const items = await fs.readdir(contentDir)
+
+    for (const item of items) {
+      const itemPath = path.join(contentDir, item)
+      const stat = await fs.stat(itemPath)
+
+      if (stat.isDirectory()) {
+        // Remove directory and all its contents
+        await fs.rm(itemPath, { recursive: true, force: true })
+        console.log(`🗑️  Removed directory: ${item}`)
+      } else if (item.endsWith('.md')) {
+        // Remove markdown files
+        await fs.unlink(itemPath)
+        console.log(`🗑️  Removed file: ${item}`)
+      }
+    }
+  } catch (error) {
+    // Directory doesn't exist or is empty, that's fine
+    if (error.code !== 'ENOENT') {
+      console.warn(`⚠️  Warning cleaning content directory: ${error.message}`)
+    }
+  }
+}// Main function to generate markdown files
 const generateMarkdownFiles = async () => {
   const BLOG_EP = process.env.STRAPI_URL || 'https://flrnz.strapi.florenz.dev'
   const contentDir = path.resolve(process.cwd(), 'content')
@@ -230,7 +256,13 @@ const generateMarkdownFiles = async () => {
     } catch {
       await fs.mkdir(contentDir, { recursive: true })
       console.log('📁 Created content directory')
-    }    // Fetch all articles from Strapi API
+    }
+
+    // Clean existing content
+    console.log('🧹 Cleaning existing content...')
+    await cleanContentDirectory(contentDir)
+
+    // Fetch all articles from Strapi API
     console.log('📡 Fetching articles from API...')
     const response = await fetch(`${BLOG_EP}/api/articles?populate=*&pagination[pageSize]=200&sort=display_published_date:DESC`)
 
