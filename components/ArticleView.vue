@@ -82,6 +82,28 @@
         />
       </header>
 
+      <!-- Localization notice: link to English version -->
+      <div
+        v-if="englishLocalization"
+        class="mb-8 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 flex items-center gap-3"
+      >
+        <svg class="shrink-0 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 0 1 6.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+        </svg>
+        <span>This article is also available in English: <nuxt-link :to="`/blog/en/${englishLocalization.slug}`" class="font-medium underline underline-offset-2 hover:text-gray-900 transition-colors">Read the English version</nuxt-link></span>
+      </div>
+
+      <!-- Backlink: German original version -->
+      <div
+        v-if="germanLocalization"
+        class="mb-8 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 flex items-center gap-3"
+      >
+        <svg class="shrink-0 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 0 1 6.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+        </svg>
+        <span>This is the English version. Read the original: <nuxt-link :to="`/blog/${germanLocalization.slug}`" class="font-medium underline underline-offset-2 hover:text-gray-900 transition-colors">Deutsche Version</nuxt-link></span>
+      </div>
+
       <div
         class="prose sm:prose-lg max-w-none e-content"
         v-html="renderedBody"
@@ -397,5 +419,17 @@ const advertisement = computed(() => {
 const bodyText = computed(() => {
   const text = props.post.body.split('<!--more-->')
   return text
+})
+
+const englishLocalization = computed(() => {
+  const locs = props.post.localizations
+  if (!Array.isArray(locs) || locs.length === 0) return null
+  return locs.find((l) => l.locale === 'en') || null
+})
+
+const germanLocalization = computed(() => {
+  const locs = props.post.localizations
+  if (!Array.isArray(locs) || locs.length === 0) return null
+  return locs.find((l) => l.locale === 'de') || null
 })
 </script>

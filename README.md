@@ -22,11 +22,12 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ## use with live
 - start local strapi with pnpm run dev-prod
 - `ssh flrnz@desdemonia.uberspace.de -L 5432:127.0.0.1:5432` with correct port
+- ssh root@116.203.235.213  -L 5432:127.0.0.1:5432
 - nvm 16.20.2 für nuxt... 
 
 ## Todo
-- [ ] upgrade to nuxt 3
-- [ ] upgrade umami?
-- [ ] upgrade tailwind
+- [x] upgrade to nuxt 3
+- [x] upgrade umami?
+- [x] upgrade tailwind
 - [x] mastodon auth
-- [ ] seo optim
+- [x] seo optim

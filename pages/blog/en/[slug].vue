@@ -8,5 +8,5 @@
 </template>
 
 <script setup>
-const { article, objIsNotEmpty } = await useArticlePage({ locale: 'de' })
+const { article, objIsNotEmpty } = await useArticlePage({ locale: 'en' })
 </script>
