@@ -6,6 +6,3 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import image gallery and lightbox styles */
-@import './image-gallery.css';
-@import './lightbox.css';
