@@ -58,9 +58,12 @@ import { computed } from 'vue'
 
 const props = defineProps({
   rating: {
-    type: Number,
+    type: [Number, String],
     required: true,
-    validator: (value) => value >= 0 && value <= 5,
+    validator: (value) => {
+      const num = Number(value)
+      return !isNaN(num) && num >= 0 && num <= 5
+    },
   },
   compact: {
     type: Boolean,
@@ -77,6 +80,7 @@ const props = defineProps({
 })
 
 const roundedRating = computed(() => {
-  return Math.ceil(props.rating * 2) / 2
+  const numRating = Number(props.rating)
+  return Math.ceil(numRating * 2) / 2
 })
 </script>
