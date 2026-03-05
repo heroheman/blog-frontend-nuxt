@@ -20,6 +20,8 @@
 </template>
 
 <script setup>
+import qs from 'qs'
+
 const route = useRoute()
 const { public: { strapiUrl } } = useRuntimeConfig()
 
@@ -37,15 +39,35 @@ watch(() => route.params.page, (newPage) => {
 // Compute pagination start
 const start = computed(() => page.value * per_page)
 
+const INDEX_POPULATE = {
+  author: true,
+  bookseries: true,
+  genre_books: true,
+  cover: true,
+  category: true,
+  localizations: { fields: ['slug', 'locale'] },
+  additional: {
+    on: {
+      'external-api.book-container': {
+        populate: { bookmeta: { populate: ['cover'] } }
+      },
+      'content.rating': { populate: '*' },
+    }
+  },
+}
+
 // Fetch articles data
-const { data: response, pending } = await useFetch('/api/articles', {
-  baseURL: strapiUrl,
-  query: {
-    populate: '*',
+const queryUrl = computed(() =>
+  `/api/articles?${qs.stringify({
+    populate: INDEX_POPULATE,
     sort: 'display_published_date:DESC',
-    'pagination[start]': start,
-    'pagination[limit]': per_page
-  }
+    'pagination[start]': start.value,
+    'pagination[limit]': per_page,
+  }, { encodeValuesOnly: true })}`
+)
+
+const { data: response, pending } = await useFetch(queryUrl, {
+  baseURL: strapiUrl,
 })
 
 const articles = computed(() => response.value?.data || [])

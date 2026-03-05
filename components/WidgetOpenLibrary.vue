@@ -1,5 +1,56 @@
 <template>
-  <div v-if="isLoaded" class="book-widget">
+  <!-- Compact teaser version -->
+  <div v-if="isLoaded && compact" class="book-widget">
+    <div class="flex flex-row gap-2.5 items-center p-1">
+      <img
+        loading="lazy"
+        :src="getBookImage()"
+        :alt="`Cover: ${metadata.title}`"
+        class="w-8 h-auto rounded object-cover flex-shrink-0 shadow-sm"
+      />
+      <div class="flex-1 min-w-0">
+        <div class="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 mb-1.5">
+          <span class="text-base font-head font-semibold text-gray-900 leading-tight">{{ metadata.title }}</span>
+          <span
+            v-if="metadata.authors && metadata.authors.length"
+            class="text-xs text-gray-500 font-meta leading-tight"
+          >{{ metadata.authors[0].name }}</span>
+        </div>
+        <div v-if="bookMeta.showAmazonRef || bookMeta.showGenialokalRef" class="flex flex-wrap items-center gap-1">
+            <a
+              v-if="bookMeta.showGenialokalRef && bookMeta.genialokalRefUrl !== ''"
+              :href="bookMeta.genialokalRefUrl"
+              class="purchase-btn purchase-btn--genial"
+              data-umami-event="article-click-ad"
+              data-umami-event-ad-type="geniallokal"
+              :data-umami-event-ad-book="metadata.title"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <SimpleIcon name="book-open" size="10" class="text-green-600 mr-1" />
+              Genialokal
+            </a>
+            <a
+              v-if="bookMeta.showAmazonRef && bookMeta.amazonRefUrl !== ''"
+              :href="bookMeta.amazonRefUrl"
+              class="purchase-btn purchase-btn--amazon"
+              data-umami-event="article-click-ad"
+              data-umami-event-ad-type="amazon"
+              :data-umami-event-ad-book="metadata.title"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <SimpleIcon name="amazon" size="10" class="text-orange-500 mr-1" />
+              Amazon
+            </a>
+            <span class="text-xs text-gray-400">*Partnerlinks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full version -->
+  <div v-else-if="isLoaded && !compact" class="book-widget">
     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-start p-4">
       <div class="book-cover flex-shrink-0 sm:w-20 !m-0">
         <img
@@ -100,6 +151,10 @@ export default {
       type: Object,
       required: true,
       default: () => {},
+    },
+    compact: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

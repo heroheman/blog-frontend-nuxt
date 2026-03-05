@@ -9,13 +9,13 @@
     <!-- Startpage layout -->
     <template v-if="!detail">
       <header class="mb-6 sm:mb-8">
-        <time
+        <!-- <time
           v-if="post.display_published_date"
           class="block text-sm sm:text-base text-gray-500 font-meta mb-2 sm:mb-3"
           :datetime="post.display_published_date"
         >
           {{ formatDate(post.display_published_date) }}
-        </time>
+        </time> -->
 
         <nuxt-link
           :to="`/blog/${post.slug}`"
@@ -65,6 +65,14 @@
           </svg>
         </nuxt-link>
       </footer>
+
+      <ClientOnly>
+        <widget-open-library-list
+          v-if="isbnWrapped && isbnWrapped.length > 0 && isbnWrapped[0].bookmeta"
+          :books="isbnWrapped[0].bookmeta"
+          compact
+        />
+      </ClientOnly>
     </template>
 
     <!-- Detail page layout -->
@@ -519,9 +527,7 @@ const showRating = computed(() => {
 
 const isbnWrapped = computed(() => {
   if (hasProperty(props.post, 'additional') && props.post.additional.length) {
-    if (hasExcerpt.value && !props.detail) {
-      return false
-    } else {
+    {
       // Look for both book container types
       const bookComponents = props.post.additional.filter(
         (addi) => addi.__component === 'external-api.book-container' ||

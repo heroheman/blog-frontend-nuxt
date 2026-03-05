@@ -1,9 +1,10 @@
 <template>
-  <div class="books-section">
+  <div :class="compact ? 'books-section--compact' : 'books-section'">
     <widget-open-library
       v-for="(book, index) in books"
       :key="index"
       :book-meta="book"
+      :compact="compact"
       class="book-item"
     />
   </div>
@@ -19,6 +20,10 @@ export default {
       required: true,
       default: () => [],
     },
+    compact: {
+      type: Boolean,
+      default: false,
+    },
   },
 }
 </script>
@@ -26,6 +31,14 @@ export default {
 <style lang="postcss" scoped>
 .books-section {
   @apply mt-8 space-y-6;
+}
+
+.books-section--compact {
+  @apply mt-3 flex flex-wrap gap-2;
+}
+
+.books-section--compact .book-item {
+  @apply flex-1 min-w-48;
 }
 
 .book-item {
