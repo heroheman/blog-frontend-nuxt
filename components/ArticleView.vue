@@ -84,7 +84,7 @@
 
       <!-- Localization notice: link to English version -->
       <div
-        v-if="englishLocalization"
+        v-if="showLocalization && englishLocalization"
         class="mb-8 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 flex items-center gap-3"
       >
         <svg class="shrink-0 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,7 +95,7 @@
 
       <!-- Backlink: German original version -->
       <div
-        v-if="germanLocalization"
+        v-if="showLocalization && germanLocalization"
         class="mb-8 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 flex items-center gap-3"
       >
         <svg class="shrink-0 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -241,6 +241,10 @@ const props = defineProps({
     default: () => {},
   },
   detail: {
+    type: Boolean,
+    default: false,
+  },
+  showLocalization: {
     type: Boolean,
     default: false,
   },

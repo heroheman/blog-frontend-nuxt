@@ -30,9 +30,11 @@ const { data: response } = await useFetch('/api/authors', {
 if (response.value?.data?.[0]) {
   const author = response.value.data[0]
   authorData.value = author
-  articles.value = author.articles ? author.articles.sort((a, b) => {
-    return new Date(b.display_published_date).getTime() - new Date(a.display_published_date).getTime()
-  }) : []
+  articles.value = author.articles ? author.articles
+    .filter(a => !a.locale || a.locale === 'de')
+    .sort((a, b) => {
+      return new Date(b.display_published_date).getTime() - new Date(a.display_published_date).getTime()
+    }) : []
 } else {
   articles.value = []
 }

@@ -28,9 +28,11 @@ const { data: response } = await useFetch('/api/genre-books', {
 
 if (response.value?.data?.[0]) {
   const genre = response.value.data[0]
-  articles.value = genre.articles ? genre.articles.sort((a, b) => {
-    return new Date(b.display_published_date).getTime() - new Date(a.display_published_date).getTime()
-  }) : []
+  articles.value = genre.articles ? genre.articles
+    .filter(a => !a.locale || a.locale === 'de')
+    .sort((a, b) => {
+      return new Date(b.display_published_date).getTime() - new Date(a.display_published_date).getTime()
+    }) : []
 } else {
   articles.value = []
 }

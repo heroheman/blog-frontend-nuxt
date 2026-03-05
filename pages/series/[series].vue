@@ -45,9 +45,11 @@ if (response.value?.data?.[0]) {
   const series = response.value.data[0]
   title.value = series.title
   description.value = series.description
-  articles.value = series.articles ? series.articles.sort((a, b) => {
-    return new Date(b.display_published_date).getTime() - new Date(a.display_published_date).getTime()
-  }) : []
+  articles.value = series.articles ? series.articles
+    .filter(a => !a.locale || a.locale === 'de')
+    .sort((a, b) => {
+      return new Date(b.display_published_date).getTime() - new Date(a.display_published_date).getTime()
+    }) : []
 } else {
   title.value = ''
   description.value = ''
