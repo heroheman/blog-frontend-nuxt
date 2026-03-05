@@ -52,14 +52,14 @@
   <!-- Full version -->
   <div v-else-if="isLoaded && !compact" class="book-widget">
     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-start p-4">
-      <div class="book-cover flex-shrink-0 sm:w-20 !m-0">
+      <div class="book-cover flex-shrink-0 sm:w-24 !m-0">
         <img
         style="margin: 0 !important;"
           loading="lazy"
           :src="getBookImage()"
           :alt="`Cover: ${metadata.title}`"
           :title="`Bookcover: ${metadata.title}`"
-          class="w-20 h-auto sm:w-16 rounded object-cover shadow-sm m-0"
+          class="w-24 h-auto sm:w-24 rounded object-cover shadow-sm m-0"
         />
       </div>
 
