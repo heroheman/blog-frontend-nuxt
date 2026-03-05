@@ -54,6 +54,20 @@
           </nuxt-link>
         </span>
       </div>
+
+      <div v-if="englishSlug" class="flex items-center gap-1">
+        <span class="text-gray-400">•</span>
+        <nuxt-link
+          :to="`/blog/en/${englishSlug}`"
+          class="inline-flex items-center gap-1 text-gray-500 hover:text-gray-700 transition-colors duration-200"
+          data-umami-event="index-read-english"
+        >
+          <svg class="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 0 1 6.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+          </svg>
+          Show in English
+        </nuxt-link>
+      </div>
     </div>
   </div>
 </template>
@@ -78,6 +92,10 @@ export default {
     bookgenre: {
       type: Array,
       default: () => [],
+    },
+    englishSlug: {
+      type: String,
+      default: '',
     },
   },
   data() {

@@ -34,6 +34,7 @@
           :author="post.author"
           :series="post.bookseries"
           :bookgenre="post.genre_books"
+          :english-slug="englishLocalization?.slug || ''"
         />
       </header>
 
