@@ -1,0 +1,227 @@
+/* ─────────────────────────────────────────
+   LIGHTBOX OVERLAY
+   Full-screen dark backdrop with smooth fade
+   ───────────────────────────────────────── */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: lightbox-fade-in 0.3s ease forwards;
+  cursor: zoom-out;
+}
+
+@keyframes lightbox-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+.lightbox-overlay.closing {
+  animation: lightbox-fade-out 0.3s ease forwards;
+}
+
+@keyframes lightbox-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────
+   LIGHTBOX IMAGE CONTAINER
+   Centers and sizes image properly
+   ───────────────────────────────────────── */
+.lightbox-image-container {
+  position: relative;
+  max-width: 90%;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.lightbox-image-container img {
+  max-width: 100%;
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  cursor: default;
+  transform: scale(0.95);
+  animation: lightbox-zoom-in 0.3s ease forwards;
+}
+
+@keyframes lightbox-zoom-in {
+  to {
+    transform: scale(1);
+  }
+}
+
+.lightbox-overlay.closing img {
+  animation: lightbox-zoom-out 0.3s ease forwards;
+}
+
+@keyframes lightbox-zoom-out {
+  to {
+    transform: scale(0.95);
+  }
+}
+
+/* ─────────────────────────────────────────
+   NAVIGATION BUTTONS
+   Left/Right arrows for gallery navigation
+   ───────────────────────────────────────── */
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 10001;
+}
+
+.lightbox-nav:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-nav:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.lightbox-nav.prev {
+  left: 20px;
+}
+
+.lightbox-nav.next {
+  right: 20px;
+}
+
+.lightbox-nav svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Hide nav buttons when only one image */
+.lightbox-nav.hidden {
+  display: none;
+}
+
+/* ─────────────────────────────────────────
+   CLOSE BUTTON
+   X button in top-right corner
+   ───────────────────────────────────────── */
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 10001;
+}
+
+.lightbox-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.lightbox-close:active {
+  transform: scale(0.95);
+}
+
+.lightbox-close svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ─────────────────────────────────────────
+   IMAGE COUNTER
+   Shows current position in gallery (1/5)
+   ───────────────────────────────────────── */
+.lightbox-counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: none;
+  z-index: 10001;
+}
+
+/* ─────────────────────────────────────────
+   MOBILE RESPONSIVE
+   Adjust sizing and button placement
+   ───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .lightbox-image-container {
+    max-width: 95%;
+  }
+
+  .lightbox-nav {
+    width: 40px;
+    height: 40px;
+  }
+
+  .lightbox-nav.prev {
+    left: 10px;
+  }
+
+  .lightbox-nav.next {
+    right: 10px;
+  }
+
+  .lightbox-close {
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .lightbox-counter {
+    bottom: 10px;
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+/* ─────────────────────────────────────────
+   PREVENT BODY SCROLL
+   When lightbox is open
+   ───────────────────────────────────────── */
+body.lightbox-open {
+  overflow: hidden;
+}

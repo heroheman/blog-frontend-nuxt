@@ -105,7 +105,7 @@
       </div>
 
       <div
-        class="prose sm:prose-lg max-w-none e-content"
+        class="prose sm:prose-lg max-w-none e-content article-content"
         v-html="renderedBody"
       />
       <Rating v-if="showRating" :rating="rating.ratingnumber" class="mt-6 block" />
@@ -151,10 +151,72 @@
       hidden="from-humans"
     ></a>
   </article>
+
+  <!-- Lightbox -->
+  <Teleport to="body">
+    <Transition name="lightbox">
+      <div
+        v-if="isLightboxOpen"
+        class="lightbox-overlay"
+        :class="{ closing: isClosing }"
+        @click.self="closeLightbox"
+      >
+        <!-- Close button -->
+        <button
+          class="lightbox-close"
+          @click="closeLightbox"
+          aria-label="Close lightbox"
+        >
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Previous button -->
+        <button
+          v-if="lightboxImages.length > 1"
+          class="lightbox-nav prev"
+          :class="{ hidden: currentImageIndex === 0 }"
+          @click="prevImage"
+          aria-label="Previous image"
+        >
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <!-- Image container -->
+        <div class="lightbox-image-container">
+          <img
+            :src="lightboxImages[currentImageIndex]"
+            :alt="`Image ${currentImageIndex + 1} of ${lightboxImages.length}`"
+          >
+        </div>
+
+        <!-- Next button -->
+        <button
+          v-if="lightboxImages.length > 1"
+          class="lightbox-nav next"
+          :class="{ hidden: currentImageIndex === lightboxImages.length - 1 }"
+          @click="nextImage"
+          aria-label="Next image"
+        >
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        <!-- Counter -->
+        <div v-if="lightboxImages.length > 1" class="lightbox-counter">
+          {{ currentImageIndex + 1 }} / {{ lightboxImages.length }}
+        </div>
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { Marked } from 'marked'
 import markedFootnote from 'marked-footnote'
 import { formatDate, hasProperty } from '~/utils/helper'
@@ -182,6 +244,120 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+})
+
+// Lightbox state
+const isLightboxOpen = ref(false)
+const currentImageIndex = ref(0)
+const lightboxImages = ref([])
+const isClosing = ref(false)
+const isMobile = ref(false)
+
+// Mobile detection
+const checkMobile = () => {
+  if (process.client) {
+    isMobile.value = window.innerWidth <= 768
+  }
+}
+
+// Open lightbox
+const openLightbox = (index) => {
+  // On mobile, open image in new tab instead
+  if (isMobile.value) {
+    const imageUrl = lightboxImages.value[index]
+    // Get original URL without cloudinary transformation
+    const originalUrl = imageUrl.replace('https://res.cloudinary.com/dlsll9dkn/image/fetch/c_limit,w_768,f_auto,q_auto:low/', '')
+    window.open(originalUrl, '_blank')
+    return
+  }
+
+  currentImageIndex.value = index
+  isLightboxOpen.value = true
+  isClosing.value = false
+
+  if (process.client) {
+    document.body.classList.add('lightbox-open')
+  }
+}
+
+// Close lightbox
+const closeLightbox = () => {
+  isClosing.value = true
+  setTimeout(() => {
+    isLightboxOpen.value = false
+    isClosing.value = false
+    if (process.client) {
+      document.body.classList.remove('lightbox-open')
+    }
+  }, 300) // Match animation duration
+}
+
+// Navigate to next image
+const nextImage = () => {
+  if (currentImageIndex.value < lightboxImages.value.length - 1) {
+    currentImageIndex.value++
+  }
+}
+
+// Navigate to previous image
+const prevImage = () => {
+  if (currentImageIndex.value > 0) {
+    currentImageIndex.value--
+  }
+}
+
+// Keyboard navigation
+const handleKeydown = (e) => {
+  if (!isLightboxOpen.value) return
+
+  if (e.key === 'Escape') {
+    closeLightbox()
+  } else if (e.key === 'ArrowRight') {
+    nextImage()
+  } else if (e.key === 'ArrowLeft') {
+    prevImage()
+  }
+}
+
+// Extract images from rendered content
+const extractImages = () => {
+  if (!process.client) return
+
+  nextTick(() => {
+    const articleContent = document.querySelector('.article-content')
+    if (!articleContent) return
+
+    const images = articleContent.querySelectorAll('p:has(> img) img')
+    lightboxImages.value = Array.from(images).map(img => img.src)
+
+    // Add click handlers to images
+    images.forEach((img, index) => {
+      img.style.cursor = 'zoom-in'
+      img.addEventListener('click', (e) => {
+        e.preventDefault()
+        openLightbox(index)
+      })
+    })
+  })
+}
+
+// Lifecycle hooks
+onMounted(() => {
+  checkMobile()
+  extractImages()
+
+  if (process.client) {
+    window.addEventListener('keydown', handleKeydown)
+    window.addEventListener('resize', checkMobile)
+  }
+})
+
+onUnmounted(() => {
+  if (process.client) {
+    window.removeEventListener('keydown', handleKeydown)
+    window.removeEventListener('resize', checkMobile)
+    document.body.classList.remove('lightbox-open')
+  }
 })
 
 const hasExcerpt = computed(() => {

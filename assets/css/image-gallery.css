@@ -1,0 +1,324 @@
+/* ─────────────────────────────────────────
+       SHARED BASE
+       Alle p-Tags mit direkten img-Kindern
+       werden als Grid-Container behandelt.
+       overflow: hidden am Container verhindert,
+       dass scale()-Hover aus dem Block ragt.
+    ───────────────────────────────────────── */
+    .article-content p:has(> img) {
+      display: grid;
+      gap: 4px;
+      width: 100%;
+    }
+
+    /* ─────────────────────────────────────────
+       HOVER-GRUNDLAGE
+       Jedes Bild bekommt overflow:hidden als
+       Wrapper-Ersatz, damit der zoom-Effekt
+       sauber innerhalb der Zelle bleibt.
+       transition auf transform + brightness
+       für weichen Ein/Ausblend-Effekt.
+    ───────────────────────────────────────── */
+    .article-content p:has(> img) img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease, brightness 0.4s ease;
+    }
+
+    /* ─────────────────────────────────────────
+       HOVER-EFFEKT
+       Leichtes Zoom-In + Aufhellen beim Hover.
+       overflow auf dem Grid-Container verhindert
+       dass das skalierte Bild außerhalb sichtbar ist.
+    ───────────────────────────────────────── */
+    .article-content p:has(> img):not(:has(> img:nth-child(1):last-child)) {
+      overflow: hidden; /* zoom bleibt im block */
+    }
+
+    .article-content p:has(> img) img:hover {
+      transform: scale(1.06);
+      filter: brightness(1.1);
+      cursor: zoom-in;
+    }
+
+    /* einzelnes Bild: eigener hover ohne zoom-clip-problem */
+    p:has(> img:nth-child(1):last-child) img:hover {
+      filter: brightness(1.08);
+      transform: scale(1.02);
+    }
+
+
+    /* ─────────────────────────────────────────
+       1 BILD
+       Volle Breite, feste Höhe. Kein Grid nötig.
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(1):last-child) {
+      display: block;
+      overflow: hidden;
+    }
+    p:has(> img:nth-child(1):last-child) img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+    }
+
+
+    /* ─────────────────────────────────────────
+       2 BILDER
+       Portrait links (schmal + hoch),
+       Landscape rechts (breit + flach).
+       Asymmetrische Spalten, gleiche Gesamthöhe.
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(2):last-child) {
+      grid-template-columns: 2fr 3fr;
+      grid-template-rows: 400px;
+    }
+
+
+    /* ─────────────────────────────────────────
+       3 BILDER
+       Drei Portraits nebeneinander, je 1/3 Breite.
+       Hohe Reihe betont das Portrait-Format.
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(3):last-child) {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 480px;
+    }
+
+
+    /* ─────────────────────────────────────────
+       4 BILDER
+       Gleichmäßiges 2×2 Grid.
+       Klare, symmetrische Struktur.
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(4):last-child) {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 260px 260px;
+    }
+
+
+    /* ─────────────────────────────────────────
+       5 BILDER
+       Großes Landscape oben links (span 2),
+       Portrait oben rechts,
+       drei Quadrate unten – gleichmäßige Basis.
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(5):last-child) {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 280px 180px;
+    }
+    p:has(> img:nth-child(5):last-child) img:nth-child(1) {
+      grid-column: span 2; /* breites Hauptbild oben links */
+    }
+
+
+    /* ─────────────────────────────────────────
+       6 BILDER
+       Zeile 1: Bild 1 volle Breite (span 3)
+       Zeile 2: Bild 2 nimmt 2/3, Bild 3 nimmt 1/3
+       Zeile 3: Bilder 4–6 je 1/3
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(6):last-child) {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 400px 240px 200px;
+    }
+    p:has(> img:nth-child(6):last-child) img:nth-child(1) {
+      grid-column: span 3; /* Zeile 1: volle Breite */
+    }
+    p:has(> img:nth-child(6):last-child) img:nth-child(2) {
+      grid-column: span 2; /* Zeile 2: 2/3 */
+    }
+    /* Bild 3: 1/3 – füllt Rest automatisch */
+    /* Bilder 4–6: je 1/3 – kein span nötig */
+
+
+    /* ─────────────────────────────────────────
+       7 BILDER
+       Landscape oben links (span 2) +
+       Portrait rechts (span 2 Reihen),
+       darunter 4 gleichmäßige Quadrate.
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(7):last-child) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 260px 180px;
+    }
+    p:has(> img:nth-child(7):last-child) img:nth-child(1) {
+      grid-column: span 2; /* Landscape Hauptbild oben links */
+    }
+    p:has(> img:nth-child(7):last-child) img:nth-child(2) {
+      grid-column: 3;
+      grid-row: span 2; /* Portrait rechts oben */
+    }
+    p:has(> img:nth-child(7):last-child) img:nth-child(3) {
+      grid-column: 4;
+      grid-row: 1;
+    }
+
+
+    /* ─────────────────────────────────────────
+       8 BILDER
+       Portrait links über 2 Reihen,
+       Landscape span 2 oben rechts,
+       3 Quadrate in unterer Reihe.
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(8):last-child) {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 220px 180px 180px;
+    }
+    p:has(> img:nth-child(8):last-child) img:nth-child(1) {
+      grid-row: span 2; /* Portrait links */
+    }
+    p:has(> img:nth-child(8):last-child) img:nth-child(4) {
+      grid-column: 2 / span 2; /* Landscape oben rechts */
+    }
+
+
+    /* ─────────────────────────────────────────
+       9 BILDER
+       Portrait ganz links über alle 3 Reihen,
+       rechts 3×2 Quadrate + Landscape unten rechts.
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(9):last-child) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      grid-template-rows: 180px 180px 120px;
+    }
+    p:has(> img:nth-child(9):last-child) img:nth-child(1) {
+      grid-row: span 3; /* dominantes Portrait links */
+    }
+    p:has(> img:nth-child(9):last-child) img:nth-child(9) {
+      grid-column: 3 / span 2; /* Landscape unten rechts */
+    }
+
+
+    /* ─────────────────────────────────────────
+       10 BILDER
+       Landscape-Banner ganz oben (volle Breite),
+       darunter 3×3 Quadrat-Raster.
+    ───────────────────────────────────────── */
+    p:has(> img:nth-child(10):last-child) {
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 220px 160px 160px 160px;
+    }
+    p:has(> img:nth-child(10):last-child) img:nth-child(1) {
+      grid-column: span 3; /* Panorama-Banner oben */
+    }
+
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE – TABLET (≤ 768px)
+       Layouts vereinfachen auf max. 2 Spalten.
+       Portraits und Banner behalten ihre Rolle,
+       Gesamtblock bleibt rechteckig.
+    ───────────────────────────────────────── */
+    @media (max-width: 768px) {
+
+      p:has(> img:nth-child(2):last-child) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 280px;
+      }
+
+      p:has(> img:nth-child(3):last-child) {
+        grid-template-rows: 300px; /* etwas niedriger auf Tablet */
+      }
+
+      p:has(> img:nth-child(4):last-child) {
+        grid-template-rows: 200px 200px;
+      }
+
+      p:has(> img:nth-child(5):last-child) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 220px 160px 160px;
+      }
+      p:has(> img:nth-child(5):last-child) img:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+
+      p:has(> img:nth-child(6):last-child) {
+        grid-template-rows: 160px 200px 160px;
+      }
+
+      p:has(> img:nth-child(7):last-child) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 220px 160px 160px;
+      }
+      p:has(> img:nth-child(7):last-child) img:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      p:has(> img:nth-child(7):last-child) img:nth-child(2) {
+        grid-column: auto;
+        grid-row: auto;
+      }
+      p:has(> img:nth-child(7):last-child) img:nth-child(3) {
+        grid-column: auto;
+        grid-row: auto;
+      }
+
+      p:has(> img:nth-child(8):last-child) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 200px 160px 160px 160px;
+      }
+      p:has(> img:nth-child(8):last-child) img:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      p:has(> img:nth-child(8):last-child) img:nth-child(4) {
+        grid-column: auto;
+      }
+
+      p:has(> img:nth-child(9):last-child) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 200px 160px 160px 160px;
+      }
+      p:has(> img:nth-child(9):last-child) img:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+      p:has(> img:nth-child(9):last-child) img:nth-child(9) {
+        grid-column: span 2;
+      }
+
+      p:has(> img:nth-child(10):last-child) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 200px repeat(4, 150px);
+      }
+      p:has(> img:nth-child(10):last-child) img:nth-child(1) {
+        grid-column: span 2;
+      }
+    }
+
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE – MOBILE (≤ 480px)
+       Einheitlich 2 Spalten, auto-rows.
+       Erstes Bild immer Banner über volle Breite.
+       Alle manuellen spans werden zurückgesetzt.
+    ───────────────────────────────────────── */
+    @media (max-width: 480px) {
+
+      p:has(> img:nth-child(3):last-child) {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 200px; /* 3 Portraits bleiben nebeneinander */
+      }
+
+      p:has(> img:nth-child(n+4):last-child) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: unset;
+        grid-auto-rows: 130px;
+      }
+
+      /* Banner: erstes Bild volle Breite */
+      p:has(> img:nth-child(n+4):last-child) img:nth-child(1) {
+        grid-column: span 2;
+        grid-row: span 1;
+      }
+
+      /* Alle weiteren Bilder: spans zurücksetzen */
+      p:has(> img:nth-child(n+4):last-child) img:nth-child(n+2) {
+        grid-column: auto;
+        grid-row: auto;
+      }
+    }
