@@ -1,57 +1,67 @@
 <template>
-  <main class="w-full lg:max-w-3xl">
-    <div v-if="articles.length">
-      <div
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div class="space-y-12 sm:space-y-16">
+      <article
         v-for="(post, index) in articles"
         :key="index"
-        class="pb-8 border-b border-gray-300 border-solid last:border-0"
+        class="group"
       >
         <article-view v-if="post.category !== 'Heavy Rotation'" :post="post" />
-      </div>
+      </article>
+
       <pagination
-        class="pl-0 mt-8 mb-6 mr-0 text-left"
+        class="mt-16 sm:mt-20"
         :articles-count="articlesCount"
         :per-page="perPage"
         :current-page="currentPage"
       />
     </div>
-    <div v-else>
-      <loading />
-    </div>
   </main>
 </template>
 
 <script setup>
+import qs from 'qs'
+
 const route = useRoute()
 const { public: { strapiUrl } } = useRuntimeConfig()
 
-const articles = ref([])
-const articlesCount = ref(0)
 const perPage = 10
 const currentPage = computed(() => parseInt(route.params.page) || 1)
 
 // Calculate pagination
 const start = computed(() => (currentPage.value - 1) * perPage)
 
+const INDEX_POPULATE = {
+  author: true,
+  bookseries: true,
+  genre_books: true,
+  cover: true,
+  category: true,
+  localizations: { fields: ['slug', 'locale'] },
+  additional: {
+    on: {
+      'external-api.book-container': {
+        populate: { bookmeta: { populate: ['cover'] } }
+      },
+      'content.rating': { populate: '*' },
+    }
+  },
+}
+
 // Fetch articles
-const { data: response } = await useFetch('/api/articles', {
-  baseURL: strapiUrl,
-  query: {
-    'populate': '*',
-    'sort': 'display_published_date:DESC',
+const queryUrl = computed(() =>
+  `/api/articles?${qs.stringify({
+    populate: INDEX_POPULATE,
+    sort: 'display_published_date:DESC',
     'pagination[start]': start.value,
-    'pagination[limit]': perPage
-  }
+    'pagination[limit]': perPage,
+  }, { encodeValuesOnly: true })}`
+)
+
+const { data: response } = await useFetch(queryUrl, {
+  baseURL: strapiUrl,
 })
 
-if (response.value) {
-  articles.value = response.value.data || []
-  articlesCount.value = response.value.meta?.pagination?.total || 0
-}
+const articles = computed(() => response.value?.data || [])
+const articlesCount = computed(() => response.value?.meta?.pagination?.total || 0)
 </script>
-
-<style lang="postcss">
-.articleview-main {
-  @apply my-20;
-}
-</style>
