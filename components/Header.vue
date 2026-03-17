@@ -39,6 +39,17 @@
           >
             Gelesen
           </nuxt-link>
+          <a
+            @click="closeMobileMenu"
+            href="https://opentabs.flore.nz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="OpenTabs Microblog"
+            data-umami-event="nav-click-opentabs-mobile"
+            class="text-base font-medium text-gray-700 hover:text-blue-600 transition-colors text-center"
+          >
+            Verlinkt
+          </a>
           <nuxt-link
             @click="closeMobileMenu"
             data-umami-event="nav-click-music-index"
@@ -66,6 +77,16 @@
             class="p-3 bg-orange-100 rounded-xl hover:bg-orange-200 transition-colors"
           >
             <SimpleIcon name="rss" size="24" class="text-orange-600" />
+          </a>
+          <a
+            href="https://opentabs.flore.nz/recommendations/feed"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="OpenTabs Recommendations Feed"
+            data-umami-event="nav-click-mobile-opentabs-rss"
+            class="p-3 bg-amber-100 rounded-xl hover:bg-amber-200 transition-colors"
+          >
+            <SimpleIcon name="rss" size="24" class="text-amber-700" />
           </a>
           <a
             rel="me noopener noreferrer"
@@ -139,6 +160,16 @@
           >
             Gelesen
           </nuxt-link>
+          <a
+            href="https://opentabs.flore.nz/"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="OpenTabs Microblog"
+            data-umami-event="nav-click-opentabs"
+            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
+          >
+            Verlinkt
+          </a>
           <nuxt-link
             to="/category/musik"
             data-umami-event="nav-click-music-index"
@@ -170,6 +201,16 @@
             class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
           >
             <SimpleIcon name="rss" size="20" class="text-orange-500 hover:text-orange-600 transition-colors" />
+          </a>
+          <a
+            href="https://opentabs.flore.nz/recommendations/feed"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="OpenTabs Recommendations Feed"
+            data-umami-event="nav-click-opentabs-rss"
+            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <SimpleIcon name="rss" size="20" class="text-amber-600 hover:text-amber-700 transition-colors" />
           </a>
           <a
             rel="me noopener noreferrer"

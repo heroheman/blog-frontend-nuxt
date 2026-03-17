@@ -114,6 +114,18 @@ export default defineNuxtConfig({
           href: '/safari-pinned-tab.svg',
           color: '#5bbad5',
         },
+        {
+          rel: 'alternate',
+          type: 'application/rss+xml',
+          title: 'flore.nz - Article Feed',
+          href: '/feed.xml',
+        },
+        {
+          rel: 'alternate',
+          type: 'application/rss+xml',
+          title: 'Open Tabs - Recommendations Feed',
+          href: 'https://opentabs.flore.nz/recommendations/feed',
+        },
       ],
       script: [
         {

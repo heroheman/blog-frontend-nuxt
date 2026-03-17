@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "STRAPI_URL=https://flrnz.strapi.florenz.dev nuxt dev --port 5050",
+    "dev:portless": "portless flrnz nuxt dev",
     "dev-prod": "nuxt dev --port 5050",
     "build": "nuxt build",
     "start": "nuxt start",
