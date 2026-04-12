@@ -83,9 +83,9 @@ const pageTitle = computed(() => {
 
 const pageDescription = computed(() => {
   if (page.value > 0) {
-    return `Seite ${page.value + 1} meines persönlichen Blogs. Entdecke Gedanken, Meinungen und Einblicke zu verschiedenen Themen des Lebens, der Technologie und mehr.`
+    return `Seite ${page.value + 1} meines persönlichen Blogs auf flore.nz. Entdecke Gedanken, Meinungen und Einblicke zu Technologie, Büchern, Popkultur und Leben.`
   }
-  return 'Willkommen auf flore.nz - Mein persönlicher Blog mit Gedanken, Meinungen und Einblicken zu verschiedenen Themen des Lebens, der Technologie, Büchern und mehr.'
+  return 'flore.nz - Mein persönlicher Blog mit Gedanken, Meinungen und Einblicken zu Technologie, Büchern, Popkultur und Leben. Geschrieben von Florenz.'
 })
 
 const canonicalUrl = computed(() => {
@@ -111,7 +111,8 @@ const structuredData = computed(() => {
       sameAs: [
         'https://norden.social/@florenz',
         'https://github.com/florenz',
-        'https://www.goodreads.com/florenz'
+        'https://www.goodreads.com/florenz',
+        'https://bsky.app/profile/flore.nz'
       ]
     },
     publisher: {
@@ -185,12 +186,17 @@ useSeoMeta({
   ogDescription: pageDescription,
   ogType: 'website',
   ogUrl: canonicalUrl,
-  ogImage: 'https://flore.nz/icon.png',
-  ogImageWidth: 512,
-  ogImageHeight: 512,
+  ogImage: 'https://flore.nz/og-image.png',
+  ogImageAlt: 'flore.nz - Persönlicher Blog von Florenz',
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
   ogSiteName: 'flore.nz',
+  ogLocale: 'de_DE',
 
-  // Twitter - entfernt da kein Twitter Account vorhanden
+  // Twitter Card (für zukünftige Twitter-Nutzung)
+  twitterCard: 'summary_large_image',
+  twitterSite: '@florenz',
+  twitterCreator: '@florenz',
 
   // Additional meta
   robots: page.value > 0 ? 'noindex, follow' : 'index, follow',
