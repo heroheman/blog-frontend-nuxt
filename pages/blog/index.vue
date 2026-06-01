@@ -68,7 +68,7 @@ const pageDescription = computed(() => {
 })
 
 const canonicalUrl = computed(() => {
-  const baseUrl = 'https://flore.nz'
+  const baseUrl = 'https://blog.flore.nz'
   if (currentTag.value) {
     return `${baseUrl}/blog?tag=${encodeURIComponent(currentTag.value)}`
   }
@@ -86,12 +86,12 @@ const structuredData = computed(() => {
     author: {
       '@type': 'Person',
       name: 'Florenz',
-      url: 'https://flore.nz'
+      url: 'https://blog.flore.nz'
     },
     publisher: {
       '@type': 'Person',
       name: 'Florenz',
-      url: 'https://flore.nz'
+      url: 'https://blog.flore.nz'
     }
   }
 
@@ -100,7 +100,7 @@ const structuredData = computed(() => {
       '@type': 'BlogPosting',
       headline: article.title,
       description: article.excerpt || article.content?.substring(0, 160) + '...',
-      url: `https://flore.nz/blog/${article.slug}`,
+      url: `https://blog.flore.nz/blog/${article.slug}`,
       datePublished: article.display_published_date || article.published_at,
       author: {
         '@type': 'Person',
@@ -120,7 +120,7 @@ useSeoMeta({
   ogDescription: pageDescription,
   ogType: 'website',
   ogUrl: canonicalUrl,
-  ogImage: 'https://flore.nz/icon.png',
+  ogImage: 'https://blog.flore.nz/icon.png',
   ogSiteName: 'flore.nz',
 
   // Twitter - entfernt da kein Twitter Account vorhanden

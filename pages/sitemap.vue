@@ -123,8 +123,8 @@ const { generateSeoMeta, generateWebsiteStructuredData } = useSeo()
 const seoMeta = generateSeoMeta({
   title: 'Sitemap - Alle Seiten und Inhalte',
   description: 'Vollständige Übersicht aller Seiten, Kategorien, Autoren und Artikel auf flore.nz. Finde schnell die Inhalte, die dich interessieren.',
-  url: 'https://flore.nz/sitemap',
-  canonical: 'https://flore.nz/sitemap'
+  url: 'https://blog.flore.nz/sitemap',
+  canonical: 'https://blog.flore.nz/sitemap'
 })
 
 useSeoMeta(seoMeta)
@@ -135,7 +135,7 @@ const structuredData = {
   '@type': 'WebPage',
   name: 'Sitemap',
   description: 'Vollständige Übersicht aller Seiten und Inhalte auf flore.nz',
-  url: 'https://flore.nz/sitemap',
+  url: 'https://blog.flore.nz/sitemap',
   mainEntity: {
     '@type': 'ItemList',
     name: 'Site Navigation',
@@ -145,13 +145,13 @@ const structuredData = {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        url: 'https://flore.nz'
+        url: 'https://blog.flore.nz'
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Blog',
-        url: 'https://flore.nz/blog'
+        url: 'https://blog.flore.nz/blog'
       }
     ]
   }

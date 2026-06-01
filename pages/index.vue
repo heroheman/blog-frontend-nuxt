@@ -89,7 +89,7 @@ const pageDescription = computed(() => {
 })
 
 const canonicalUrl = computed(() => {
-  const baseUrl = 'https://flore.nz'
+  const baseUrl = 'https://blog.flore.nz'
   if (page.value > 0) {
     return `${baseUrl}?page=${page.value + 1}`
   }
@@ -103,11 +103,11 @@ const structuredData = computed(() => {
     '@type': 'WebSite',
     name: 'flore.nz',
     description: pageDescription.value,
-    url: 'https://flore.nz',
+    url: 'https://blog.flore.nz',
     author: {
       '@type': 'Person',
       name: 'Florenz',
-      url: 'https://flore.nz',
+      url: 'https://blog.flore.nz',
       sameAs: [
         'https://norden.social/@florenz',
         'https://github.com/florenz',
@@ -117,11 +117,11 @@ const structuredData = computed(() => {
     publisher: {
       '@type': 'Person',
       name: 'Florenz',
-      url: 'https://flore.nz'
+      url: 'https://blog.flore.nz'
     },
     potentialAction: {
       '@type': 'SearchAction',
-      target: 'https://flore.nz/blog?tag={search_term_string}',
+      target: 'https://blog.flore.nz/blog?tag={search_term_string}',
       'query-input': 'required name=search_term_string'
     }
   }
@@ -137,7 +137,7 @@ const structuredData = computed(() => {
           '@type': 'BlogPosting',
           headline: article.title,
           description: article.excerpt || article.description,
-          url: `https://flore.nz/blog/${article.slug}`,
+          url: `https://blog.flore.nz/blog/${article.slug}`,
           datePublished: article.display_published_date || article.published_at,
           author: {
             '@type': 'Person',
@@ -163,7 +163,7 @@ const breadcrumbStructuredData = computed(() => {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://flore.nz'
+        item: 'https://blog.flore.nz'
       },
       {
         '@type': 'ListItem',
@@ -185,7 +185,7 @@ useSeoMeta({
   ogDescription: pageDescription,
   ogType: 'website',
   ogUrl: canonicalUrl,
-  ogImage: 'https://flore.nz/icon.png',
+  ogImage: 'https://blog.flore.nz/icon.png',
   ogImageWidth: 512,
   ogImageHeight: 512,
   ogSiteName: 'flore.nz',
@@ -222,14 +222,14 @@ useHead(() => {
   if (page.value > 0) {
     links.push({
       rel: 'prev',
-      href: page.value === 1 ? 'https://flore.nz' : `https://flore.nz?page=${page.value}`
+      href: page.value === 1 ? 'https://blog.flore.nz' : `https://blog.flore.nz?page=${page.value}`
     })
   }
 
   if (articlesCount.value > (page.value + 1) * per_page) {
     links.push({
       rel: 'next',
-      href: `https://flore.nz?page=${page.value + 2}`
+      href: `https://blog.flore.nz?page=${page.value + 2}`
     })
   }
 

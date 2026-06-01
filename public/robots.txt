@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://flore.nz/sitemap.xml
+Sitemap: https://blog.flore.nz/sitemap.xml
 
 # Disallow certain paths (if any)
 # Disallow: /admin/

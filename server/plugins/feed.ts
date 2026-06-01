@@ -76,13 +76,13 @@ export default defineNitroPlugin((nitroApp) => {
     // Feed-Optionen setzen
     feed.options = {
       title: 'flore.nz RSS',
-      link: 'https://flore.nz/feed.xml',
+      link: 'https://blog.flore.nz/feed.xml',
       description: 'RSS Feeds are not dead',
-      id: 'https://flore.nz',
+      id: 'https://blog.flore.nz',
       copyright: 'Florenz',
       generator: 'Nuxt 3 with nuxt-module-feed',
       feedLinks: {
-        rss2: 'https://flore.nz/feed.xml'
+        rss2: 'https://blog.flore.nz/feed.xml'
       }
     };
 
@@ -110,7 +110,7 @@ export default defineNitroPlugin((nitroApp) => {
           feed.addItem({
             title: post.title,
             id: post.url || post.slug,
-            link: 'https://flore.nz/blog/' + post.slug,
+            link: 'https://blog.flore.nz/blog/' + post.slug,
             description: description,
             content: fullContent,
             date: new Date(post.display_published_date || post.createdAt),
@@ -128,7 +128,7 @@ export default defineNitroPlugin((nitroApp) => {
     feed.addContributor({
       name: 'Florenz',
       email: 'moin@flore.nz',
-      link: 'https://flore.nz/',
+      link: 'https://blog.flore.nz/',
     });
   }
 });

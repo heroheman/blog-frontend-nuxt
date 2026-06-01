@@ -312,7 +312,7 @@ const pageDescription = computed(() => {
 })
 
 const canonicalUrl = computed(() => {
-  return `https://flore.nz/category/${route.params.category}`
+  return `https://blog.flore.nz/category/${route.params.category}`
 })
 
 // Generate structured data for the category page
@@ -332,13 +332,13 @@ const structuredData = computed(() => {
           '@type': 'ListItem',
           position: 1,
           name: 'Home',
-          item: 'https://flore.nz'
+          item: 'https://blog.flore.nz'
         },
         {
           '@type': 'ListItem',
           position: 2,
           name: 'Kategorien',
-          item: 'https://flore.nz/category'
+          item: 'https://blog.flore.nz/category'
         },
         {
           '@type': 'ListItem',
@@ -368,7 +368,7 @@ const articlesStructuredData = computed(() => {
         '@type': 'BlogPosting',
         headline: article.title,
         description: article.excerpt || article.description,
-        url: `https://flore.nz/blog/${article.slug}`,
+        url: `https://blog.flore.nz/blog/${article.slug}`,
         datePublished: article.display_published_date || article.published_at,
         author: {
           '@type': 'Person',
@@ -390,14 +390,14 @@ useSeoMeta({
   ogDescription: pageDescription,
   ogType: 'website',
   ogUrl: canonicalUrl,
-  ogImage: 'https://flore.nz/icon.png',
+  ogImage: 'https://blog.flore.nz/icon.png',
   ogSiteName: 'flore.nz',
 
   // Twitter
   twitterCard: 'summary_large_image',
   twitterTitle: pageTitle,
   twitterDescription: pageDescription,
-  twitterImage: 'https://flore.nz/icon.png',
+  twitterImage: 'https://blog.flore.nz/icon.png',
 
   // Additional meta
   robots: 'index, follow',

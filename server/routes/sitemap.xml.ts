@@ -54,7 +54,7 @@ export default defineEventHandler(async (event) => {
   }) : null
 
   urlEntries.push({
-    loc: 'https://flore.nz/',
+    loc: 'https://blog.flore.nz/',
     lastmod: latestArticle ? getLastModDate(latestArticle) : new Date().toISOString(),
     changefreq: 'daily',
     priority: '1.0'
@@ -63,7 +63,7 @@ export default defineEventHandler(async (event) => {
   // Articles (blog posts) - highest priority for content
   articles.forEach((article: any) => {
     urlEntries.push({
-      loc: `https://flore.nz/blog/${article.slug}`,
+      loc: `https://blog.flore.nz/blog/${article.slug}`,
       lastmod: getLastModDate(article),
       changefreq: 'weekly',
       priority: '0.9'
@@ -73,7 +73,7 @@ export default defineEventHandler(async (event) => {
   // Static pages
   pages.forEach((page: any) => {
     urlEntries.push({
-      loc: `https://flore.nz/${page.slug}`,
+      loc: `https://blog.flore.nz/${page.slug}`,
       lastmod: getLastModDate(page),
       changefreq: 'monthly',
       priority: '0.8'
@@ -83,7 +83,7 @@ export default defineEventHandler(async (event) => {
   // Categories - updated when articles are added
   categories.forEach((category: any) => {
     urlEntries.push({
-      loc: `https://flore.nz/category/${category.slug}`,
+      loc: `https://blog.flore.nz/category/${category.slug}`,
       lastmod: getLastModDate(category),
       changefreq: 'weekly',
       priority: '0.7'
@@ -93,7 +93,7 @@ export default defineEventHandler(async (event) => {
   // Book series
   bookSeries.forEach((series: any) => {
     urlEntries.push({
-      loc: `https://flore.nz/series/${series.slug}`,
+      loc: `https://blog.flore.nz/series/${series.slug}`,
       lastmod: getLastModDate(series),
       changefreq: 'monthly',
       priority: '0.6'
@@ -103,7 +103,7 @@ export default defineEventHandler(async (event) => {
   // Genre books
   genreBooks.forEach((genre: any) => {
     urlEntries.push({
-      loc: `https://flore.nz/genre/book/${genre.slug}`,
+      loc: `https://blog.flore.nz/genre/book/${genre.slug}`,
       lastmod: getLastModDate(genre),
       changefreq: 'monthly',
       priority: '0.6'
@@ -113,7 +113,7 @@ export default defineEventHandler(async (event) => {
   // Authors
   bookAuthors.forEach((author: any) => {
     urlEntries.push({
-      loc: `https://flore.nz/author/${author.slug}`,
+      loc: `https://blog.flore.nz/author/${author.slug}`,
       lastmod: getLastModDate(author),
       changefreq: 'monthly',
       priority: '0.6'
