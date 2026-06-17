@@ -17,10 +17,13 @@ module.exports = {
     extend: {
       fontFamily: {
         display: ['Playfair Display', ...defaultTheme.fontFamily.serif],
+        // Brand display face, matched to the flore.nz landing page (github_profile)
+        brand: ['Fraunces', 'Georgia', ...defaultTheme.fontFamily.serif],
         head: ['Crimson Text', ...defaultTheme.fontFamily.serif],
         body: ['Crimson Text', ...defaultTheme.fontFamily.serif],
         meta: ['Inter', ...defaultTheme.fontFamily.sans],
-        mono: [...defaultTheme.fontFamily.mono],
+        // Space Mono — the landing page's interface/label type
+        mono: ['"Space Mono"', ...defaultTheme.fontFamily.mono],
       },
       colors: {
         paper: {

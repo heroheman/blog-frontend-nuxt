@@ -17,13 +17,13 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
-      <div class="flex flex-col h-full justify-center items-center space-y-8">
-        <nav class="flex flex-col items-center space-y-6">
+      <div class="flex flex-col h-full justify-center items-center space-y-10">
+        <nav class="flex flex-col items-center space-y-7">
           <nuxt-link
             @click="closeMobileMenu"
             data-umami-event="nav-click-article-index"
             to="/blog"
-            class="text-2xl font-semibold text-ink hover:text-accent transition-colors"
+            class="font-mono text-xl uppercase tracking-[0.2em] text-ink hover:text-accent transition-colors"
           >
             Artikel
           </nuxt-link>
@@ -31,7 +31,7 @@
             @click="closeMobileMenu"
             data-umami-event="nav-click-books-index"
             to="/category/buecher"
-            class="text-2xl font-semibold text-ink hover:text-accent transition-colors"
+            class="font-mono text-xl uppercase tracking-[0.2em] text-ink hover:text-accent transition-colors"
           >
             Gelesen
           </nuxt-link>
@@ -42,14 +42,14 @@
             rel="noopener noreferrer"
             title="OpenTabs Microblog"
             data-umami-event="nav-click-opentabs-mobile"
-            class="text-2xl font-semibold text-ink hover:text-accent transition-colors text-center"
+            class="font-mono text-xl uppercase tracking-[0.2em] text-ink hover:text-accent transition-colors text-center"
           >
             Verlinkt
           </a>
           <nuxt-link
             @click="closeMobileMenu"
             data-umami-event="nav-click-music-index"
-            class="text-2xl font-semibold text-ink hover:text-accent transition-colors"
+            class="font-mono text-xl uppercase tracking-[0.2em] text-ink hover:text-accent transition-colors"
             to="/category/musik"
           >
             Gehört
@@ -57,7 +57,7 @@
           <nuxt-link
             @click="closeMobileMenu"
             data-umami-event="nav-click-about"
-            class="text-2xl font-semibold text-ink hover:text-accent transition-colors"
+            class="font-mono text-xl uppercase tracking-[0.2em] text-ink hover:text-accent transition-colors"
             to="/about"
           >
             Über
@@ -99,15 +99,15 @@
         </div>
 
         <!-- RSS feeds -->
-        <div class="flex items-center gap-4 font-meta text-sm text-monochrome-100">
+        <div class="flex items-center gap-5 font-mono text-xs uppercase tracking-[0.12em] text-monochrome-100">
           <a href="/feed.xml" target="_blank" title="RSS Feed (Artikel)" data-umami-event="nav-click-mobile-rss" class="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
-            <SimpleIcon name="rss" size="16" /> RSS
+            <SimpleIcon name="rss" size="15" /> RSS
           </a>
           <a href="/feed-en.xml" target="_blank" title="RSS Feed (English)" data-umami-event="nav-click-mobile-rss-en" class="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
-            <SimpleIcon name="rss" size="16" /> EN
+            <SimpleIcon name="rss" size="15" /> EN
           </a>
           <a href="https://opentabs.flore.nz/recommendations/feed" target="_blank" rel="noopener noreferrer" title="OpenTabs Linkblog Feed" data-umami-event="nav-click-mobile-opentabs-rss" class="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
-            <SimpleIcon name="rss" size="16" /> Linkblog
+            <SimpleIcon name="rss" size="15" /> Linkblog
           </a>
         </div>
       </div>
@@ -118,29 +118,29 @@
       <!-- Desktop Header Layout -->
       <div class="hidden md:flex items-center py-4">
         <!-- Logo -->
-        <div class="flex-shrink-0 mr-8">
+        <div class="flex-shrink-0 mr-10">
           <nuxt-link data-umami-event="header-click-logo" to="/">
-            <span class="font-display italic leading-none text-ink text-3xl">
-              {{ settings.sitetitle }}
+            <span class="brand-logo font-brand text-3xl font-medium tracking-tight text-ink leading-none">
+              <template v-for="(part, i) in logoParts" :key="i"><span v-if="i" class="text-accent">.</span>{{ part }}</template>
             </span>
           </nuxt-link>
         </div>
 
         <!-- Navigation -->
-        <nav class="flex items-center space-x-6">
+        <nav class="flex items-center gap-7">
           <nuxt-link
             data-umami-event="nav-click-article-index"
             to="/blog"
-            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
-            :class="{ 'border-accent text-accent': $route?.path === '/blog' }"
+            class="nav-link font-mono text-[0.72rem] uppercase tracking-[0.18em] text-ink hover:text-accent transition-colors duration-200"
+            :class="{ 'is-active text-accent': $route?.path === '/blog' }"
           >
             Artikel
           </nuxt-link>
           <nuxt-link
             data-umami-event="nav-click-books-index"
             to="/category/buecher"
-            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
-            :class="{ 'border-accent text-accent': $route?.path?.includes('/category/buecher') }"
+            class="nav-link font-mono text-[0.72rem] uppercase tracking-[0.18em] text-ink hover:text-accent transition-colors duration-200"
+            :class="{ 'is-active text-accent': $route?.path?.includes('/category/buecher') }"
           >
             Gelesen
           </nuxt-link>
@@ -150,23 +150,23 @@
             rel="noopener noreferrer"
             title="OpenTabs Microblog"
             data-umami-event="nav-click-opentabs"
-            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
+            class="nav-link font-mono text-[0.72rem] uppercase tracking-[0.18em] text-ink hover:text-accent transition-colors duration-200"
           >
             Verlinkt
           </a>
           <nuxt-link
             to="/category/musik"
             data-umami-event="nav-click-music-index"
-            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
-            :class="{ 'border-accent text-accent': $route?.path?.includes('/category/musik') }"
+            class="nav-link font-mono text-[0.72rem] uppercase tracking-[0.18em] text-ink hover:text-accent transition-colors duration-200"
+            :class="{ 'is-active text-accent': $route?.path?.includes('/category/musik') }"
           >
             Gehört
           </nuxt-link>
           <nuxt-link
             to="/about"
             data-umami-event="nav-click-about"
-            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
-            :class="{ 'border-accent text-accent': $route?.path === '/about' }"
+            class="nav-link font-mono text-[0.72rem] uppercase tracking-[0.18em] text-ink hover:text-accent transition-colors duration-200"
+            :class="{ 'is-active text-accent': $route?.path === '/about' }"
           >
             Über
           </nuxt-link>
@@ -197,25 +197,25 @@
             <!-- popover -->
             <div
               v-if="isRssOpen"
-              class="absolute right-0 mt-2 w-52 z-50 rounded-lg border border-monochrome-600 bg-paper shadow-lg py-1"
+              class="absolute right-0 mt-2 w-56 z-50 rounded-lg border border-monochrome-600 bg-paper shadow-lg py-1"
             >
               <a
                 href="/feed.xml"
                 target="_blank"
                 @click="isRssOpen = false"
                 data-umami-event="nav-click-rss"
-                class="flex items-center gap-2.5 px-3 py-2 text-sm font-meta text-ink hover:bg-paper-deep hover:text-accent transition-colors"
+                class="flex items-center gap-2.5 px-3 py-2 font-mono text-xs uppercase tracking-[0.08em] text-ink hover:bg-paper-deep hover:text-accent transition-colors"
               >
-                <SimpleIcon name="rss" size="15" /> Artikel <span class="text-monochrome-300">· Deutsch</span>
+                <SimpleIcon name="rss" size="15" /> Artikel <span class="text-monochrome-300 normal-case">· Deutsch</span>
               </a>
               <a
                 href="/feed-en.xml"
                 target="_blank"
                 @click="isRssOpen = false"
                 data-umami-event="nav-click-rss-en"
-                class="flex items-center gap-2.5 px-3 py-2 text-sm font-meta text-ink hover:bg-paper-deep hover:text-accent transition-colors"
+                class="flex items-center gap-2.5 px-3 py-2 font-mono text-xs uppercase tracking-[0.08em] text-ink hover:bg-paper-deep hover:text-accent transition-colors"
               >
-                <SimpleIcon name="rss" size="15" /> Articles <span class="text-monochrome-300">· English</span>
+                <SimpleIcon name="rss" size="15" /> Articles <span class="text-monochrome-300 normal-case">· English</span>
               </a>
               <a
                 href="https://opentabs.flore.nz/recommendations/feed"
@@ -223,9 +223,9 @@
                 rel="noopener noreferrer"
                 @click="isRssOpen = false"
                 data-umami-event="nav-click-opentabs-rss"
-                class="flex items-center gap-2.5 px-3 py-2 text-sm font-meta text-ink hover:bg-paper-deep hover:text-accent transition-colors"
+                class="flex items-center gap-2.5 px-3 py-2 font-mono text-xs uppercase tracking-[0.08em] text-ink hover:bg-paper-deep hover:text-accent transition-colors"
               >
-                <SimpleIcon name="rss" size="15" /> Linkblog <span class="text-monochrome-300">· Verlinkt</span>
+                <SimpleIcon name="rss" size="15" /> Linkblog <span class="text-monochrome-300 normal-case">· Verlinkt</span>
               </a>
             </div>
           </div>
@@ -266,8 +266,8 @@
       <!-- Mobile Header Layout -->
       <div class="md:hidden flex items-center justify-between py-4">
         <nuxt-link data-umami-event="header-click-logo-mobile" to="/" @click="closeMobileMenu">
-          <span class="font-display text-2xl italic leading-none text-ink">
-            {{ settings.sitetitle }}
+          <span class="brand-logo font-brand text-2xl font-medium tracking-tight text-ink leading-none">
+            <template v-for="(part, i) in logoParts" :key="i"><span v-if="i" class="text-accent">.</span>{{ part }}</template>
           </span>
         </nuxt-link>
 
@@ -300,6 +300,9 @@ const settings = inject('settings', () => reactive({
   Phrases: []
 }), true)
 
+// Logo split on "." so the dot can take the brand accent (e.g. flore·.·nz)
+const logoParts = computed(() => (settings.value?.sitetitle || 'flore.nz').split('.'))
+
 // Mobile menu state
 const isMobileMenuOpen = ref(false)
 // RSS popover state
@@ -325,5 +328,29 @@ watch(() => route.path, () => {
 </script>
 
 <style lang="postcss" scoped>
-/* No complex CSS needed - everything is handled with Tailwind classes in the template */
+.brand-logo {
+  font-optical-sizing: auto;
+}
+
+/* Draw-in underline, matched to the flore.nz landing page link interaction */
+.nav-link {
+  position: relative;
+  padding-bottom: 3px;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: #a84048; /* accent */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover::after,
+.nav-link.is-active::after {
+  transform: scaleX(1);
+}
 </style>

@@ -45,17 +45,19 @@ colors: {
 
 | Familie | Font | Klasse | Einsatz |
 |---|---|---|---|
-| **Display (neu)** | **Playfair Display** | `font-display` | Top-Level-Headlines: Artikel-Titel (Liste + Detail), Lead, Spaltentitel-Sonderfälle, Logo |
+| **Display** | **Playfair Display** | `font-display` | Top-Level-Headlines: Artikel-Titel (Liste + Detail), Lead, BookCard-Titel |
+| **Brand (neu)** | **Fraunces** | `font-brand` | Header-Logo `flore.nz` — Marken-Display der flore.nz-Landingpage |
 | Head | Crimson Text *(unverändert)* | `font-head` | Zwischenüberschriften h3/h4 im Fließtext, Sub-Headlines |
 | Body | Crimson Text | `font-body` | Fließtext, Excerpts |
-| Meta | Inter | `font-meta` | Datum, Genre, Serie, Spalten-Labels, Nav, Footer |
+| Meta | Inter | `font-meta` | Datum, Genre, Serie, Spalten-Labels, Footer |
+| **Mono (neu)** | **Space Mono** | `font-mono` | Header-Nav + RSS-Popover (Versalien, Tracking) — Interface-Type der Landingpage |
 
-- **Wichtig:** `font-head` wird **nicht** auf Playfair umgemappt. Stattdessen neue `font-display`-Klasse, gezielt nur auf große Headlines. In-Article-Subheads bleiben Crimson.
-- Playfair lädt über den bestehenden `@import` in `assets/css/_typography.pcss`:
-  ```css
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap');
-  ```
-- `tailwind.config.js`: `fontFamily.display: ['Playfair Display', ...defaultTheme.fontFamily.serif]`
+- **Marken-Konsistenz mit der Landingpage** (`github_profile/index.html`, ausgeliefert auf flore.nz): der Header übernimmt deren Identität — **Fraunces**-Logo mit Akzent-Punkt (`flore`·`.`·`nz`, Punkt in Akzent), **Space Mono** Versalien-Nav mit **Draw-in-Underline** (Akzent, `scaleX` von links, `cubic-bezier(0.16,1,0.3,1)`).
+- **Wichtig:** `font-head` bleibt Crimson; `font-display` (Playfair) nur große Content-Headlines. Header-Logo = `font-brand` (Fraunces), Header-Nav = `font-mono` (Space Mono).
+- Fonts laden über den `@import` in `assets/css/_typography.pcss` (Fraunces opsz 9..144, Space Mono 400/700 ergänzt).
+- `tailwind.config.js`: `display` (Playfair), `brand` (Fraunces), `mono` → Space Mono.
+
+> Hinweis: `font-mono` = Space Mono wirkt auch auf Prosa-Code (`pre`/`code`). Falls in code-lastigen Posts unerwünscht, eigene Mono für Prosa-Code definieren.
 
 ### Typo-Skala (Richtwerte)
 | Element | Größe | Familie |
@@ -90,8 +92,11 @@ Eine Variante. `HeaderNew.vue` + `HeaderOld.vue` sind gelöscht.
 - **Full-Bleed:** Leiste spannt randlos über den Viewport; Inhalt (Logo · Nav · Social) bleibt am Content-Container ausgerichtet (`max-w-6xl xl:max-w-7xl`).
 - **Hintergrund:** `paper/90` + `backdrop-blur` + untere Hairline (`monochrome-600`).
 - **Quote/Phrases-Block entfällt komplett** (Desktop + Mobile) — inkl. der `randomHeadNumber`-Logik.
-- **Aktiv/Hover:** Akzent statt Blau.
-- Logo (`settings.sitetitle`) in `font-display`, italic bleibt.
+
+### Marken-Look der Landingpage (github_profile)
+- **Logo:** `settings.sitetitle` in **Fraunces** (`font-brand`, `font-medium`, `tracking-tight`, **nicht** kursiv); auf `.` gesplittet → der Punkt steht in **Akzent** (`flore`·`.`·`nz`). Echo der Landingpage („Heldermann.").
+- **Nav:** **Space Mono**, Versalien, `tracking-[0.18em]`, `text-[0.72rem]`, mit **Draw-in-Underline** — `::after` Akzent-Linie, `scaleX(0)→(1)` von links, `transition .45s cubic-bezier(0.16,1,0.3,1)`; aktiv = `is-active` (Linie sichtbar + Akzent-Text). Scoped CSS in `Header.vue`.
+- **Mobile-Nav** ebenfalls Space Mono Versalien (`text-xl tracking-[0.2em]`).
 
 ### RSS-Popover (statt zwei RSS-Icons)
 Ein einziges RSS-Icon; Klick öffnet ein Popover mit drei Feeds:
@@ -246,12 +251,12 @@ Erbt automatisch:
 
 **Geändert**
 - `pages/index.vue` — Golden-Ratio-Grid (Desktop) + Merge-Stream (Mobile) + Queries A/B/C, `per_page = 5`
-- `components/Header.vue` — sticky-always, full-bleed, ohne Quote, Akzent, RSS-Popover, gleichfarbige Icons, Teleport-Mobile-Overlay, `xl:max-w-7xl`
+- `components/Header.vue` — sticky-always, full-bleed, ohne Quote, Akzent, RSS-Popover, gleichfarbige Icons, Teleport-Mobile-Overlay, `xl:max-w-7xl`; **Landingpage-Look: Fraunces-Logo (Akzent-Punkt), Space-Mono-Versalien-Nav, Draw-in-Underline**
 - `components/ArticleView.vue` — `font-display` auf Titel, Lead-/Drop-Cap-Hook (Text-Absatz-Guard), Akzent-Hover
 - `components/SimpleIcon.vue` — RSS-Fills → `currentColor` (weißes Quadrat entfernt) für einheitliche Icon-Farbe
 - `components/Footer.vue` — `bg-paper-deep` + `border-monochrome-600`
-- `tailwind.config.js` — `paper`, `ink`, `fontFamily.display`, `accent.DEFAULT`
-- `assets/css/_typography.pcss` — Playfair-`@import`, Body `text-ink bg-paper`, Akzent-Links, Drop-Cap, Blau → Akzent
+- `tailwind.config.js` — `paper`, `ink`, `accent.DEFAULT`, `fontFamily.display` + **`brand` (Fraunces)** + **`mono` → Space Mono**
+- `assets/css/_typography.pcss` — `@import` (Playfair **+ Fraunces + Space Mono**), Body `text-ink bg-paper`, Akzent-Links, Drop-Cap, Blau → Akzent
 - `assets/css/_globals.pcss` — Papier-Hintergrund, Prose-Link-Akzent, Selection
 - `layouts/default.vue` — Full-Bleed-Header + Wrapper `max-w-6xl xl:max-w-7xl`
 - `nuxt.config.ts` — `theme-color` → Cream
