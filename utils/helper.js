@@ -33,10 +33,12 @@ const escapeHtml = (str) =>
  *   @spoiler[Der zu versteckende Text]
  *   @spoiler[Der zu versteckende Text | Was gespoilert wird]
  *
- * Without a description the overlay reads "Spoiler – click to reveal",
- * with one it reads "Spoiler: <Beschreibung>". Reveal is handled purely
- * via the checkbox hack (see .spoiler styles), so it works inside v-html
- * without any JS event handlers.
+ * The hidden text is blurred inline (no block/overlay), so it wraps with the
+ * surrounding paragraph. A small always-visible hint label ("Spoiler – click
+ * to reveal" or, with a description, "Spoiler: <Beschreibung>") sits in front
+ * of it; the same text is also exposed via the title tooltip on hover. Reveal
+ * is handled purely via the checkbox hack (see .spoiler styles), so it works
+ * inside v-html without any JS event handlers.
  *
  * @param {string} content   raw markdown
  * @param {string} idPrefix  prefix for the checkbox ids (keep unique per render)
@@ -51,16 +53,33 @@ export const transformSpoilers = (content, idPrefix = 'spoiler') => {
     const text = rawText.trim()
     const description = rest.join('|').trim()
     const hint = description ? `Spoiler: ${description}` : 'Spoiler – click to reveal'
+    const safeHint = escapeHtml(hint)
     const id = `${idPrefix}-${counter}`
 
     return (
       `<span class="spoiler">` +
       `<input type="checkbox" id="${id}" class="spoiler__toggle">` +
-      `<label class="spoiler__box" for="${id}" data-hint="${escapeHtml(hint)}">` +
+      `<label class="spoiler__box" for="${id}" title="${safeHint}">` +
+      `<span class="spoiler__hint">${safeHint}</span>` +
       `<span class="spoiler__text">${escapeHtml(text)}</span>` +
       `</label>` +
       `</span>`
     )
+  })
+}
+
+/**
+ * Feed variant: RSS readers can't run the CSS reveal, so spoiler regions are
+ * just demarcated with plain "SPOILER … SPOILER_ENDE" text markers.
+ *
+ * @param {string} content   raw markdown
+ */
+export const stripSpoilersForFeed = (content) => {
+  if (!content) return content
+
+  return content.replace(/@spoiler\[([^\]]+)\]/g, (_match, inner) => {
+    const text = inner.split('|')[0].trim()
+    return `SPOILER ${text} SPOILER_ENDE`
   })
 }
 

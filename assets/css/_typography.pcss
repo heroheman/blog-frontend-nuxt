@@ -241,7 +241,8 @@ p {
   display: none;
 }
 
-/* Inline spoilers — CSS-only reveal via the checkbox hack (@spoiler[...]) */
+/* Inline spoilers — CSS-only blur reveal via the checkbox hack (@spoiler[...]).
+   Stays fully inline so the text wraps with the paragraph (no line breaks). */
 .spoiler {
   display: inline;
 }
@@ -261,52 +262,40 @@ p {
 }
 
 .spoiler__box {
-  position: relative;
-  display: inline-block;
-  max-width: 100%;
-  vertical-align: baseline;
-  border-radius: 4px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Always-visible hint label, on a white background, in front of the blur */
+.spoiler__hint {
+  background-color: #fff;
+  color: theme('colors.gray.700');
+  font-size: 0.78em;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.2;
+  white-space: nowrap;
+  padding: 0.05em 0.4em;
+  margin-right: 0.35em;
+  border: 1px solid theme('colors.gray.300');
+  border-radius: 3px;
+}
+
 /* The hidden content: blurred and unselectable until revealed */
 .spoiler__text {
-  filter: blur(6px);
+  filter: blur(5px);
   user-select: none;
   -webkit-user-select: none;
   transition: filter 0.25s ease;
 }
 
-/* Overlay label, clipped to the width of the hidden text */
-.spoiler__box::after {
-  content: attr(data-hint);
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 0.45em;
-  border-radius: inherit;
-  background: theme('colors.gray.800');
-  color: #fff;
-  font-size: 0.75em;
-  font-weight: 500;
-  font-style: normal;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  overflow: hidden;
-  transition: opacity 0.2s ease;
-}
-
-.spoiler__box:hover::after {
-  background: theme('colors.gray.700');
-}
-
-/* Revealed state */
+/* Revealed state — hide the hint, unblur, allow selection */
 .spoiler__toggle:checked + .spoiler__box {
   cursor: text;
+}
+
+.spoiler__toggle:checked + .spoiler__box .spoiler__hint {
+  display: none;
 }
 
 .spoiler__toggle:checked + .spoiler__box .spoiler__text {
@@ -315,13 +304,8 @@ p {
   -webkit-user-select: text;
 }
 
-.spoiler__toggle:checked + .spoiler__box::after {
-  opacity: 0;
-  visibility: hidden;
-}
-
-/* Keyboard focus ring on the box when the hidden checkbox is focused */
-.spoiler__toggle:focus-visible + .spoiler__box {
+/* Keyboard focus ring when the hidden checkbox is focused */
+.spoiler__toggle:focus-visible + .spoiler__box .spoiler__hint {
   outline: 2px solid theme('colors.blue.500');
   outline-offset: 2px;
 }

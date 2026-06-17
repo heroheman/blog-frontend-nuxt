@@ -1,4 +1,5 @@
 import { marked } from 'marked'
+import { stripSpoilersForFeed } from '~/utils/helper'
 
 // Configure marked options
 marked.setOptions({
@@ -32,7 +33,7 @@ const getTracks = (data: any) => {
 
 const feedContentParsed = (post: any) => {
   const tracks = getTracks(post)
-  const mdcontent = marked(post.body || '')
+  const mdcontent = marked(stripSpoilersForFeed(post.body || ''))
   if (tracks.length) {
     const mdtracks = songsAsMarkup(tracks)
     return mdcontent + mdtracks
