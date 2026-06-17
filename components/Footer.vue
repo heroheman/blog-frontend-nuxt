@@ -28,7 +28,7 @@
 
 <style lang="postcss" scoped>
 .footer {
-  @apply border-t border-gray-200 bg-gray-50 mt-16 sm:mt-20;
+  @apply border-t border-monochrome-600 bg-paper-deep mt-16 sm:mt-20;
 }
 
 /* Mobile adjustments */

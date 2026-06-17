@@ -75,7 +75,7 @@ export default defineNuxtConfig({
         },
         {
           name: 'theme-color',
-          content: '#ffffff',
+          content: '#FBF9F4',
         },
         {
           name: 'fediverse:creator',

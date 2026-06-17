@@ -24,7 +24,10 @@
           :data-umami-event-url="`/blog/${post.slug}`"
           class="block group"
         >
-          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-head font-normal leading-tight text-gray-900 group-hover:text-gray-700 transition-colors duration-200">
+          <h2
+            class="font-display font-normal leading-tight text-ink group-hover:text-accent transition-colors duration-200"
+            :class="featured ? 'text-3xl sm:text-4xl lg:text-5xl' : 'text-2xl sm:text-3xl lg:text-4xl'"
+          >
             {{ post.title }}
           </h2>
         </nuxt-link>
@@ -41,6 +44,7 @@
 
       <div
         class="prose sm:prose-lg max-w-none e-content"
+        :class="{ 'has-dropcap': featured && startsWithParagraph }"
         v-html="renderedBody"
       />
       <Rating v-if="showRating" :rating="rating.ratingnumber" class="mt-6 block" />
@@ -52,9 +56,9 @@
         v-html="footnotesSection"
       />
 
-      <footer v-if="hasExcerpt" class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-100">
+      <footer v-if="hasExcerpt" class="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-monochrome-600">
         <nuxt-link
-          class="inline-flex items-center text-sm sm:text-base font-meta font-medium text-gray-900 hover:text-gray-600 transition-colors duration-200"
+          class="inline-flex items-center text-sm sm:text-base font-meta font-medium text-accent hover:text-accent-600 transition-colors duration-200"
           :to="`/blog/${post.slug}`"
           data-umami-event="article-read-more"
           :data-umami-event-article="post.title"
@@ -78,7 +82,7 @@
     <!-- Detail page layout -->
     <template v-else>
       <header class="mb-8 sm:mb-12">
-        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-head font-normal leading-tight text-gray-900 mb-6 sm:mb-8">
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-display font-normal leading-tight text-ink mb-6 sm:mb-8">
           {{ post.title }}
         </h2>
 
@@ -115,6 +119,7 @@
 
       <div
         class="prose sm:prose-lg max-w-none e-content article-content"
+        :class="{ 'has-dropcap': startsWithParagraph }"
         v-html="renderedBody"
       />
       <Rating v-if="showRating" :rating="rating.ratingnumber" class="mt-6 block" />
@@ -250,6 +255,10 @@ const props = defineProps({
     default: () => {},
   },
   detail: {
+    type: Boolean,
+    default: false,
+  },
+  featured: {
     type: Boolean,
     default: false,
   },
@@ -488,6 +497,11 @@ const renderedBody = computed(() => {
 
 // Store the parsed HTML to avoid double parsing
 const cachedHtml = computed(() => marked.parse(parsedBody.value))
+
+// Drop-cap only applies when the first rendered block is a *text* paragraph:
+// the opening <p> must be followed by an actual character, not a nested tag
+// (so leading images <p><img> or links/headings are spared the initial).
+const startsWithParagraph = computed(() => /^\s*<p[^>]*>\s*[^<\s]/.test(cachedHtml.value || ''))
 
 // Extract footnotes section for separate rendering
 const footnotesSection = computed(() => {

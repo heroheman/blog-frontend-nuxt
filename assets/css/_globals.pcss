@@ -8,18 +8,28 @@ html {
 }
 
 body {
-  @apply bg-white text-gray-900 transition-colors duration-200 ease-in-out;
+  @apply bg-paper text-ink transition-colors duration-200 ease-in-out;
   font-feature-settings: "kern", "liga", "clig", "calt";
   text-rendering: optimizeLegibility;
 }
 
 /* Selection styles */
 ::selection {
-  @apply bg-gray-900 text-white;
+  @apply bg-ink text-paper;
 }
 
 ::-moz-selection {
-  @apply bg-gray-900 text-white;
+  @apply bg-ink text-paper;
+}
+
+/* Prose (markdown body) link accent — editorial vintage style */
+.prose a {
+  @apply text-accent;
+  text-decoration-color: theme('colors.accent.200');
+}
+.prose a:hover {
+  @apply text-accent-600;
+  text-decoration-color: theme('colors.accent.default');
 }
 
 /* Focus styles */

@@ -1,17 +1,75 @@
 <template>
-  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-    <div class="space-y-12 sm:space-y-16">
-      <article
-        v-for="(post, index) in articles"
-        :key="index"
-        class="group"
-      >
-        <article-view v-if="post.category !== 'Heavy Rotation'" :post="post" />
-      </article>
+  <main class="w-full py-8 sm:py-10">
+    <!-- Desktop: 3 columns, golden ratio (φ² : φ : 1) -->
+    <div class="hidden lg:grid lg:grid-cols-[2.618fr_1.618fr_1fr] gap-8">
+      <!-- Column 1 — Artikel -->
+      <section>
+        <h2 class="font-meta text-xs uppercase tracking-[0.2em] text-monochrome-100 mb-8">Artikel —</h2>
+        <div class="space-y-12 sm:space-y-16">
+          <article-view
+            v-for="(post, index) in blogArticles"
+            :key="post.id"
+            :post="post"
+            :featured="index === 0 && page === 0"
+          />
+        </div>
+        <pagination
+          v-if="blogCount > per_page"
+          class="mt-16"
+          :articles-count="blogCount"
+          :per-page="per_page"
+          :current-page="page"
+        />
+      </section>
 
+      <!-- Column 2 — Gelesen (Bücher) -->
+      <section class="border-l border-monochrome-600 pl-8">
+        <h2 class="font-meta text-xs uppercase tracking-[0.2em] text-monochrome-100 mb-4">Gelesen —</h2>
+        <book-card v-for="book in books" :key="book.id" :book="book" />
+        <nuxt-link
+          to="/category/buecher"
+          data-umami-event="index-click-all-books"
+          class="inline-flex items-center mt-6 font-meta text-sm font-medium text-accent hover:text-accent-600 transition-colors"
+        >
+          Alle Bücher
+          <svg class="ml-1 w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </nuxt-link>
+      </section>
+
+      <!-- Column 3 — Verlinkt (OpenTabs) -->
+      <section class="border-l border-monochrome-600 pl-8">
+        <h2 class="font-meta text-xs uppercase tracking-[0.2em] text-monochrome-100 mb-4">Verlinkt —</h2>
+        <link-post-list :items="links" />
+        <a
+          href="https://opentabs.flore.nz/"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-umami-event="index-click-opentabs-more"
+          class="inline-flex items-center mt-6 font-meta text-sm font-medium text-accent hover:text-accent-600 transition-colors"
+        >
+          Mehr
+          <svg class="ml-1 w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </section>
+    </div>
+
+    <!-- Mobile / Tablet: one merged chronological stream -->
+    <div class="lg:hidden">
+      <div class="space-y-12 sm:space-y-14">
+        <template v-for="(entry, index) in mobileStream" :key="index">
+          <article-view v-if="entry.type === 'article'" :post="entry.data" />
+          <book-card v-else-if="entry.type === 'book'" :book="entry.data" />
+          <link-post-list v-else :items="[entry.data]" />
+        </template>
+      </div>
       <pagination
-        class="mt-16 sm:mt-20"
-        :articles-count="articlesCount"
+        v-if="blogCount > per_page"
+        class="mt-16"
+        :articles-count="blogCount"
         :per-page="per_page"
         :current-page="page"
       />
@@ -25,18 +83,14 @@ import qs from 'qs'
 const route = useRoute()
 const { public: { strapiUrl } } = useRuntimeConfig()
 
-// Reactive state
+// Pagination state (column 1 / mobile stream)
 const page = ref(route.params.page ? parseInt(route.params.page) - 1 : 0)
-const per_page = 10
+const per_page = 5
 
-// Watch for route changes
 watch(() => route.params.page, (newPage) => {
-  if (newPage) {
-    page.value = parseInt(newPage) - 1
-  }
+  page.value = newPage ? parseInt(newPage) - 1 : 0
 })
 
-// Compute pagination start
 const start = computed(() => page.value * per_page)
 
 const INDEX_POPULATE = {
@@ -56,24 +110,76 @@ const INDEX_POPULATE = {
   },
 }
 
-// Fetch articles data
-const queryUrl = computed(() =>
+// --- Query A: Blog posts (everything except the "Bücher" category) ---
+const blogQuery = computed(() =>
   `/api/articles?${qs.stringify({
     populate: INDEX_POPULATE,
+    filters: {
+      $or: [
+        { category: { slug: { $ne: 'buecher' } } },
+        { category: { id: { $null: true } } },
+      ],
+    },
     sort: 'display_published_date:DESC',
     'pagination[start]': start.value,
     'pagination[limit]': per_page,
   }, { encodeValuesOnly: true })}`
 )
 
-const { data: response, pending } = await useFetch(queryUrl, {
-  baseURL: strapiUrl,
+const { data: blogResponse } = await useFetch(blogQuery, { baseURL: strapiUrl })
+
+// --- Query B: Books (category "Bücher") ---
+const booksQuery = `/api/articles?${qs.stringify({
+  populate: {
+    cover: true,
+    bookseries: true,
+    genre_books: true,
+    additional: { on: { 'content.rating': { populate: '*' } } },
+  },
+  filters: { category: { slug: { $eq: 'buecher' } } },
+  sort: 'display_published_date:DESC',
+  'pagination[limit]': 12,
+}, { encodeValuesOnly: true })}`
+
+const { data: booksResponse } = await useFetch(booksQuery, { baseURL: strapiUrl, key: 'index-books' })
+
+// --- Query C: OpenTabs link posts (internal server route, cached) ---
+const { data: linksResponse } = await useFetch('/api/opentabs', {
+  query: { limit: 12 },
+  key: 'index-opentabs',
 })
 
-const articles = computed(() => response.value?.data || [])
-const articlesCount = computed(() => response.value?.meta?.pagination?.total || 0)
+const blogArticles = computed(() => blogResponse.value?.data || [])
+const blogCount = computed(() => blogResponse.value?.meta?.pagination?.total || 0)
+const books = computed(() => booksResponse.value?.data || [])
+const links = computed(() => linksResponse.value?.items || [])
 
-// Enhanced SEO Meta Data
+// Merged, date-sorted stream for mobile. Books + links join on the first page;
+// subsequent pages continue the paginated article stream.
+const mobileStream = computed(() => {
+  const entries = blogArticles.value.map((post) => ({
+    type: 'article',
+    date: post.display_published_date,
+    data: post,
+  }))
+
+  if (page.value === 0) {
+    books.value.forEach((book) => {
+      entries.push({ type: 'book', date: book.display_published_date, data: book })
+    })
+    links.value.forEach((link) => {
+      entries.push({ type: 'link', date: link.date, data: link })
+    })
+  }
+
+  return entries.sort((a, b) => {
+    const da = a.date ? new Date(a.date).getTime() : 0
+    const db = b.date ? new Date(b.date).getTime() : 0
+    return db - da
+  })
+})
+
+// --- SEO ---
 const pageTitle = computed(() => {
   if (page.value > 0) {
     return `Seite ${page.value + 1} - flore.nz | Persönlicher Blog und Gedanken`
@@ -96,7 +202,6 @@ const canonicalUrl = computed(() => {
   return baseUrl
 })
 
-// Generate structured data for the homepage
 const structuredData = computed(() => {
   const baseStructure = {
     '@context': 'https://schema.org',
@@ -126,11 +231,10 @@ const structuredData = computed(() => {
     }
   }
 
-  // Add featured articles to structured data
-  if (articles.value && articles.value.length > 0) {
+  if (blogArticles.value && blogArticles.value.length > 0) {
     baseStructure.mainEntity = {
       '@type': 'ItemList',
-      itemListElement: articles.value.slice(0, 5).map((article, index) => ({
+      itemListElement: blogArticles.value.slice(0, 5).map((article, index) => ({
         '@type': 'ListItem',
         position: index + 1,
         item: {
@@ -151,7 +255,6 @@ const structuredData = computed(() => {
   return baseStructure
 })
 
-// Breadcrumb structured data for paginated pages
 const breadcrumbStructuredData = computed(() => {
   if (page.value === 0) return null
 
@@ -175,12 +278,9 @@ const breadcrumbStructuredData = computed(() => {
   }
 })
 
-// Set enhanced SEO meta tags
 useSeoMeta({
   title: pageTitle,
   description: pageDescription,
-
-  // Open Graph
   ogTitle: pageTitle,
   ogDescription: pageDescription,
   ogType: 'website',
@@ -189,18 +289,11 @@ useSeoMeta({
   ogImageWidth: 512,
   ogImageHeight: 512,
   ogSiteName: 'flore.nz',
-
-  // Twitter - entfernt da kein Twitter Account vorhanden
-
-  // Additional meta
   robots: page.value > 0 ? 'noindex, follow' : 'index, follow',
   canonical: canonicalUrl,
-
-  // Language and locale
   'og:locale': 'de_DE'
 })
 
-// Set structured data and pagination links
 useHead(() => {
   const scripts = [
     {
@@ -218,7 +311,6 @@ useHead(() => {
 
   const links = []
 
-  // Add pagination links
   if (page.value > 0) {
     links.push({
       rel: 'prev',
@@ -226,7 +318,7 @@ useHead(() => {
     })
   }
 
-  if (articlesCount.value > (page.value + 1) * per_page) {
+  if (blogCount.value > (page.value + 1) * per_page) {
     links.push({
       rel: 'next',
       href: `https://blog.flore.nz?page=${page.value + 2}`
@@ -239,5 +331,3 @@ useHead(() => {
   }
 })
 </script>
-
-

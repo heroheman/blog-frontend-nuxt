@@ -1,7 +1,8 @@
 <template>
-  <div class="min-h-screen bg-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Header class="w-full" />
+  <div class="min-h-screen bg-paper">
+    <!-- Full-bleed sticky header (spans the viewport; inner content stays aligned) -->
+    <Header class="w-full" />
+    <div class="max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <main class="flex-1">
         <slot />
       </main>

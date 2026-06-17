@@ -16,12 +16,18 @@ module.exports = {
     },
     extend: {
       fontFamily: {
+        display: ['Playfair Display', ...defaultTheme.fontFamily.serif],
         head: ['Crimson Text', ...defaultTheme.fontFamily.serif],
         body: ['Crimson Text', ...defaultTheme.fontFamily.serif],
         meta: ['Inter', ...defaultTheme.fontFamily.sans],
         mono: [...defaultTheme.fontFamily.mono],
       },
       colors: {
+        paper: {
+          DEFAULT: '#FBF9F4',
+          deep: '#F4F0E8',
+        },
+        ink: '#1C1B19',
         monochrome: {
           100: '#5E5E5E',
           200: '#797979',
@@ -56,6 +62,7 @@ module.exports = {
           300: '#E09FA4',
           400: '#CF7D83',
           500: '#BD5D65',
+          DEFAULT: '#A84048',
           default: '#A84048',
           600: '#8D2D34',
           700: '#6E1D23',

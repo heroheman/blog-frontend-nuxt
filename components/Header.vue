@@ -1,33 +1,29 @@
 <template>
-  <div class="relative sticky md:relative bg-white top-0">
-    <!-- Mobile menu button - moved outside header to ensure visibility -->
-    <button
-      @click="toggleMobileMenu"
-      data-umami-event="nav-click-mobile-menu-toggle"
-      :data-umami-event-state="isMobileMenuOpen ? 'close' : 'open'"
-      class="md:hidden absolute top-8 right-4 z-[9999] p-3 bg-white rounded-lgtransition-colors"
-      aria-label="Toggle menu"
-    >
-      <svg v-if="!isMobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-      </svg>
-      <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-      </svg>
-    </button>
-
-    <!-- Mobile menu overlay -->
+  <div class="sticky top-0 z-50 w-full bg-paper/90 backdrop-blur border-b border-monochrome-600">
+    <!-- Mobile menu overlay (teleported to body so the header's backdrop-blur
+         doesn't trap this fixed element in a containing block) -->
+    <Teleport to="body">
     <div
       v-if="isMobileMenuOpen"
-      class="md:hidden fixed inset-0 z-40 bg-white"
+      class="md:hidden fixed inset-0 z-[60] bg-paper"
     >
+      <button
+        @click="closeMobileMenu"
+        data-umami-event="nav-click-mobile-menu-close"
+        class="absolute top-5 right-4 p-2 text-ink hover:text-accent transition-colors"
+        aria-label="Menü schließen"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
       <div class="flex flex-col h-full justify-center items-center space-y-8">
         <nav class="flex flex-col items-center space-y-6">
           <nuxt-link
             @click="closeMobileMenu"
             data-umami-event="nav-click-article-index"
             to="/blog"
-            class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+            class="text-2xl font-semibold text-ink hover:text-accent transition-colors"
           >
             Artikel
           </nuxt-link>
@@ -35,7 +31,7 @@
             @click="closeMobileMenu"
             data-umami-event="nav-click-books-index"
             to="/category/buecher"
-            class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+            class="text-2xl font-semibold text-ink hover:text-accent transition-colors"
           >
             Gelesen
           </nuxt-link>
@@ -46,14 +42,14 @@
             rel="noopener noreferrer"
             title="OpenTabs Microblog"
             data-umami-event="nav-click-opentabs-mobile"
-            class="text-base font-medium text-gray-700 hover:text-blue-600 transition-colors text-center"
+            class="text-2xl font-semibold text-ink hover:text-accent transition-colors text-center"
           >
             Verlinkt
           </a>
           <nuxt-link
             @click="closeMobileMenu"
             data-umami-event="nav-click-music-index"
-            class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+            class="text-2xl font-semibold text-ink hover:text-accent transition-colors"
             to="/category/musik"
           >
             Gehört
@@ -61,42 +57,24 @@
           <nuxt-link
             @click="closeMobileMenu"
             data-umami-event="nav-click-about"
-            class="text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors"
+            class="text-2xl font-semibold text-ink hover:text-accent transition-colors"
             to="/about"
           >
             Über
           </nuxt-link>
         </nav>
 
-        <div class="flex items-center space-x-6">
-          <a
-            href="/feed.xml"
-            target="_blank"
-            title="RSS Feed"
-            data-umami-event="nav-click-mobile-rss"
-            class="p-3 bg-orange-100 rounded-xl hover:bg-orange-200 transition-colors"
-          >
-            <SimpleIcon name="rss" size="24" class="text-orange-600" />
-          </a>
-          <a
-            href="https://opentabs.flore.nz/recommendations/feed"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="OpenTabs Recommendations Feed"
-            data-umami-event="nav-click-mobile-opentabs-rss"
-            class="p-3 bg-amber-100 rounded-xl hover:bg-amber-200 transition-colors"
-          >
-            <SimpleIcon name="rss" size="24" class="text-amber-700" />
-          </a>
+        <!-- Social icons (uniform tone) -->
+        <div class="flex items-center space-x-6 text-monochrome-100">
           <a
             rel="me noopener noreferrer"
             href="https://norden.social/@florenz"
             target="_blank"
             title="Mastodon"
             data-umami-event="nav-click-mobile-mastodon"
-            class="p-3 bg-blue-100 rounded-xl hover:bg-blue-200 transition-colors"
+            class="hover:text-accent transition-colors"
           >
-            <SimpleIcon name="mastodon" size="24" class="text-blue-600" />
+            <SimpleIcon name="mastodon" size="26" />
           </a>
           <a
             rel="me noopener noreferrer"
@@ -104,9 +82,9 @@
             target="_blank"
             title="Goodreads"
             data-umami-event="nav-click-mobile-goodreads"
-            class="p-3 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors"
+            class="hover:text-accent transition-colors"
           >
-            <SimpleIcon name="goodreads" size="24" class="text-gray-600" />
+            <SimpleIcon name="goodreads" size="26" />
           </a>
           <a
             rel="me noopener noreferrer"
@@ -114,49 +92,55 @@
             target="_blank"
             title="Bluesky"
             data-umami-event="nav-click-mobile-bluesky"
-            class="p-3 bg-blue-100 rounded-xl hover:bg-blue-200 transition-colors"
+            class="hover:text-accent transition-colors"
           >
-            <SimpleIcon name="bluesky" size="24" class="text-blue-600" />
+            <SimpleIcon name="bluesky" size="26" />
+          </a>
+        </div>
+
+        <!-- RSS feeds -->
+        <div class="flex items-center gap-4 font-meta text-sm text-monochrome-100">
+          <a href="/feed.xml" target="_blank" title="RSS Feed (Artikel)" data-umami-event="nav-click-mobile-rss" class="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
+            <SimpleIcon name="rss" size="16" /> RSS
+          </a>
+          <a href="/feed-en.xml" target="_blank" title="RSS Feed (English)" data-umami-event="nav-click-mobile-rss-en" class="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
+            <SimpleIcon name="rss" size="16" /> EN
+          </a>
+          <a href="https://opentabs.flore.nz/recommendations/feed" target="_blank" rel="noopener noreferrer" title="OpenTabs Linkblog Feed" data-umami-event="nav-click-mobile-opentabs-rss" class="inline-flex items-center gap-1.5 hover:text-accent transition-colors">
+            <SimpleIcon name="rss" size="16" /> Linkblog
           </a>
         </div>
       </div>
     </div>
+    </Teleport>
 
-  <header
-    class="pt-8 border-b border-solid border-gray-200 pb-4"
-    :class="{
-      'border-b-0 pb-16 md:pb-2': isPost || isCategory || isBlogIndexCompact || isIndex,
-    }"
-  >
-    <!-- Desktop Header Layout -->
-    <div class="hidden md:block max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- First Row: Logo | Nav | Dynamic Space | Social -->
-      <div class="flex items-center">
+    <div class="max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Desktop Header Layout -->
+      <div class="hidden md:flex items-center py-4">
         <!-- Logo -->
         <div class="flex-shrink-0 mr-8">
           <nuxt-link data-umami-event="header-click-logo" to="/">
-            <h1 class="font-head italic leading-snug text-gray-900 mb-3 text-4xl" >
-<!-- :class="isPost || isCategory || isBlogIndexCompact ? 'text-lg' : 'text-4xl'" -->
+            <span class="font-display italic leading-none text-ink text-3xl">
               {{ settings.sitetitle }}
-            </h1>
+            </span>
           </nuxt-link>
         </div>
 
-        <!-- Navigation (right next to logo) -->
+        <!-- Navigation -->
         <nav class="flex items-center space-x-6">
           <nuxt-link
             data-umami-event="nav-click-article-index"
             to="/blog"
-            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
-            :class="{ 'border-blue-600 text-blue-600': $route?.path === '/blog' }"
+            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
+            :class="{ 'border-accent text-accent': $route?.path === '/blog' }"
           >
             Artikel
           </nuxt-link>
           <nuxt-link
             data-umami-event="nav-click-books-index"
             to="/category/buecher"
-            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
-            :class="{ 'border-blue-600 text-blue-600': $route?.path?.includes('/category/buecher') }"
+            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
+            :class="{ 'border-accent text-accent': $route?.path?.includes('/category/buecher') }"
           >
             Gelesen
           </nuxt-link>
@@ -166,23 +150,23 @@
             rel="noopener noreferrer"
             title="OpenTabs Microblog"
             data-umami-event="nav-click-opentabs"
-            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
+            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
           >
             Verlinkt
           </a>
           <nuxt-link
             to="/category/musik"
             data-umami-event="nav-click-music-index"
-            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
-            :class="{ 'border-blue-600 text-blue-600': $route?.path?.includes('/category/musik') }"
+            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
+            :class="{ 'border-accent text-accent': $route?.path?.includes('/category/musik') }"
           >
             Gehört
           </nuxt-link>
           <nuxt-link
             to="/about"
             data-umami-event="nav-click-about"
-            class="text-sm md:text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200 font-head pb-1 border-b-2 border-transparent hover:border-blue-600"
-            :class="{ 'border-blue-600 text-blue-600': $route?.path === '/about' }"
+            class="text-base font-medium text-ink hover:text-accent transition-colors duration-200 font-head pb-0.5 border-b-2 border-transparent hover:border-accent"
+            :class="{ 'border-accent text-accent': $route?.path === '/about' }"
           >
             Über
           </nuxt-link>
@@ -191,36 +175,70 @@
         <!-- Dynamic Space -->
         <div class="flex-grow"></div>
 
-        <!-- Social Media Icons (on the far right) -->
-        <div class="flex items-center space-x-3">
-          <a
-            href="/feed.xml"
-            target="_blank"
-            title="RSS Feed"
-            data-umami-event="nav-click-rss"
-            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <SimpleIcon name="rss" size="20" class="text-orange-500 hover:text-orange-600 transition-colors" />
-          </a>
-          <a
-            href="https://opentabs.flore.nz/recommendations/feed"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="OpenTabs Recommendations Feed"
-            data-umami-event="nav-click-opentabs-rss"
-            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <SimpleIcon name="rss" size="20" class="text-amber-600 hover:text-amber-700 transition-colors" />
-          </a>
+        <!-- Social Media Icons (uniform tone) -->
+        <div class="flex items-center space-x-1 text-monochrome-100">
+          <!-- RSS popover -->
+          <div class="relative">
+            <button
+              @click="toggleRss"
+              data-umami-event="nav-click-rss-toggle"
+              :aria-expanded="isRssOpen"
+              aria-label="RSS Feeds"
+              title="RSS Feeds"
+              class="p-2 rounded-lg hover:bg-paper-deep hover:text-accent transition-colors"
+              :class="{ 'text-accent': isRssOpen }"
+            >
+              <SimpleIcon name="rss" size="20" />
+            </button>
+
+            <!-- click-away backdrop -->
+            <div v-if="isRssOpen" class="fixed inset-0 z-40" @click="isRssOpen = false"></div>
+
+            <!-- popover -->
+            <div
+              v-if="isRssOpen"
+              class="absolute right-0 mt-2 w-52 z-50 rounded-lg border border-monochrome-600 bg-paper shadow-lg py-1"
+            >
+              <a
+                href="/feed.xml"
+                target="_blank"
+                @click="isRssOpen = false"
+                data-umami-event="nav-click-rss"
+                class="flex items-center gap-2.5 px-3 py-2 text-sm font-meta text-ink hover:bg-paper-deep hover:text-accent transition-colors"
+              >
+                <SimpleIcon name="rss" size="15" /> Artikel <span class="text-monochrome-300">· Deutsch</span>
+              </a>
+              <a
+                href="/feed-en.xml"
+                target="_blank"
+                @click="isRssOpen = false"
+                data-umami-event="nav-click-rss-en"
+                class="flex items-center gap-2.5 px-3 py-2 text-sm font-meta text-ink hover:bg-paper-deep hover:text-accent transition-colors"
+              >
+                <SimpleIcon name="rss" size="15" /> Articles <span class="text-monochrome-300">· English</span>
+              </a>
+              <a
+                href="https://opentabs.flore.nz/recommendations/feed"
+                target="_blank"
+                rel="noopener noreferrer"
+                @click="isRssOpen = false"
+                data-umami-event="nav-click-opentabs-rss"
+                class="flex items-center gap-2.5 px-3 py-2 text-sm font-meta text-ink hover:bg-paper-deep hover:text-accent transition-colors"
+              >
+                <SimpleIcon name="rss" size="15" /> Linkblog <span class="text-monochrome-300">· Verlinkt</span>
+              </a>
+            </div>
+          </div>
+
           <a
             rel="me noopener noreferrer"
             href="https://norden.social/@florenz"
             target="_blank"
             title="Mastodon"
             data-umami-event="nav-click-sm-mastodon"
-            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            class="p-2 rounded-lg hover:bg-paper-deep hover:text-accent transition-colors"
           >
-            <SimpleIcon name="mastodon" size="20" class="text-blue-500 hover:text-blue-600 transition-colors" />
+            <SimpleIcon name="mastodon" size="20" />
           </a>
           <a
             rel="me noopener noreferrer"
@@ -228,9 +246,9 @@
             target="_blank"
             data-umami-event="nav-click-sm-goodreads"
             title="Goodreads"
-            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            class="p-2 rounded-lg hover:bg-paper-deep hover:text-accent transition-colors"
           >
-            <SimpleIcon name="goodreads" size="20" class="text-gray-600 hover:text-gray-700 transition-colors" />
+            <SimpleIcon name="goodreads" size="20" />
           </a>
           <a
             rel="me noopener noreferrer"
@@ -238,62 +256,37 @@
             target="_blank"
             data-umami-event="nav-click-sm-bluesky"
             title="Bluesky"
-            class="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            class="p-2 rounded-lg hover:bg-paper-deep hover:text-accent transition-colors"
           >
-            <SimpleIcon name="bluesky" size="20" class="text-blue-500 hover:text-blue-600 transition-colors" />
+            <SimpleIcon name="bluesky" size="20" />
           </a>
         </div>
       </div>
 
-      <!-- Second Row: Slogan (conditionally shown) -->
-      <div v-if="!(isPost || isCategory || isBlogIndexCompact || isIndex) && settings.Phrases && settings.Phrases.length" class="mt-4">
-        <div class="text-xl italic text-gray-600">
-          <span v-if="randomHeadNumber < 2">
-            {{ settings.Phrases[0].phrase }}
+      <!-- Mobile Header Layout -->
+      <div class="md:hidden flex items-center justify-between py-4">
+        <nuxt-link data-umami-event="header-click-logo-mobile" to="/" @click="closeMobileMenu">
+          <span class="font-display text-2xl italic leading-none text-ink">
+            {{ settings.sitetitle }}
           </span>
-          <span v-else-if="randomHeadNumber < 4">
-            {{ settings.Phrases[1].phrase }}
-          </span>
-          <span v-else-if="randomHeadNumber < 6">
-            {{ settings.Phrases[2].phrase }}
-          </span>
-          <span v-else-if="randomHeadNumber < 8">
-            {{ settings.Phrases[3].phrase }}
-          </span>
-          <span v-else-if="randomHeadNumber < 10">
-            {{ settings.Phrases[4].phrase }}
-          </span>
-        </div>
+        </nuxt-link>
+
+        <button
+          @click="toggleMobileMenu"
+          data-umami-event="nav-click-mobile-menu-toggle"
+          :data-umami-event-state="isMobileMenuOpen ? 'close' : 'open'"
+          class="relative z-[9999] p-2 -mr-2 text-ink"
+          aria-label="Toggle menu"
+        >
+          <svg v-if="!isMobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
       </div>
     </div>
-
-    <!-- Mobile Header Layout -->
-    <div class="md:hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nuxt-link data-umami-event="header-click-logo-mobile" to="/">
-        <h1 class="font-head text-3xl italic leading-snug text-gray-900 mb-4">
-          {{ settings.sitetitle }}
-        </h1>
-      </nuxt-link>
-
-      <div v-if="!(isPost || isCategory || isBlogIndexCompact || isIndex) && settings.Phrases && settings.Phrases.length" class="text-lg italic text-gray-600">
-        <span v-if="randomHeadNumber < 2">
-          {{ settings.Phrases[0].phrase }}
-        </span>
-        <span v-else-if="randomHeadNumber < 4">
-          {{ settings.Phrases[1].phrase }}
-        </span>
-        <span v-else-if="randomHeadNumber < 6">
-          {{ settings.Phrases[2].phrase }}
-        </span>
-        <span v-else-if="randomHeadNumber < 8">
-          {{ settings.Phrases[3].phrase }}
-        </span>
-        <span v-else-if="randomHeadNumber < 10">
-          {{ settings.Phrases[4].phrase }}
-        </span>
-      </div>
-    </div>
-  </header>
   </div>
 </template>
 
@@ -309,26 +302,9 @@ const settings = inject('settings', () => reactive({
 
 // Mobile menu state
 const isMobileMenuOpen = ref(false)
+// RSS popover state
+const isRssOpen = ref(false)
 
-// Reactive data
-const randomHeadNumber = ref(Math.floor(Math.random() * 10))
-
-// Computed properties
-const isPost = computed(() => route?.name === 'blog-slug' || (route?.path?.startsWith('/blog/') && route?.params?.slug))
-
-const isCategory = computed(() => {
-  return route?.name && ['category-category', 'series-series', 'category', 'genre-book', 'genre-book-bookgenre', 'author-author', 'author'].includes(route.name)
-})
-
-const isIndex = computed(() => {
-  return route?.name && ['series-index', 'author-index', 'genre-book-index'].includes(route.name)
-})
-
-const isBlogIndexCompact = computed(() => route?.name === 'blog')
-
-const isIndexPage = computed(() => route?.name === 'index' || route?.path === '/')
-
-// Mobile menu methods
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
@@ -337,9 +313,14 @@ const closeMobileMenu = () => {
   isMobileMenuOpen.value = false
 }
 
-// Close mobile menu when route changes
+const toggleRss = () => {
+  isRssOpen.value = !isRssOpen.value
+}
+
+// Close menus when route changes
 watch(() => route.path, () => {
   isMobileMenuOpen.value = false
+  isRssOpen.value = false
 })
 </script>
 
