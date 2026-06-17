@@ -65,33 +65,65 @@ const stripHtmlAndClean = (html: string): string => {
     .trim() // Remove leading/trailing whitespace
 }
 
+// Feed-Konfiguration pro Pfad. Der deutsche Feed nutzt die Default-Locale,
+// der englische Feed filtert über `locale=en` und verlinkt auf /blog/en.
+interface FeedConfig {
+  locale?: string
+  title: string
+  description: string
+  feedUrl: string
+  itemBaseUrl: string
+  language: string
+}
+
+const FEED_CONFIGS: Record<string, FeedConfig> = {
+  '/feed.xml': {
+    title: 'flore.nz RSS',
+    description: 'RSS Feeds are not dead',
+    feedUrl: 'https://blog.flore.nz/feed.xml',
+    itemBaseUrl: 'https://blog.flore.nz/blog',
+    language: 'de'
+  },
+  '/feed-en.xml': {
+    locale: 'en',
+    title: 'flore.nz RSS (English)',
+    description: 'RSS Feeds are not dead — English articles',
+    feedUrl: 'https://blog.flore.nz/feed-en.xml',
+    itemBaseUrl: 'https://blog.flore.nz/blog/en',
+    language: 'en'
+  }
+}
+
 export default defineNitroPlugin((nitroApp) => {
   nitroApp.hooks.hook("feed:generate", async ({ feed, options }) => {
-    if (options.path === "/feed.xml") {
-      await createBlogFeed(feed);
+    const config = FEED_CONFIGS[options.path];
+    if (config) {
+      await createBlogFeed(feed, config);
     }
   });
 
-  async function createBlogFeed(feed: any) {
+  async function createBlogFeed(feed: any, config: FeedConfig) {
     // Feed-Optionen setzen
     feed.options = {
-      title: 'flore.nz RSS',
-      link: 'https://blog.flore.nz/feed.xml',
-      description: 'RSS Feeds are not dead',
+      title: config.title,
+      link: config.feedUrl,
+      description: config.description,
       id: 'https://blog.flore.nz',
+      language: config.language,
       copyright: 'Florenz',
       generator: 'Nuxt 3 with nuxt-module-feed',
       feedLinks: {
-        rss2: 'https://blog.flore.nz/feed.xml'
+        rss2: config.feedUrl
       }
     };
 
     // Strapi URL aus der Umgebung oder Standard
     const BLOG_EP = process.env.STRAPI_URL || 'https://flrnz.strapi.florenz.dev';
+    const localeQuery = config.locale ? `&locale=${config.locale}` : '';
 
     try {
       // Posts von der Strapi API abrufen
-      const posts: any = await $fetch(`${BLOG_EP}/api/articles?populate=*&sort%5B0%5D=createdAt:DESC`);
+      const posts: any = await $fetch(`${BLOG_EP}/api/articles?populate=*&sort%5B0%5D=createdAt:DESC${localeQuery}`);
 
       // Posts zum Feed hinzufügen
       if (posts?.data) {
@@ -110,7 +142,7 @@ export default defineNitroPlugin((nitroApp) => {
           feed.addItem({
             title: post.title,
             id: post.url || post.slug,
-            link: 'https://blog.flore.nz/blog/' + post.slug,
+            link: `${config.itemBaseUrl}/${post.slug}`,
             description: description,
             content: fullContent,
             date: new Date(post.display_published_date || post.createdAt),

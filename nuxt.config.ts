@@ -123,6 +123,12 @@ export default defineNuxtConfig({
         {
           rel: 'alternate',
           type: 'application/rss+xml',
+          title: 'flore.nz - Article Feed (English)',
+          href: '/feed-en.xml',
+        },
+        {
+          rel: 'alternate',
+          type: 'application/rss+xml',
           title: 'Open Tabs - Recommendations Feed',
           href: 'https://opentabs.flore.nz/recommendations/feed',
         },
@@ -221,7 +227,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/sitemap.xml', '/feed.xml']
+      routes: ['/sitemap.xml', '/feed.xml', '/feed-en.xml']
 
     },
     experimental: {
@@ -271,6 +277,11 @@ export default defineNuxtConfig({
     sources: [
       {
         path: '/feed.xml',
+        type: 'rss2',
+        cacheTime: 60 * 15, // 15 minutes
+      },
+      {
+        path: '/feed-en.xml',
         type: 'rss2',
         cacheTime: 60 * 15, // 15 minutes
       }
