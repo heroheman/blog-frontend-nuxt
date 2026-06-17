@@ -24,6 +24,7 @@
 
 <script setup>
 import { marked } from 'marked'
+import { transformSpoilers } from '~/utils/helper'
 
 const route = useRoute()
 const { public: { strapiUrl } } = useRuntimeConfig()
@@ -58,7 +59,9 @@ if (response.value?.data?.[0]) {
 
 // Render markdown description
 const renderedDescription = computed(() => {
-  return description.value ? marked(description.value) : ''
+  return description.value
+    ? marked(transformSpoilers(description.value, `spoiler-series-${route.params.series}`))
+    : ''
 })
 </script>
 

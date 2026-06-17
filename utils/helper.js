@@ -18,6 +18,52 @@ export const objIsNotEmpty = (obj) => {
   return false
 }
 
+// Escape characters that would break HTML markup / attributes
+const escapeHtml = (str) =>
+  String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+
+/**
+ * Convert spoiler markdown into CSS-only reveal markup.
+ *
+ * Syntax:
+ *   @spoiler[Der zu versteckende Text]
+ *   @spoiler[Der zu versteckende Text | Was gespoilert wird]
+ *
+ * Without a description the overlay reads "Spoiler – click to reveal",
+ * with one it reads "Spoiler: <Beschreibung>". Reveal is handled purely
+ * via the checkbox hack (see .spoiler styles), so it works inside v-html
+ * without any JS event handlers.
+ *
+ * @param {string} content   raw markdown
+ * @param {string} idPrefix  prefix for the checkbox ids (keep unique per render)
+ */
+export const transformSpoilers = (content, idPrefix = 'spoiler') => {
+  if (!content) return content
+
+  let counter = 0
+  return content.replace(/@spoiler\[([^\]]+)\]/g, (_match, inner) => {
+    counter++
+    const [rawText, ...rest] = inner.split('|')
+    const text = rawText.trim()
+    const description = rest.join('|').trim()
+    const hint = description ? `Spoiler: ${description}` : 'Spoiler – click to reveal'
+    const id = `${idPrefix}-${counter}`
+
+    return (
+      `<span class="spoiler">` +
+      `<input type="checkbox" id="${id}" class="spoiler__toggle">` +
+      `<label class="spoiler__box" for="${id}" data-hint="${escapeHtml(hint)}">` +
+      `<span class="spoiler__text">${escapeHtml(text)}</span>` +
+      `</label>` +
+      `</span>`
+    )
+  })
+}
+
 export const formatDate = (dateString, short = false) => {
   const date = new Date(dateString)
   let options

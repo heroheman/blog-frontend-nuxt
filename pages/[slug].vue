@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { formatDate } from '~/utils/helper'
+import { formatDate, transformSpoilers } from '~/utils/helper'
 import { marked } from 'marked'
 
 const route = useRoute()
@@ -45,7 +45,7 @@ const content = computed(() => pages.value[0] || {})
 // Render markdown content
 const renderedBody = computed(() => {
   if (content.value.body) {
-    return marked(content.value.body)
+    return marked(transformSpoilers(content.value.body, `spoiler-page-${route.params.slug}`))
   }
   return ''
 })

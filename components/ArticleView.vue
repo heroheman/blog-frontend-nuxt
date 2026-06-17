@@ -228,7 +228,7 @@
 import { computed, ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { Marked } from 'marked'
 import markedFootnote from 'marked-footnote'
-import { formatDate, hasProperty } from '~/utils/helper'
+import { formatDate, hasProperty, transformSpoilers } from '~/utils/helper'
 import Rating from '~/components/Rating.vue'
 
 // Create marked instance with footnote extension
@@ -399,6 +399,10 @@ const parsedBody = computed(() => {
   content = content.replace(imgUrlRegex, function (a, b, c) {
     return cloudinaryUrl + a
   })
+
+  // Convert @spoiler[...] into CSS-only reveal markup (slug keeps ids unique
+  // across multiple articles rendered on the same index page)
+  content = transformSpoilers(content, `spoiler-${props.post.slug}`)
 
   // Check if we need a partner link footnote
   let hasPartnerLink = false

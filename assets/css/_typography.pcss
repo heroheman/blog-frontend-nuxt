@@ -239,7 +239,94 @@ p {
 .article-preview .footnotes,
 .article-preview .footnotes-section {
   display: none;
-}ul,
+}
+
+/* Inline spoilers — CSS-only reveal via the checkbox hack (@spoiler[...]) */
+.spoiler {
+  display: inline;
+}
+
+/* Visually hidden, but still focusable + togglable via keyboard (Space) */
+.spoiler__toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.spoiler__box {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  vertical-align: baseline;
+  border-radius: 4px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* The hidden content: blurred and unselectable until revealed */
+.spoiler__text {
+  filter: blur(6px);
+  user-select: none;
+  -webkit-user-select: none;
+  transition: filter 0.25s ease;
+}
+
+/* Overlay label, clipped to the width of the hidden text */
+.spoiler__box::after {
+  content: attr(data-hint);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.45em;
+  border-radius: inherit;
+  background: theme('colors.gray.800');
+  color: #fff;
+  font-size: 0.75em;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+}
+
+.spoiler__box:hover::after {
+  background: theme('colors.gray.700');
+}
+
+/* Revealed state */
+.spoiler__toggle:checked + .spoiler__box {
+  cursor: text;
+}
+
+.spoiler__toggle:checked + .spoiler__box .spoiler__text {
+  filter: none;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.spoiler__toggle:checked + .spoiler__box::after {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Keyboard focus ring on the box when the hidden checkbox is focused */
+.spoiler__toggle:focus-visible + .spoiler__box {
+  outline: 2px solid theme('colors.blue.500');
+  outline-offset: 2px;
+}
+
+ul,
 ol {
   @apply pl-6;
   & li {
